@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import TopNavbar from "../../Shared/TopNavbar/TopNavbar";
 import SecondNavbar from "../../Shared/SecondNavbar/SecondNavbar";
-import { Footer } from "flowbite-react";
+import Footer from "../../Shared/Footer/Footer";
 
 const Main = () => {
   return (
@@ -10,7 +10,7 @@ const Main = () => {
       <TopNavbar></TopNavbar>
       <SecondNavbar></SecondNavbar>
       <Outlet></Outlet>
-      <Footer></Footer>
+      <Footer> </Footer>
     </div>
   );
 };

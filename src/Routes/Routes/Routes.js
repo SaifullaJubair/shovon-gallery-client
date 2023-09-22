@@ -1,3 +1,5 @@
+import AboutUs from "../../Pages/AboutUs/AboutUs";
+
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main/Main");
 const { default: UnKnownRoutes } = require("../UnKnownRoutes/UnKnownRoutes");
@@ -14,6 +16,14 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
+      },
+      {
+        path: "/",
+        element: <Home></Home>,
+      },
+      {
+        path: "/aboutus",
+        element: <AboutUs></AboutUs>,
       },
       {
         path: "/login",

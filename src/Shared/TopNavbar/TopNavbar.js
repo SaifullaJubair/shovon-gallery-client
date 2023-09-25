@@ -64,8 +64,8 @@ const TopNavbar = () => {
             <Dropdown.Item>Sign out</Dropdown.Item>
           </Dropdown>
         </Navbar.Link>
-        <Navbar.Link href="/navbars">Pricing</Navbar.Link>
-        <Navbar.Link href="/navbars">Contact</Navbar.Link>
+        <Navbar.Link href="/login">Login</Navbar.Link>
+        <Navbar.Link href="/register">SignUp</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   );

@@ -1,4 +1,5 @@
 import AboutUs from "../../Pages/AboutUs/AboutUs";
+import PrivateRoute from "./PrivateRoute";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main/Main");
@@ -20,7 +21,11 @@ const router = createBrowserRouter([
 
       {
         path: "/aboutus",
-        element: <AboutUs></AboutUs>,
+        element: (
+          <PrivateRoute>
+            <AboutUs></AboutUs>,
+          </PrivateRoute>
+        ),
       },
       {
         path: "/login",

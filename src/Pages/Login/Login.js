@@ -6,13 +6,16 @@ import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { CiFacebook } from "react-icons/ci";
 import Loader from "../../Shared/Loader/Loader";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthProvider/AuthProvider";
 
 const Login = () => {
   const { providerLogin, forgotPassword, signIn, updateUserProfile } =
     useContext(AuthContext);
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
   const {
     register,
     handleSubmit,
@@ -30,8 +33,8 @@ const Login = () => {
     providerLogin(googleProvider)
       .then((result) => {
         const user = result.user;
-        // console.log(user);
 
+        // console.log(user);
         const currentUser = {
           displayName: user.displayName,
           email: user.email,
@@ -41,6 +44,8 @@ const Login = () => {
             saveUser(user.displayName, user.email, user.photoURL);
           })
           .catch((error) => console.error(error));
+        navigate(from, { replace: true });
+
         // console.log(currentUser);
         setError("");
       })
@@ -68,7 +73,7 @@ const Login = () => {
         // console.log(data);
         setCreateUserEmail(user.email);
         // console.log(user.email);
-        toast("Register success", {
+        toast("Login success", {
           position: toast.POSITION.TOP_CENTER,
         });
       });
@@ -93,7 +98,6 @@ const Login = () => {
       })
       .catch((e) => {
         // console.error(e);
-
         // console.error(e.message);
 
         setError(e.message);

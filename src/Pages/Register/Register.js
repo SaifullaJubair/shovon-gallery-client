@@ -298,56 +298,7 @@ const Register = () => {
                 </span>
               )}
             </div>
-            {/* Select user type */}
-            {/* <div className="relative w-full mb-2 group flex gap-8 pt-2">
-              <div className="flex gap-3">
-                <input
-                  type="radio"
-                  name="floating_user_type_buyer"
-                  value="buyer"
-                  id="floating_user_type_buyer"
-                  className={`block shadow-md shadow-primary/10 py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none pl-2 focus:ring-0  peer ${
-                    errors.userType
-                      ? "focus:border-red-500 border-red-500"
-                      : "focus:border-secondary"
-                  }`}
-                  placeholder="Buyer "
-                  {...register("userType", { required: true })}
-                  defaultChecked
-                />
-                <label for="floating_user_type_buyer">Buyer</label>
-              </div>
-              <div className="flex gap-3">
-                <input
-                  type="radio"
-                  name="floating_user_type_seller"
-                  value="seller"
-                  id="floating_user_type_seller"
-                  className={`block shadow-md shadow-primary/10 py-2.5 px-0 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none pl-2 focus:ring-0  peer ${
-                    errors.userType
-                      ? "focus:border-red-500 border-red-500"
-                      : "focus:border-secondary"
-                  }`}
-                  placeholder="Seller "
-                  {...register("userType", { required: true })}
-                />
-                <label for="floating_user_type_seller">Seller</label>
-              </div>
 
-              <label
-                for="floating_image"
-                className="pl-2 peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Select user type
-              </label>
-              {errors.userType && (
-                <span className="text-xs text-red-500">
-                  This field is required
-                </span>
-              )}
-            </div> */}
-
-            {/* password  */}
             <div className="relative w-full mb-6 group">
               <input
                 type="password"
@@ -366,7 +317,7 @@ const Register = () => {
                     message: "Password must be 6 characters long",
                   },
                   pattern: {
-                    value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/,
+                    value: /(?=.*[A-Z])(?=.*[0-9])/,
                     message:
                       "Password must have uppercase, number and special characters",
                   },

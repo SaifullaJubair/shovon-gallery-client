@@ -54,15 +54,14 @@ const Register = () => {
 
   const saveUser = (displayName, email, photoURL) => {
     let myuuid = uuidv4();
-    console.log(myuuid);
+    // console.log(myuuid);
     const createdAt = new Date().toISOString();
     const user = {
       name: displayName,
       email,
-      role: "user",
       uid: myuuid,
-      createdAt,
       img: photoURL,
+      createdAt: new Date().toISOString(),
     };
     console.log(user);
     fetch("http://localhost:5000/adduser", {
@@ -186,7 +185,6 @@ const Register = () => {
               email: email,
               uid: myuuid,
               img: imgData.data.url,
-              role: userType,
               createdAt: new Date().toISOString(),
             };
           })

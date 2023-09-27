@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { GoogleAuthProvider } from "firebase/auth";
 import { Button, Label, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { CiFacebook } from "react-icons/ci";
@@ -53,15 +54,16 @@ const Login = () => {
   };
 
   const saveUser = (displayName, email, photoURL) => {
+    let myuuid = uuidv4();
     const createdAt = new Date().toISOString();
     const user = {
       name: displayName,
       email,
-      role: "user",
-      createdAt,
+      uid: myuuid,
       img: photoURL,
+      createdAt: new Date().toISOString(),
     };
-    fetch("https://server-fare-bd.vercel.app/adduser", {
+    fetch("http://localhost:5000/adduser", {
       method: "POST",
       headers: {
         "content-type": "application/json",

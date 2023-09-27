@@ -65,7 +65,7 @@ const Register = () => {
       img: photoURL,
     };
     console.log(user);
-    fetch("https://server-fare-bd.vercel.app/adduser", {
+    fetch("http://localhost:5000/users/adduser", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -142,7 +142,7 @@ const Register = () => {
               .then((result) => {
                 // const users =  { name, email, password, createdAt: new Date().toISOString(), photoURL: data?.data?.display_url };
                 // console.log(result)
-                fetch("https://server-fare-bd.vercel.app/adduser", {
+                fetch("http://localhost:5000/users/adduser", {
                   method: "POST",
                   headers: {
                     "content-type": "application/json",

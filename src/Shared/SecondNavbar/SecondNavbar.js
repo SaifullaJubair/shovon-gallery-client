@@ -73,7 +73,7 @@ const NavbarBottom = () => {
                           alt="User settings"
                           img={user?.photoURL}
                           rounded
-                          className="md:ml-8 text-lg "
+                          className="md:ml-8 text-xl "
                         />
                       }
                     >

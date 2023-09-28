@@ -31,6 +31,23 @@ const NavbarBottom = () => {
             <ion-icon name={open ? "close" : "menu"} />
           </div>
 
+          <div>
+            <label
+              for="Search"
+              className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-red-400 focus-within:ring-1 focus-within:ring-red-400"
+            >
+              <input
+                type="text"
+                id="Search"
+                className="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 "
+                placeholder="Search"
+              />
+
+              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+                Search
+              </span>
+            </label>
+          </div>
           <ul
             className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static lg:bg-white md:bg-white sm:bg-slate-100 bg-slate-100  md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
               open ? "top-20 " : "top-[-490px]"

@@ -5,6 +5,7 @@ import FlashSale from "../FlashSale/FlashSale";
 import TrendingProducts from "../TrendingProducts/TrendingProducts";
 import ParallaxBanner from "../ParallaxBanner/ParallaxBanner";
 import Discount from "../Discount/Discount";
+import IconicProducts from "../IconicProducts/IconicProducts";
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
       <FlashSale></FlashSale>
       <Discount></Discount>
       <TrendingProducts></TrendingProducts>
+      <IconicProducts></IconicProducts>
     </div>
   );
 };

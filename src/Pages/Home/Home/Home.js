@@ -8,6 +8,7 @@ import Discount from "../Discount/Discount";
 import IconicProducts from "../IconicProducts/IconicProducts";
 import CustomerReview from "../CustomerReview/CustomerReview";
 import FixedImg from "../FixedImg/FixedImg";
+import ShopLocation from "../ShopLocation/ShopLocation";
 
 const Home = () => {
   return (
@@ -21,6 +22,7 @@ const Home = () => {
       <TrendingProducts></TrendingProducts>
       <IconicProducts></IconicProducts>
       <CustomerReview></CustomerReview>
+      <ShopLocation></ShopLocation>
     </div>
   );
 };

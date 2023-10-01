@@ -7,6 +7,7 @@ import ParallaxBanner from "../ParallaxBanner/ParallaxBanner";
 import Discount from "../Discount/Discount";
 import IconicProducts from "../IconicProducts/IconicProducts";
 import CustomerReview from "../CustomerReview/CustomerReview";
+import FixedImg from "../FixedImg/FixedImg";
 
 const Home = () => {
   return (
@@ -16,6 +17,7 @@ const Home = () => {
       <ParallaxBanner></ParallaxBanner>
       <FlashSale></FlashSale>
       <Discount></Discount>
+      <FixedImg></FixedImg>
       <TrendingProducts></TrendingProducts>
       <IconicProducts></IconicProducts>
       <CustomerReview></CustomerReview>

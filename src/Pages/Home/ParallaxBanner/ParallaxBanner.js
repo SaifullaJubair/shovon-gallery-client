@@ -29,13 +29,6 @@ const ParallaxBanner = () => {
 
   return (
     <div className="parallax-container my-16">
-      {/* <img
-        className="parallax-image"
-        src="https://thumbs.dreamstime.com/z/accessory-making-home-craft-art-jewellery-layout-wooden-table-72959637.jpg?w=992" // Replace this URL with your image URL
-        alt="Parallax"
-        style={{ transform: `translateY(-${parallaxValue}px)` }}
-      /> */}
-
       <section
         className="relative parallax-image bg-[url(https://images.unsplash.com/photo-1604014237800-1c9102c219da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80)] bg-cover bg-center bg-no-repeat"
         style={{ transform: `translateY(-${parallaxValue}px)` }}

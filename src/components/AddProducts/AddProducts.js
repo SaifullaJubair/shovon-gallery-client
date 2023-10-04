@@ -6,50 +6,64 @@ import DatePicker from "tailwind-datepicker-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthProvider/AuthProvider";
 import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
+import { Dropdown } from "flowbite-react";
+const colorOptions = [
+  "Red",
+  "Blue",
+  "Green",
+  // Add more color options here
+];
 
 function AddProducts() {
+  const [selectedColors, setSelectedColors] = useState([]);
   const { user } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
-  const options = {
-    title: "Registered Date",
-    autoHide: true,
-    todayBtn: false,
-    clearBtn: true,
-    // maxDate: new Date("2030-01-01"),
-    maxDate: new Date(),
-    minDate: new Date("1950-01-01"),
-    theme: {
-      background: "bg-white dark:bg-gray-800",
-      todayBtn: "",
-      clearBtn: "",
-      icons: "",
-      text: "",
-      disabledText: "bg-red-500 text-white",
-      input: "",
-      inputIcon: "",
-      selected: "",
-    },
-    icons: {
-      // () => ReactNode | JSX.Element
-      prev: () => <span>Previous</span>,
-      next: () => <span>Next</span>,
-    },
-    datepickerClassNames: "top-12 ",
-    defaultDate: new Date(Date.now()),
-    language: "en",
+  const handleColorChange = (e) => {
+    const selectedOptions = Array.from(e.target.options)
+      .filter((option) => option.selected)
+      .map((option) => option.value);
+    setSelectedColors(selectedOptions);
   };
+  // const options = {
+  //   title: "Registered Date",
+  //   autoHide: true,
+  //   todayBtn: false,
+  //   clearBtn: true,
+  //   // maxDate: new Date("2030-01-01"),
+  //   maxDate: new Date(),
+  //   minDate: new Date("1950-01-01"),
+  //   theme: {
+  //     background: "bg-white dark:bg-gray-800",
+  //     todayBtn: "",
+  //     clearBtn: "",
+  //     icons: "",
+  //     text: "",
+  //     disabledText: "bg-red-500 text-white",
+  //     input: "",
+  //     inputIcon: "",
+  //     selected: "",
+  //   },
+  //   icons: {
+  //     // () => ReactNode | JSX.Element
+  //     prev: () => <span className="font-semibold text-sm "> Previous</span>,
+  //     next: () => <span className="font-semibold text-sm "> Next</span>,
+  //   },
+  //   datepickerClassNames: "top-12 ",
+  //   defaultDate: new Date(Date.now()),
+  //   language: "en",
+  // };
 
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date().toISOString());
   const [agree, setAgree] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [propertyPurpose, setPropertyPurpose] = useState("toRent");
+  const [productPurpose, setProductPurpose] = useState("toRent");
   const [defineOption, setDefineOption] = useState("commercial");
   const [errPrice, setErrPrice] = useState(0);
   const [errSize, setErrSize] = useState(0);
-
   const {
     register,
     handleSubmit,
@@ -60,7 +74,7 @@ function AddProducts() {
     setDate(new Date(selectedDate).toISOString());
   };
 
-  const handleAddProperty = async (data) => {
+  const handleAddProduct = async (data) => {
     const {
       areaType,
       balcony,
@@ -70,8 +84,8 @@ function AddProducts() {
       location,
       ownerName,
       phone,
-      propertyHeading,
-      propertyName,
+      productHeading,
+      productName,
       description,
       purpose,
       room,
@@ -84,17 +98,17 @@ function AddProducts() {
 
     const status = data.status || "complete";
 
-    const propertyImage = upload[0];
+    const productImage = upload[0];
     const featureImageInput = featureImage[0];
 
-    const propertyFormData = new FormData();
+    const productFormData = new FormData();
     const featureFormData = new FormData();
-    propertyFormData.append("image", propertyImage);
+    productFormData.append("image", productImage);
     featureFormData.append("image", featureImageInput);
-
-    const propertyImageConfig = {
+    const imageHostKey = process.env.REACT_APP_imgbb_key;
+    const productImageConfig = {
       method: "POST",
-      body: propertyFormData,
+      body: productFormData,
     };
 
     const featureImageConfig = {
@@ -104,24 +118,26 @@ function AddProducts() {
 
     try {
       setLoading(true);
-      const propertyImgBbRes = await fetch(
-        `https://api.imgbb.com/1/upload?key=be9f4672d77547e0a485d8549db33d64`,
-        propertyImageConfig
+      const productImgBbRes = await fetch(
+        `https://api.imgbb.com/1/upload?key=${imageHostKey}`,
+        productImageConfig
       );
 
-      const propertyImgBbData = await propertyImgBbRes.json();
+      const productImgBbData = await productImgBbRes.json();
       // feature image post
       const featureImgBbRes = await fetch(
-        `https://api.imgbb.com/1/upload?key=be9f4672d77547e0a485d8549db33d64`,
+        `https://api.imgbb.com/1/upload?key=${imageHostKey}`,
         featureImageConfig
       );
 
       const featureImgBbData = await featureImgBbRes.json();
 
-      if (!propertyImgBbData.success && !featureImgBbData.success) return;
-      const property = {
+      if (!productImgBbData.success && !featureImgBbData.success) return;
+      let myuuid = uuidv4();
+      const product = {
+        product_uid: myuuid,
         area_type: areaType,
-        property_type: category,
+        product_type: category,
         location,
         owner_name: ownerName,
         user_email: user?.email,
@@ -129,14 +145,14 @@ function AddProducts() {
         user_name: user?.displayName,
         phone,
         price,
-        property_heading: propertyHeading,
-        property_name: propertyName,
+        product_heading: productHeading,
+        product_name: productName,
         details: description,
-        property_condition: purpose,
+        product_condition: purpose,
         size,
         registered: new Date(date).toISOString(),
         division,
-        flat_feature: [
+        variants: [
           {
             floor,
             room,
@@ -146,7 +162,7 @@ function AddProducts() {
           },
         ],
         completation_status: status,
-        property_picture: propertyImgBbData.data.url,
+        product_picture: productImgBbData.data.url,
         post_date: new Date().toISOString(),
         advertised: false,
       };
@@ -156,13 +172,10 @@ function AddProducts() {
           "Content-Type": "application/json",
           // authorization: `Bearer ${localStorage.getItem(fareBD-token)}`,
         },
-        body: JSON.stringify(property),
+        body: JSON.stringify(product),
       };
 
-      const res = await fetch(
-        "https://server-fare-bd.vercel.app/property",
-        config
-      );
+      const res = await fetch("http://localhost:5000/products", config);
       const data = await res.json();
 
       if (data.acknowledged) {
@@ -191,11 +204,11 @@ function AddProducts() {
 
       <div className="  max-w-[768px] w-[95%] mx-auto">
         <h2 className="title uppercase p-8 text-center mb-8 bg-secondary text-white text-2xl font-semibold">
-          Register Your Property{" "}
+          Add Your Product
         </h2>
 
         <form
-          onSubmit={handleSubmit(handleAddProperty)}
+          onSubmit={handleSubmit(handleAddProduct)}
           className="p-4 rounded-sm shadow-md shadow-primary/10"
         >
           <div className="grid gap-5 md:grid-cols-2 md:gap-6">
@@ -205,27 +218,57 @@ function AddProducts() {
                 name="floating_name"
                 id="floating_name"
                 className={`block shadow-md shadow-primary/10 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
-                  errors.propertyName
+                  errors.productName
                     ? "focus:border-red-500 border-red-500"
                     : "focus:border-secondary"
                 }`}
                 placeholder=" "
-                {...register("propertyName", { required: true })}
+                {...register("productName", { required: true })}
               />
 
               <label
                 for="floating_name"
-                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                className="peer-focus:font-medium absolute text-sm pl-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Property Name
+                Product Name
               </label>
-              {errors.propertyName && (
+              {errors.productName && (
                 <span className="text-xs text-red-500">
                   This field is required
                 </span>
               )}
             </div>
             <div className="relative w-full mb-6 group">
+              <label
+                for="category"
+                className="peer-focus:font-medium absolute text-md pl-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Category
+              </label>
+              <select
+                id="category"
+                className="block py-2.5 shadow-md pl-2 shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300  dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
+                {...register("category", { required: true })}
+              >
+                <>
+                  <option selected value="">
+                    Select Category
+                  </option>
+                  <option value="office">Office</option>
+                  <option value="floor">Floor</option>
+                  <option value="duplex">Duplex</option>
+                  <option value="building">Building</option>
+                  <option value="warehouse">Warehouse</option>
+                  <option value="shop">Shop</option>
+                  <option value="appartment">Appartment</option>
+                  <option value="plaza">Plaza</option>
+                  <option value="plot">Plot</option>
+                  <option value="factory">Factory</option>
+                </>
+              </select>
+            </div>
+          </div>
+          {/* <div className="relative w-full mb-6 group">
               <input
                 type="text"
                 name="floating_name"
@@ -240,17 +283,16 @@ function AddProducts() {
               />
               <label
                 for="floating_name"
-                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                className="peer-focus:font-medium absolute pl-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Owner name
+                পণ্যের নাম বাংলায়
               </label>
               {errors.ownerName && (
                 <span className="text-xs text-red-500">
                   This field is required
                 </span>
               )}
-            </div>
-          </div>
+            </div> */}
 
           <div className="relative w-full mb-6 group">
             <input
@@ -258,20 +300,20 @@ function AddProducts() {
               name="floating_heading"
               id="floating_heading"
               className={`block shadow-md shadow-primary/10 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
-                errors.propertyHeading
+                errors.productHeading
                   ? "focus:border-red-500 border-red-500"
                   : "focus:border-secondary"
               }`}
               placeholder=" "
-              {...register("propertyHeading", { required: true })}
+              {...register("productHeading", { required: true })}
             />
             <label
               for="floating_heading"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              className="peer-focus:font-medium absolute pl-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
-              Property Heading
+              Product Heading
             </label>
-            {errors.propertyHeading && (
+            {errors.productHeading && (
               <span className="text-xs text-red-500">
                 This field is required
               </span>
@@ -279,32 +321,33 @@ function AddProducts() {
           </div>
 
           <div className="grid gap-5 md:grid-cols-2 md:gap-6">
-            <div className="relative w-full mb-8 group">
+            <div className="relative w-full mb-6 group">
               <input
-                type="text"
-                name="floating_location"
-                id="floating_location"
-                className={`block shadow-md shadow-primary/10 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
-                  errors.location
-                    ? "focus:border-red-500 border-red-500"
+                onKeyUp={(e) => setErrPrice(e.target.value)}
+                type="number"
+                min="1"
+                name="floating_price"
+                id="floating_price"
+                className={`block py-2.5 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 peer ${
+                  parseInt(errPrice) < 0
+                    ? "border-red-500 focus:border-red-500"
                     : "focus:border-secondary"
                 }`}
                 placeholder=" "
-                {...register("location", { required: true })}
+                {...register("price", { required: true })}
               />
               <label
-                for="floating_location"
-                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                for="floating_price"
+                className="peer-focus:font-medium pl-2 absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Location
+                Price
               </label>
-              {errors.location && (
+              {errors.price && (
                 <span className="text-xs text-red-500">
                   This field is required
                 </span>
               )}
             </div>
-
             <div className="relative w-full mb-6 group">
               <label
                 for="purpose"
@@ -316,7 +359,7 @@ function AddProducts() {
                 id="purpose"
                 className="block py-2.5 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
                 {...register("purpose")}
-                onChange={(e) => setPropertyPurpose(e.target.value)}
+                onChange={(e) => setProductPurpose(e.target.value)}
               >
                 <option selected value="toSale">
                   To Sale
@@ -327,131 +370,70 @@ function AddProducts() {
           </div>
           <div className="grid gap-5 mb-6 md:grid-cols-2 md:gap-6">
             <div className="relative w-full mb-6 group">
-              <input
-                type="tel"
-                minLength={11}
-                name="floating_phone"
-                id="floating_phone"
-                className={`block py-2.5 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
-                  errors.phone
-                    ? "focus:border-red-500 border-red-500"
-                    : "focus:border-secondary"
-                }`}
-                placeholder=" "
-                {...register("phone", {
-                  required: true,
-                  valueAsNumber: true,
-                  // pattern: {
-                  //   value: /^(0|[1-9]\d*)(\.\d+)?$/,
-                  // },
-                  // minLength: {
-                  //   value: 10,
-                  //   message: "Phone number should be 11 characters long",
-                  // },
-                })}
-              />
-              <label
-                for="floating_phone"
-                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Phone number (123-456-7890)
-              </label>
-
-              {errors.phone && (
-                <span className="text-xs text-red-500">
-                  {/* {errors.phone.message} */}
-                  This field is required
-                </span>
-              )}
-            </div>
-
-            <div className="relative w-full mb-6 group">
               <label
                 for="areaType"
-                className="peer-focus:font-medium absolute text-md  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                className="peer-focus:font-medium  text-sm pl-2  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Area Type
+                Color Variant
               </label>
               <select
-                id="areaType"
-                className="block py-2.5 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
-                {...register("areaType", { required: true })}
-                onChange={(e) => setDefineOption(e.target.value)}
+                multiple
+                id="floor"
+                className="block shadow-md shadow-primary/10 pl-2 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer focus:border-secondary"
+                {...register("floor")}
               >
                 <option selected value="">
-                  Select Area Type
+                  Select Color
                 </option>
-                <option value="residential">Residential</option>
-                <option value="commercial">Commercial</option>
+                <option value="Red">Red</option>
+                <option value="Blue">Blue</option>
+                <option value="Green">Green</option>
+                <option value="Yellow">Yellow</option>
+                <option value="White">White</option>
+                <option value="Black">Black</option>
+                <option value="Orange">Orange</option>
+                <option value="Pink">Pink</option>
+                <option value="Purple">Purple</option>
+                <option value="Brown">Brown</option>
+                <option value="Grey">Grey</option>
+                <option value="Maroon">Maroon</option>
+                <option value="Cyan">Cyan</option>
+                <option value="Chocolate">Chocolate</option>
+                <option value="Aqua">Aqua</option>
+                <option value="Lime">Lime</option>
+                <option value="Indigo">Indigo</option>
+                <option value="Golden">Golden</option>
+                <option value="Silver">Silver</option>
+                <option value="Bronze">Bronze</option>
               </select>
             </div>
           </div>
 
-          <div className="grid gap-5 mb-6 md:grid-cols-2 md:gap-6">
+          <div className="grid items-center gap-5 mb-6 md:grid-cols-2 md:gap-6">
             <div className="relative w-full mb-6 group">
-              {/* date picker goes here */}
               <label
-                for="registeredDate"
-                className="peer-focus:font-medium absolute text-md  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                style={{ lineHeight: "10px" }}
+                className="block mb-1 text-xs font-medium text-gray-900 dark:text-white"
+                for="user_avatar"
               >
-                Registered Date
+                Feauture Image
               </label>
-              <DatePicker
-                options={options}
-                onChange={handleChange}
-                show={show}
-                setShow={handleClose}
-                classNames="block shadow-md shadow-primary/10  w-full text-sm text-gray-900 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer border-0"
+              <input
+                style={{ lineHeight: "10px" }}
+                className="block w-full text-xs text-gray-900 rounded-sm shadow-md cursor-pointer shadow-primary/10 bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:placeholder-gray-400"
+                aria-describedby="user_avatar_help"
+                id="user_avatar small_input"
+                type="file"
+                multiple
+                {...register("featureImage", { required: true })}
               />
-            </div>
-
-            <div className="relative w-full mb-6 group">
-              <label
-                for="category"
-                className="peer-focus:font-medium absolute text-md  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Category
-              </label>
-              <select
-                id="category"
-                className="block py-2.5 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
-                {...register("category", { required: true })}
-              >
-                {defineOption === "commercial" ? (
-                  <>
-                    {" "}
-                    <option selected value="">
-                      Select Category
-                    </option>
-                    <option value="office">Office</option>
-                    <option value="floor">Floor</option>
-                    <option value="duplex">Duplex</option>
-                    <option value="building">Building</option>
-                    <option value="warehouse">Warehouse</option>
-                    <option value="shop">Shop</option>
-                    <option value="appartment">Appartment</option>
-                    <option value="plaza">Plaza</option>
-                    <option value="plot">Plot</option>
-                    <option value="factory">Factory</option>
-                  </>
-                ) : (
-                  <>
-                    <option selected value="">
-                      Select Category
-                    </option>
-                    <option value="appartment">Appartment</option>
-                    <option value="penthouse">Penthouse</option>
-                    <option value="plaza">Plaza</option>
-                    <option value="plot">Plot</option>
-                    <option value="room">Room</option>
-                    <option value="duplex">Duplex</option>
-                    <option value="building">Building</option>
-                  </>
-                )}
-              </select>
+              {errors?.featureImage && (
+                <p className="absolute text-xs text-red-500">
+                  Feauture Image must be provided
+                </p>
+              )}
             </div>
           </div>
-
           <div className="grid gap-5 mb-6 md:grid-cols-2 md:gap-6">
             <div className="relative w-full mb-6 group">
               <label
@@ -489,10 +471,10 @@ function AddProducts() {
               <select
                 id="status"
                 className={`block shadow-md shadow-primary/10 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer focus:border-secondary ${
-                  propertyPurpose === "toRent" && "cursor-not-allowed"
+                  productPurpose === "toRent" && "cursor-not-allowed"
                 }`}
                 {...register("status")}
-                disabled={propertyPurpose === "toRent"}
+                disabled={productPurpose === "toRent"}
               >
                 <option selected value="complete">
                   Complete
@@ -644,94 +626,13 @@ function AddProducts() {
                 for="floating_size"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Property Size (sq' f'')
+                product Size (sq' f'')
               </label>
               {errors.size && (
                 <span className="text-xs text-red-500">
                   This field is required
                 </span>
               )}
-            </div>
-            <div className="relative w-full mb-6 group">
-              <input
-                onKeyUp={(e) => setErrPrice(e.target.value)}
-                type="number"
-                min="1"
-                name="floating_price"
-                id="floating_price"
-                className={`block py-2.5 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 peer ${
-                  parseInt(errPrice) < 0
-                    ? "border-red-500 focus:border-red-500"
-                    : "focus:border-secondary"
-                }`}
-                placeholder=" "
-                {...register("price", { required: true })}
-              />
-              <label
-                for="floating_price"
-                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Price
-              </label>
-              {errors.price && (
-                <span className="text-xs text-red-500">
-                  This field is required
-                </span>
-              )}
-            </div>
-          </div>
-
-          <div className="grid items-center gap-5 mb-6 md:grid-cols-2 md:gap-6">
-            <div className="relative w-full mb-6 group">
-              <label
-                style={{ lineHeight: "10px" }}
-                className="block mb-1 text-xs font-medium text-gray-900 dark:text-white"
-                for="user_avatar"
-              >
-                Feauture Image
-              </label>
-              <input
-                style={{ lineHeight: "10px" }}
-                className="block w-full text-xs text-gray-900 rounded-sm shadow-md cursor-pointer shadow-primary/10 bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:placeholder-gray-400"
-                aria-describedby="user_avatar_help"
-                id="user_avatar small_input"
-                type="file"
-                multiple
-                {...register("featureImage", { required: true })}
-              />
-              {errors?.featureImage && (
-                <p className="absolute text-xs text-red-500">
-                  Feauture Image must be provided
-                </p>
-              )}
-            </div>
-            <div
-              style={{ alignSelf: "end" }}
-              className="relative w-full mb-6 group "
-            >
-              <label
-                for="status"
-                className="peer-focus:font-medium absolute text-md  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Division
-              </label>
-              <select
-                id="division"
-                className="block shadow-md shadow-primary/10 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer focus:border-secondary"
-                {...register("division", { required: true })}
-              >
-                <option value selected="">
-                  Select Division
-                </option>
-                <option value="Dhaka">Dhaka</option>
-                <option value="Chattogram">Chattogram</option>
-                <option value="Rajsahi">Rajshahi</option>
-                <option value="Khulna">Khulna</option>
-                <option value="Rangpur">Rangpur</option>
-                <option value="Barisal">Barisal</option>
-                <option value="Sylhet">Sylhet</option>
-                <option value="Mymensing">Mymensingh</option>
-              </select>
             </div>
           </div>
 
@@ -740,7 +641,7 @@ function AddProducts() {
               for="message"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Property Description
+              product Description
             </label>
             <textarea
               id="message"

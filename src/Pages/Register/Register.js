@@ -1,18 +1,21 @@
 import { GoogleAuthProvider } from "firebase/auth";
 import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
 import React, { useContext, useState } from "react";
-import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { CiFacebook } from "react-icons/ci";
 import { AuthContext } from "../../Contexts/AuthProvider/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../Shared/Loader/Loader";
-// import { FaBeer, FcGoogle } from "react-icons/fc";
+import { toast } from "react-toastify";
+
 const Register = () => {
   const { logout, updateUserProfile, providerLogin, createUser, user } =
     useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
   // console.log(user)
   const imageHostKey = process.env.REACT_APP_imgbb_key;
   const {
@@ -170,7 +173,7 @@ const Register = () => {
                   toast("Registration successful", {
                     position: toast.POSITION.TOP_CENTER,
                   });
-                  // navigate(from, { replace: true });
+                  navigate(from, { replace: true });
                   setLoading(false);
                 }
               })

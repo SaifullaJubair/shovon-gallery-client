@@ -26,6 +26,7 @@
     "smooth-scrollbar": "^8.8.4",
     "sweetalert2": "^11.7.20",
     "swiper": "^10.3.0",
+    "tailwind-datepicker-react": "^1.4.2",
     "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
   },

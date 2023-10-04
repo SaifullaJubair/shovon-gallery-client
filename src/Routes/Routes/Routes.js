@@ -1,5 +1,6 @@
 import AboutUs from "../../Pages/AboutUs/AboutUs";
 import Contact from "../../Pages/ContactUs/Contact";
+import AddProducts from "../../components/AddProducts/AddProducts";
 import PrivateRoute from "./PrivateRoute";
 
 const { createBrowserRouter } = require("react-router-dom");
@@ -20,6 +21,14 @@ const router = createBrowserRouter([
         element: <Home></Home>,
       },
 
+      {
+        path: "/categories",
+        element: <AboutUs></AboutUs>,
+      },
+      {
+        path: "/addproducts",
+        element: <AddProducts></AddProducts>,
+      },
       {
         path: "/about",
         element: <AboutUs></AboutUs>,

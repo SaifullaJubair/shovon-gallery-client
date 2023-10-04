@@ -40,7 +40,7 @@ const CustomerReview = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 ">
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 ">
       <div class="   md-w-md my-auto px-2">
         <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl py-4">
           Don't just take our word for it...
@@ -51,7 +51,7 @@ const CustomerReview = () => {
           veritatis illo placeat harum porro optio fugit a culpa sunt id!
         </p>
       </div>
-      <div className="">
+      <div className="xl:col-span-2 lg:col-span-2 md:col-span-2 col-span-1">
         <Swiper
           effect={"cards"}
           grabCursor={true}

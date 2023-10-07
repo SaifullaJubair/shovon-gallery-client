@@ -90,8 +90,6 @@ function AddProducts() {
       productHighlight,
       optionalImg1,
       optionalImg2,
-      optionalImg3,
-      // optional img
     } = data;
 
     // primary img
@@ -124,14 +122,14 @@ function AddProducts() {
       body: optionalImgFormData02,
     };
     // optional img03
-    const optionalImage03 = optionalImg3[0];
-    const optionalImgFormData03 = new FormData();
-    optionalImgFormData03.append("image", optionalImage03);
+    // const optionalImage03 = optionalImg3[0];
+    // const optionalImgFormData03 = new FormData();
+    // optionalImgFormData03.append("image", optionalImage03);
 
-    const optionalImageConfig03 = {
-      method: "POST",
-      body: optionalImgFormData03,
-    };
+    // const optionalImageConfig03 = {
+    //   method: "POST",
+    //   body: optionalImgFormData03,
+    // };
 
     try {
       setLoading(true);
@@ -156,13 +154,18 @@ function AddProducts() {
       const optionalImgBbData02 = await optionalImgBbRes02.json();
 
       // optional image post03
-      const optionalImgBbRes03 = await fetch(
-        `https://api.imgbb.com/1/upload?key=${imageHostKey}`,
-        optionalImageConfig03
-      );
-      const optionalImgBbData03 = await optionalImgBbRes03.json();
+      // const optionalImgBbRes03 = await fetch(
+      //   `https://api.imgbb.com/1/upload?key=${imageHostKey}`,
+      //   optionalImageConfig03
+      // );
+      // const optionalImgBbData03 = await optionalImgBbRes03.json();
 
-      if (!productImgBbData.success) return;
+      if (
+        !productImgBbData.success &&
+        !optionalImgBbData.success &&
+        !optionalImgBbData02
+      )
+        return;
 
       let myuuid = uuidv4();
       const product = {
@@ -180,9 +183,9 @@ function AddProducts() {
         user_name: user?.displayName,
         product_highlight: productHighlight,
         details: description,
-        optional_img1: optionalImgBbData.data.url,
-        optional_img2: optionalImgBbData02.data.url,
-        optional_img3: optionalImgBbData03.data.url,
+        feature_img1: optionalImgBbData?.data.url,
+        feature_img2: optionalImgBbData02?.data.url,
+        // optional_img3: optionalImgBbData03?.data.url,
         // variants: [
         //   {//
         //     floor,
@@ -472,13 +475,13 @@ function AddProducts() {
             </div>
           </div>
           {/*Optional img  */}
-          <div className="grid gap-2 md:grid-cols-3 md:gap-3">
+          <div className="grid gap-2 md:grid-cols-2 md:gap-3">
             <div className="relative w-full mb-6 group">
               <label
                 className="block mb-2 mt-2 pl-2 text-xs font-medium text-gray-600 dark:text-white"
                 for="user_avatar"
               >
-                Product optional img 01
+                Product Feature img 01
               </label>
               <input
                 style={{ lineHeight: "10px" }}
@@ -486,8 +489,13 @@ function AddProducts() {
                 aria-describedby="user_avatar_help"
                 id="user_avatar small_input"
                 type="file"
-                {...register("optionalImg1")}
+                {...register("optionalImg1", { required: true })}
               />
+              {errors?.optionalImg1 && (
+                <p className="absolute text-xs text-red-500">
+                  Image must be provided
+                </p>
+              )}
             </div>
             {/* optional img 02  */}
             <div className="relative w-full mb-6 group">
@@ -495,7 +503,7 @@ function AddProducts() {
                 className="block mb-2 mt-2 pl-2 text-xs font-medium text-gray-600 dark:text-white"
                 for="user_avatar"
               >
-                Product optional img 02
+                Product Feature img 02
               </label>
               <input
                 style={{ lineHeight: "10px" }}
@@ -503,11 +511,16 @@ function AddProducts() {
                 aria-describedby="user_avatar_help"
                 id="user_avatar small_input"
                 type="file"
-                {...register("optionalImg2")}
+                {...register("optionalImg2", { required: true })}
               />
+              {errors?.optionalImg2 && (
+                <p className="absolute text-xs text-red-500">
+                  Image must be provided
+                </p>
+              )}
             </div>
             {/* optional img 03  */}
-            <div className="relative w-full mb-6 group">
+            {/* <div className="relative w-full mb-6 group">
               <label
                 className="block mb-2 mt-2 pl-2 text-xs font-medium text-gray-600 dark:text-white"
                 for="user_avatar"
@@ -522,7 +535,7 @@ function AddProducts() {
                 type="file"
                 {...register("optionalImg3")}
               />
-            </div>
+            </div> */}
             {/* 
             <div id="optionalImg">
               {imagesPreview.map((image, index) => (
@@ -592,7 +605,7 @@ function AddProducts() {
               for="terms"
               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
-              I agree with the{" "}
+              I agree with the
               <a
                 href="#"
                 className="text-blue-600 hover:underline dark:text-blue-500"

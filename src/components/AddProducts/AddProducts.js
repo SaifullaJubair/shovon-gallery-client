@@ -7,54 +7,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthProvider/AuthProvider";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
-import { Dropdown } from "flowbite-react";
-const colorOptions = [
-  "Red",
-  "Blue",
-  "Green",
-  // Add more color options here
-];
+import Select from "react-dropdown-select";
 
 function AddProducts() {
-  const [selectedColors, setSelectedColors] = useState([]);
   const { user } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
-  const handleColorChange = (e) => {
-    const selectedOptions = Array.from(e.target.options)
-      .filter((option) => option.selected)
-      .map((option) => option.value);
-    setSelectedColors(selectedOptions);
-  };
-  // const options = {
-  //   title: "Registered Date",
-  //   autoHide: true,
-  //   todayBtn: false,
-  //   clearBtn: true,
-  //   // maxDate: new Date("2030-01-01"),
-  //   maxDate: new Date(),
-  //   minDate: new Date("1950-01-01"),
-  //   theme: {
-  //     background: "bg-white dark:bg-gray-800",
-  //     todayBtn: "",
-  //     clearBtn: "",
-  //     icons: "",
-  //     text: "",
-  //     disabledText: "bg-red-500 text-white",
-  //     input: "",
-  //     inputIcon: "",
-  //     selected: "",
-  //   },
-  //   icons: {
-  //     // () => ReactNode | JSX.Element
-  //     prev: () => <span className="font-semibold text-sm "> Previous</span>,
-  //     next: () => <span className="font-semibold text-sm "> Next</span>,
-  //   },
-  //   datepickerClassNames: "top-12 ",
-  //   defaultDate: new Date(Date.now()),
-  //   language: "en",
-  // };
 
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date().toISOString());
@@ -64,6 +23,29 @@ function AddProducts() {
   const [defineOption, setDefineOption] = useState("commercial");
   const [errPrice, setErrPrice] = useState(0);
   const [errSize, setErrSize] = useState(0);
+  const [value, setValue] = useState();
+  // const [images, setImages] = useState([]);
+  // const [imagesPreview, setImagesPreview] = useState([]);
+
+  // const createProductImagesChange = (e) => {
+  //   const files = Array.from(e.target.files);
+
+  //   setImages([]);
+  //   setImagesPreview([]);
+
+  //   files.forEach((file) => {
+  //     const reader = new FileReader();
+
+  //     reader.onload = () => {
+  //       if (reader.readyState === 2) {
+  //         setImagesPreview((old) => [...old, reader.result]);
+  //         setImages((old) => [...old, reader.result]);
+  //       }
+  //     };
+
+  //     reader.readAsDataURL(file);
+  //   });
+  // };
   const {
     register,
     handleSubmit,
@@ -73,47 +55,82 @@ function AddProducts() {
   const handleChange = (selectedDate) => {
     setDate(new Date(selectedDate).toISOString());
   };
-
+  const option = [
+    { id: 1, name: "Red" },
+    { id: 2, name: "Blue" },
+    { id: 3, name: "Yellow" },
+    { id: 4, name: "Green" },
+    { id: 5, name: "White" },
+    { id: 6, name: "Black" },
+    { id: 7, name: "Orange" },
+    { id: 8, name: "Pink" },
+    { id: 9, name: "Purple" },
+    { id: 10, name: "Brown" },
+    { id: 11, name: "Grey" },
+    { id: 12, name: "Maroon" },
+    { id: 13, name: "Cyan" },
+    { id: 14, name: "Chocolate" },
+    { id: 15, name: "Aqua" },
+    { id: 16, name: "Lime" },
+    { id: 17, name: "Indigo" },
+    { id: 18, name: "Golden" },
+    { id: 19, name: "Silver" },
+    { id: 20, name: "Bronze" },
+  ];
   const handleAddProduct = async (data) => {
     const {
-      areaType,
-      balcony,
-      bathroom,
-      category,
-      floor,
-      location,
-      ownerName,
-      phone,
-      productHeading,
       productName,
-      description,
-      purpose,
-      room,
-      size,
+      category,
+      productHeading,
+      boxContent,
       price,
-      upload,
-      featureImage,
-      division,
+      primaryColor,
+      primaryImg,
+      description,
+      productHighlight,
+      optionalImg1,
+      optionalImg2,
+      optionalImg3,
+      // optional img
     } = data;
 
-    const status = data.status || "complete";
-
-    const productImage = upload[0];
-    const featureImageInput = featureImage[0];
-
+    // primary img
+    const productImage = primaryImg[0];
     const productFormData = new FormData();
-    const featureFormData = new FormData();
     productFormData.append("image", productImage);
-    featureFormData.append("image", featureImageInput);
+
     const imageHostKey = process.env.REACT_APP_imgbb_key;
     const productImageConfig = {
       method: "POST",
       body: productFormData,
     };
 
-    const featureImageConfig = {
+    // optional img01
+    const optionalImage01 = optionalImg1[0];
+    const optionalImgFormData = new FormData();
+    optionalImgFormData.append("image", optionalImage01);
+
+    const optionalImageConfig = {
       method: "POST",
-      body: featureFormData,
+      body: optionalImgFormData,
+    };
+    // optional img02
+    const optionalImage02 = optionalImg2[0];
+    const optionalImgFormData02 = new FormData();
+    optionalImgFormData02.append("image", optionalImage02);
+
+    const optionalImageConfig02 = {
+      method: "POST",
+      body: optionalImgFormData02,
+    };
+    // optional img03
+    const optionalImage03 = optionalImg3[0];
+    const optionalImgFormData03 = new FormData();
+    optionalImgFormData03.append("image", optionalImage03);
+
+    const optionalImageConfig03 = {
+      method: "POST",
+      body: optionalImgFormData03,
     };
 
     try {
@@ -122,50 +139,65 @@ function AddProducts() {
         `https://api.imgbb.com/1/upload?key=${imageHostKey}`,
         productImageConfig
       );
-
       const productImgBbData = await productImgBbRes.json();
-      // feature image post
-      const featureImgBbRes = await fetch(
+
+      // optional image post01
+      const optionalImgBbRes = await fetch(
         `https://api.imgbb.com/1/upload?key=${imageHostKey}`,
-        featureImageConfig
+        optionalImageConfig
       );
+      const optionalImgBbData = await optionalImgBbRes.json();
 
-      const featureImgBbData = await featureImgBbRes.json();
+      // optional image post02
+      const optionalImgBbRes02 = await fetch(
+        `https://api.imgbb.com/1/upload?key=${imageHostKey}`,
+        optionalImageConfig02
+      );
+      const optionalImgBbData02 = await optionalImgBbRes02.json();
 
-      if (!productImgBbData.success && !featureImgBbData.success) return;
+      // optional image post03
+      const optionalImgBbRes03 = await fetch(
+        `https://api.imgbb.com/1/upload?key=${imageHostKey}`,
+        optionalImageConfig03
+      );
+      const optionalImgBbData03 = await optionalImgBbRes03.json();
+
+      if (!productImgBbData.success) return;
+
       let myuuid = uuidv4();
       const product = {
         product_uid: myuuid,
-        area_type: areaType,
-        product_type: category,
-        location,
-        owner_name: ownerName,
+        product_name: productName,
+        category,
+        product_heading: productHeading,
+        box_content: boxContent,
+        price,
+        primary_color: primaryColor,
+        primary_img: productImgBbData.data.url,
+        available_color: value,
         user_email: user?.email,
         user_image: user?.photoURL,
         user_name: user?.displayName,
-        phone,
-        price,
-        product_heading: productHeading,
-        product_name: productName,
+        product_highlight: productHighlight,
         details: description,
-        product_condition: purpose,
-        size,
-        registered: new Date(date).toISOString(),
-        division,
-        variants: [
-          {
-            floor,
-            room,
-            balcony,
-            bathroom,
-            feature_img: featureImgBbData.data.url,
-          },
-        ],
-        completation_status: status,
-        product_picture: productImgBbData.data.url,
-        post_date: new Date().toISOString(),
+        optional_img1: optionalImgBbData.data.url,
+        optional_img2: optionalImgBbData02.data.url,
+        optional_img3: optionalImgBbData03.data.url,
+        // variants: [
+        //   {//
+        //     floor,
+        //     room,
+        //     balcony,
+        //     bathroom,
+        //     feature_img: featureImgBbData.data.url,
+        //   },
+        // ],
+
         advertised: false,
+        review: false,
+        post_date: new Date().toISOString(),
       };
+      console.log(product);
       const config = {
         method: "POST",
         headers: {
@@ -211,7 +243,9 @@ function AddProducts() {
           onSubmit={handleSubmit(handleAddProduct)}
           className="p-4 rounded-sm shadow-md shadow-primary/10"
         >
+          {/* Product Name and Category  */}
           <div className="grid gap-5 md:grid-cols-2 md:gap-6">
+            {/* Product name is here  */}
             <div className="relative w-full mb-6 group">
               <input
                 type="text"
@@ -238,6 +272,8 @@ function AddProducts() {
                 </span>
               )}
             </div>
+
+            {/* product category  */}
             <div className="relative w-full mb-6 group">
               <label
                 for="category"
@@ -268,32 +304,7 @@ function AddProducts() {
               </select>
             </div>
           </div>
-          {/* <div className="relative w-full mb-6 group">
-              <input
-                type="text"
-                name="floating_name"
-                id="floating_name"
-                className={`block shadow-md shadow-primary/10 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
-                  errors.ownerName
-                    ? "focus:border-red-500 border-red-500"
-                    : "focus:border-secondary"
-                }`}
-                placeholder=" "
-                {...register("ownerName", { required: true })}
-              />
-              <label
-                for="floating_name"
-                className="peer-focus:font-medium absolute pl-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                পণ্যের নাম বাংলায়
-              </label>
-              {errors.ownerName && (
-                <span className="text-xs text-red-500">
-                  This field is required
-                </span>
-              )}
-            </div> */}
-
+          {/* Product  heading  */}
           <div className="relative w-full mb-6 group">
             <input
               type="text"
@@ -320,7 +331,35 @@ function AddProducts() {
             )}
           </div>
 
+          {/* Box content & Price  */}
           <div className="grid gap-5 md:grid-cols-2 md:gap-6">
+            {/* Box Content here  */}
+            <div className="relative w-full  group">
+              <input
+                type="text"
+                name="floating_boxContent"
+                id="floating_boxContent"
+                className={`block shadow-md shadow-primary/10 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
+                  errors.boxContent
+                    ? "focus:border-red-500 border-red-500"
+                    : "focus:border-secondary"
+                }`}
+                placeholder=" "
+                {...register("boxContent", { required: true })}
+              />
+              <label
+                for="floating_boxContent"
+                className="peer-focus:font-medium absolute pl-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Box Content: What you provide in the box
+              </label>
+              {errors.boxContent && (
+                <span className="text-xs text-red-500">
+                  This field is required
+                </span>
+              )}
+            </div>
+            {/* Product price here  */}
             <div className="relative w-full mb-6 group">
               <input
                 onKeyUp={(e) => setErrPrice(e.target.value)}
@@ -348,39 +387,22 @@ function AddProducts() {
                 </span>
               )}
             </div>
-            <div className="relative w-full mb-6 group">
-              <label
-                for="purpose"
-                className="peer-focus:font-medium absolute text-md  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Purpose
-              </label>
-              <select
-                id="purpose"
-                className="block py-2.5 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
-                {...register("purpose")}
-                onChange={(e) => setProductPurpose(e.target.value)}
-              >
-                <option selected value="toSale">
-                  To Sale
-                </option>
-                <option value="toRent">To Rent</option>
-              </select>
-            </div>
           </div>
-          <div className="grid gap-5 mb-6 md:grid-cols-2 md:gap-6">
-            <div className="relative w-full mb-6 group">
+
+          {/* Color Variant and Primary product img  */}
+          <div className="grid gap-5 md:grid-cols-2 md:gap-6">
+            {/* Select Color  */}
+            <div className="relative w-full group">
               <label
-                for="areaType"
-                className="peer-focus:font-medium  text-sm pl-2  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                for="primaryColor"
+                className="  text-xs pl-2  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Color Variant
+                Product Color
               </label>
               <select
-                multiple
-                id="floor"
+                id="0"
                 className="block shadow-md shadow-primary/10 pl-2 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer focus:border-secondary"
-                {...register("floor")}
+                {...register("primaryColor", { required: true })}
               >
                 <option selected value="">
                   Select Color
@@ -407,16 +429,14 @@ function AddProducts() {
                 <option value="Bronze">Bronze</option>
               </select>
             </div>
-          </div>
+            {/* Primary product img here  */}
 
-          <div className="grid items-center gap-5 mb-6 md:grid-cols-2 md:gap-6">
             <div className="relative w-full mb-6 group">
               <label
-                style={{ lineHeight: "10px" }}
-                className="block mb-1 text-xs font-medium text-gray-900 dark:text-white"
+                className="block mb-2 mt-2 pl-2 text-xs font-medium text-gray-600 dark:text-white"
                 for="user_avatar"
               >
-                Feauture Image
+                Upload Product Primary img
               </label>
               <input
                 style={{ lineHeight: "10px" }}
@@ -424,230 +444,131 @@ function AddProducts() {
                 aria-describedby="user_avatar_help"
                 id="user_avatar small_input"
                 type="file"
-                multiple
-                {...register("featureImage", { required: true })}
+                {...register("primaryImg", { required: true })}
               />
-              {errors?.featureImage && (
-                <p className="absolute text-xs text-red-500">
-                  Feauture Image must be provided
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="grid gap-5 mb-6 md:grid-cols-2 md:gap-6">
-            <div className="relative w-full mb-6 group">
-              <label
-                style={{ lineHeight: "10px" }}
-                className="block mb-1 text-xs font-medium text-gray-900 dark:text-white"
-                for="user_avatar"
-              >
-                Upload file
-              </label>
-              <input
-                style={{ lineHeight: "10px" }}
-                className="block w-full text-xs text-gray-900 rounded-sm shadow-md cursor-pointer shadow-primary/10 bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:placeholder-gray-400"
-                aria-describedby="user_avatar_help"
-                id="user_avatar small_input"
-                type="file"
-                multiple
-                {...register("upload", { required: true })}
-              />
-              {errors?.upload && (
+              {errors?.primaryImg && (
                 <p className="absolute text-xs text-red-500">
                   Image must be provided
                 </p>
               )}
             </div>
-            <div
-              style={{ alignSelf: "end" }}
-              className="relative w-full mb-6 group"
-            >
+          </div>
+          <div className="grid gap-5 md:grid-cols-2 md:gap-6">
+            <div className="relative w-full mb-6 group ">
               <label
-                for="status"
-                className="peer-focus:font-medium absolute text-md  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                for="availableColor"
+                className="  text-xs pl-2  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Status
+                Available Color
               </label>
-              <select
-                id="status"
-                className={`block shadow-md shadow-primary/10 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer focus:border-secondary ${
-                  productPurpose === "toRent" && "cursor-not-allowed"
-                }`}
-                {...register("status")}
-                disabled={productPurpose === "toRent"}
-              >
-                <option selected value="complete">
-                  Complete
-                </option>
-                <option value="on going">On Going </option>
-              </select>
+              <Select
+                name="select"
+                options={option}
+                labelField="name"
+                valueField="id"
+                multi
+                onChange={(value) => setValue(value)}
+              ></Select>
             </div>
           </div>
-
-          <div className="grid gap-2 md:grid-cols-4 md:gap-3">
-            <div className="relative w-full group">
-              <div className="relative w-full mb-6 group">
-                <label
-                  for="floor"
-                  className="peer-focus:font-medium absolute text-md  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                >
-                  Floor
-                </label>
-                <select
-                  id="floor"
-                  className="block shadow-md shadow-primary/10 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer focus:border-secondary"
-                  {...register("floor")}
-                >
-                  <option value="0">0</option>
-                  <option selected value="1">
-                    1
-                  </option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="relative w-full group">
-              <div className="relative w-full mb-6 group">
-                <label
-                  for="room"
-                  className="peer-focus:font-medium absolute text-md  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                >
-                  Room
-                </label>
-                <select
-                  id="room"
-                  className="block shadow-md shadow-primary/10 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer focus:border-secondary"
-                  {...register("room")}
-                >
-                  <option value="0">0</option>
-                  <option selected value="1">
-                    1
-                  </option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="relative w-full group">
-              <div className="relative w-full mb-6 group">
-                <label
-                  for="bathroom"
-                  className="peer-focus:font-medium absolute text-md  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                >
-                  Bathroom
-                </label>
-                <select
-                  id="bathroom"
-                  className="block shadow-md shadow-primary/10 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer focus:border-secondary"
-                  {...register("bathroom")}
-                >
-                  <option value="0">0</option>
-                  <option selected value="1">
-                    1
-                  </option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="relative w-full group">
-              <div className="relative w-full mb-6 group">
-                <label
-                  for="balcony"
-                  className="peer-focus:font-medium absolute text-md  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                >
-                  Balcony
-                </label>
-                <select
-                  id="balcony"
-                  className="block shadow-md shadow-primary/10 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer focus:border-secondary"
-                  {...register("balcony")}
-                >
-                  <option value="0">0</option>
-                  <option selected value="1">
-                    1
-                  </option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid mb-6 md:grid-cols-2 md:gap-6">
+          {/*Optional img  */}
+          <div className="grid gap-2 md:grid-cols-3 md:gap-3">
             <div className="relative w-full mb-6 group">
-              <input
-                onKeyUp={(e) => setErrSize(e.target.value)}
-                min="1"
-                type="number"
-                name="floating_size"
-                id="floating_size"
-                className={`block py-2.5 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 peer ${
-                  parseInt(errSize) < 0
-                    ? "border-red-500 focus:border-red-500"
-                    : "focus:border-secondary"
-                }`}
-                placeholder=" "
-                {...register("size", { required: true })}
-              />
               <label
-                for="floating_size"
-                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                className="block mb-2 mt-2 pl-2 text-xs font-medium text-gray-600 dark:text-white"
+                for="user_avatar"
               >
-                product Size (sq' f'')
+                Product optional img 01
               </label>
-              {errors.size && (
-                <span className="text-xs text-red-500">
-                  This field is required
-                </span>
-              )}
+              <input
+                style={{ lineHeight: "10px" }}
+                className="block w-full text-xs text-gray-900 rounded-sm shadow-md cursor-pointer shadow-primary/10 bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:placeholder-gray-400"
+                aria-describedby="user_avatar_help"
+                id="user_avatar small_input"
+                type="file"
+                {...register("optionalImg1")}
+              />
             </div>
+            {/* optional img 02  */}
+            <div className="relative w-full mb-6 group">
+              <label
+                className="block mb-2 mt-2 pl-2 text-xs font-medium text-gray-600 dark:text-white"
+                for="user_avatar"
+              >
+                Product optional img 02
+              </label>
+              <input
+                style={{ lineHeight: "10px" }}
+                className="block w-full text-xs text-gray-900 rounded-sm shadow-md cursor-pointer shadow-primary/10 bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:placeholder-gray-400"
+                aria-describedby="user_avatar_help"
+                id="user_avatar small_input"
+                type="file"
+                {...register("optionalImg2")}
+              />
+            </div>
+            {/* optional img 03  */}
+            <div className="relative w-full mb-6 group">
+              <label
+                className="block mb-2 mt-2 pl-2 text-xs font-medium text-gray-600 dark:text-white"
+                for="user_avatar"
+              >
+                Product optional img 03
+              </label>
+              <input
+                style={{ lineHeight: "10px" }}
+                className="block w-full text-xs text-gray-900 rounded-sm shadow-md cursor-pointer shadow-primary/10 bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:placeholder-gray-400"
+                aria-describedby="user_avatar_help"
+                id="user_avatar small_input"
+                type="file"
+                {...register("optionalImg3")}
+              />
+            </div>
+            {/* 
+            <div id="optionalImg">
+              {imagesPreview.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt="Product Optional Img Preview"
+                />
+              ))}
+            </div> */}
           </div>
 
           <div className="flex flex-col items-start mb-6">
             <label
-              for="message"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              for="productHighlight"
+              className="block mb-2 text-sm pl-2 font-medium text-gray-900 dark:text-white"
             >
-              product Description
+              Product Highlight
+            </label>
+            <textarea
+              id="productHighlight"
+              rows="4"
+              className="block py-2.5 pl-2 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
+              placeholder="Write your product key feature..."
+              {...register("productHighlight", { required: true })}
+            ></textarea>
+            {errors.description && (
+              <span className="text-xs text-red-500">
+                This field is required
+              </span>
+            )}
+          </div>
+
+          {/* Product description  */}
+          <div className="flex flex-col items-start mb-6">
+            <label
+              for="message"
+              className="block mb-2 pl-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Product Description
             </label>
             <textarea
               id="message"
               rows="4"
-              className="block py-2.5 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
-              placeholder="Write your thoughts here..."
+              className="block py-2.5 pl-2 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
+              placeholder="Write your product description here..."
               {...register("description", { required: true })}
             ></textarea>
             {errors.description && (

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import DatePicker from "tailwind-datepicker-react";
@@ -24,6 +24,8 @@ function AddProducts() {
   const [errPrice, setErrPrice] = useState(0);
   const [errSize, setErrSize] = useState(0);
   const [value, setValue] = useState();
+  const [categories, setCategories] = useState(null);
+
   // const [images, setImages] = useState([]);
   // const [imagesPreview, setImagesPreview] = useState([]);
 
@@ -46,6 +48,12 @@ function AddProducts() {
   //     reader.readAsDataURL(file);
   //   });
   // };
+
+  useEffect(() => {
+    fetch("http://localhost:5000/allcategories")
+      .then((res) => res.json())
+      .then((data) => setCategories(data));
+  }, []);
   const {
     register,
     handleSubmit,
@@ -289,21 +297,14 @@ function AddProducts() {
                 className="block py-2.5 shadow-md pl-2 shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300  dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
                 {...register("category", { required: true })}
               >
-                <>
-                  <option selected value="">
-                    Select Category
+                <option disabled selected>
+                  Select Category
+                </option>
+                {categories?.map((category) => (
+                  <option defaultValue={category?.name} key={category?._id}>
+                    {category?.name}
                   </option>
-                  <option value="office">Office</option>
-                  <option value="floor">Floor</option>
-                  <option value="duplex">Duplex</option>
-                  <option value="building">Building</option>
-                  <option value="warehouse">Warehouse</option>
-                  <option value="shop">Shop</option>
-                  <option value="appartment">Appartment</option>
-                  <option value="plaza">Plaza</option>
-                  <option value="plot">Plot</option>
-                  <option value="factory">Factory</option>
-                </>
+                ))}
               </select>
             </div>
           </div>

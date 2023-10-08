@@ -1,4 +1,5 @@
 import AboutUs from "../../Pages/AboutUs/AboutUs";
+import AllProducts from "../../Pages/AllProducts/AllProducts";
 import Contact from "../../Pages/ContactUs/Contact";
 import AddProducts from "../../components/AddProducts/AddProducts";
 import PrivateRoute from "./PrivateRoute";
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/categories",
         element: <AboutUs></AboutUs>,
+      },
+      {
+        path: "/allproducts",
+        element: <AllProducts></AllProducts>,
       },
       {
         path: "/addproducts",

@@ -41,12 +41,12 @@ const CustomerReview = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 ">
-      <div class="   md-w-md my-auto px-2">
-        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl py-4">
+      <div className="   md-w-md my-auto px-2">
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl py-4">
           Don't just take our word for it...
         </h2>
 
-        <p class=" text-gray-700 pb-6">
+        <p className=" text-gray-700 pb-6">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptas
           veritatis illo placeat harum porro optio fugit a culpa sunt id!
         </p>

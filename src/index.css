@@ -18,3 +18,63 @@ code {
 .active {
   color: rgb(209, 11, 11);
 }
+/* pagination button */
+.pagination {
+  text-align: center;
+  margin-top: 28px;
+}
+
+.pagination a {
+  font-size: 17px;
+  margin: 0 10px;
+  width: 21px;
+  display: inline-block;
+  padding: 6px;
+}
+
+ul.pagination-menu li {
+  display: inline-block;
+  background: #e0e0e0;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+ul.pagination-menu li.selected {
+  background: #5ba600;
+  color: #ffffff;
+}
+ul.pagination-menu li.next.disabled {
+  visibility: hidden;
+}
+ul.pagination-menu li.previous.disabled {
+  visibility: hidden;
+}
+
+/* Hamburger Menu */
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-2%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes shrink {
+  0% {
+    width: 95%;
+  }
+  100% {
+    width: 90%;
+  }
+}

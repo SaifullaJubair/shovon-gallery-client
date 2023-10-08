@@ -2,6 +2,7 @@ import AboutUs from "../../Pages/AboutUs/AboutUs";
 import AllProducts from "../../Pages/AllProducts/AllProducts";
 import Contact from "../../Pages/ContactUs/Contact";
 import AddProducts from "../../components/AddProducts/AddProducts";
+import Categories from "../../components/Categories/Categories";
 import PrivateRoute from "./PrivateRoute";
 
 const { createBrowserRouter } = require("react-router-dom");
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
 
       {
         path: "/categories",
-        element: <AboutUs></AboutUs>,
+        element: <Categories></Categories>,
       },
       {
         path: "/allproducts",

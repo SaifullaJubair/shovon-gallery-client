@@ -408,7 +408,7 @@ function AddProducts() {
                 className="block shadow-md shadow-primary/10 pl-2 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer focus:border-secondary"
                 {...register("primaryColor", { required: true })}
               >
-                <option selected value="">
+                <option disabled selected>
                   Select Color
                 </option>
                 <option value="Red">Red</option>

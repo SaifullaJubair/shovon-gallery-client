@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
     feature_img2,
     wishlist,
   } = product;
-  console.log(product);
+  // console.log(product);
   return (
     <div>
       <div className="group relative block overflow-hidden">
@@ -50,9 +50,9 @@ const ProductCard = ({ product }) => {
         />
 
         <div className="relative border border-gray-100 bg-white p-6">
-          <span className="whitespace-nowrap bg-yellow-400 px-3 py-1.5 text-xs font-medium">
+          {/* <span className="whitespace-nowrap bg-yellow-400 px-3 py-1.5 text-xs font-medium">
             New
-          </span>
+          </span> */}
 
           <h3 className="mt-4 text-lg font-medium text-gray-900">
             {product_name}

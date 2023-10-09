@@ -11,14 +11,23 @@ import { TfiLocationPin } from "react-icons/tfi";
 import ProductCard from "./ProductCard";
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [itemOffset, setItemOffset] = useState(0);
 
   useEffect(() => {
     fetch("http://localhost:5000/products")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setProducts(data);
+      });
+  }, []);
+  useEffect(() => {
+    fetch("http://localhost:5000/allcategories")
+      .then((res) => res.json())
+      .then((data) => {
+        setCategories(data);
+        // console.log(data);
       });
   }, []);
 
@@ -40,9 +49,13 @@ const AllProducts = () => {
     <div className="container grid grid-cols-6 gap-2">
       <div className=" col-span-1 border-primary border-2">
         <h2 className="text-lg font-semibold text-gray-800 ">Categories</h2>
+        {categories.map((category) => (
+          <p key={category?._id}>{category?.name}</p>
+        ))}
       </div>
       <div className="col-span-5 ">
         <h3>Total 12 products </h3>
+
         <div className="grid grid-cols-3 gap-4">
           {currentItems?.map((product) => (
             <ProductCard key={product?._id} product={product}></ProductCard>

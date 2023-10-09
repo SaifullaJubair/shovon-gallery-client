@@ -46,17 +46,27 @@ const AllProducts = () => {
     setItemOffset(newOffset);
   };
   return (
-    <div className="container grid grid-cols-6 gap-2">
-      <div className=" col-span-1 border-primary border-2">
-        <h2 className="text-lg font-semibold text-gray-800 ">Categories</h2>
-        {categories.map((category) => (
-          <p key={category?._id}>{category?.name}</p>
-        ))}
+    <div className="container grid grid-cols-6 my-6 gap-2">
+      <div className=" shadow-md ">
+        <div className=" col-span-1 mx-auto pl-6 ">
+          <h2 className="text-lg font-semibold text-gray-800 ">Category</h2>
+          <p className="text-sm text-gray-600 font-semibold mt-4 "> All</p>
+          {categories.map((category) => (
+            <p
+              className="text-sm text-gray-600 font-semibold mt-4 "
+              key={category?._id}
+            >
+              {category?.name}
+            </p>
+          ))}
+        </div>
       </div>
-      <div className="col-span-5 ">
-        <h3>Total 12 products </h3>
+      <div className="col-span-5 mx-2 ">
+        <h3 className="text-gray-800 font-semibold text-lg">
+          Total 12 products{" "}
+        </h3>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-6 mt-4">
           {currentItems?.map((product) => (
             <ProductCard key={product?._id} product={product}></ProductCard>
           ))}

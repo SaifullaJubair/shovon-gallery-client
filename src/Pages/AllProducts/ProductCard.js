@@ -1,4 +1,6 @@
 import React from "react";
+import { TbCurrencyTaka } from "react-icons/tb";
+import { BsStarFill } from "react-icons/bs";
 
 const ProductCard = ({ product }) => {
   const {
@@ -49,16 +51,25 @@ const ProductCard = ({ product }) => {
           className="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
         />
 
-        <div className="relative border border-gray-100 bg-white p-6">
-          {/* <span className="whitespace-nowrap bg-yellow-400 px-3 py-1.5 text-xs font-medium">
-            New
-          </span> */}
+        <div className="relative border border-gray-100 bg-white ">
+          <h3 className="mt-4  text-gray-700 mx-4 ">{product_name}</h3>
 
-          <h3 className="mt-4 text-lg font-medium text-gray-900">
-            {product_name}
-          </h3>
-
-          <p className="mt-1.5 text-sm text-gray-700">{price} taka</p>
+          <p className="mt-1.5 mx-2 font-semibold text-lg text-orange-500 flex items-center ">
+            <span className="text-xl">
+              <TbCurrencyTaka></TbCurrencyTaka>
+            </span>
+            {price}
+          </p>
+          <section className=" flex items-center gap-1 my-2 mx-4">
+            <span className="flex items-center gap-1">
+              <BsStarFill className="text-yellow-300 text-xs" />
+              <BsStarFill className="text-yellow-300 text-xs" />
+              <BsStarFill className="text-yellow-300 text-xs" />
+              <BsStarFill className="text-yellow-300 text-xs" />
+              <BsStarFill className="text-yellow-300 text-xs" />
+            </span>
+            <p className="text-xs text-gray-500">(16)</p>
+          </section>
 
           <form className="mt-4">
             <button className="block w-full rounded bg-yellow-400 p-4 text-sm font-medium transition hover:scale-105">

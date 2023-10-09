@@ -7,6 +7,7 @@ const ProductCard = ({ product }) => {
     _id,
     product_uid,
     product_name,
+    category,
     product_heading,
     box_content,
     primary_color,
@@ -25,7 +26,7 @@ const ProductCard = ({ product }) => {
   // console.log(product);
   return (
     <div>
-      <div className="group relative block overflow-hidden">
+      <div className="group relative block overflow-hidden  hover:shadow-lg ">
         <button className="absolute end-4 top-4 z-10 rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75">
           <span className="sr-only">Wishlist</span>
 
@@ -52,15 +53,18 @@ const ProductCard = ({ product }) => {
         />
 
         <div className="relative border border-gray-100 bg-white ">
-          <h3 className="mt-4  text-gray-700 mx-4 ">{product_name}</h3>
+          <h3 className="mt-4  text-gray-700 mx-4 font-semibold">
+            {product_name}
+          </h3>
+          <h3 className="mt-4  text-gray-500 mx-4 ">{category}</h3>
 
-          <p className="mt-1.5 mx-2 font-semibold text-lg text-orange-500 flex items-center ">
+          <p className="mt-2 mx-2 font-semibold text-lg text-orange-500 flex items-center ">
             <span className="text-xl">
               <TbCurrencyTaka></TbCurrencyTaka>
             </span>
             {price}
           </p>
-          <section className=" flex items-center gap-1 my-2 mx-4">
+          <section className=" flex items-center gap-1 mt-2 mb-4 mx-4">
             <span className="flex items-center gap-1">
               <BsStarFill className="text-yellow-300 text-xs" />
               <BsStarFill className="text-yellow-300 text-xs" />
@@ -70,12 +74,6 @@ const ProductCard = ({ product }) => {
             </span>
             <p className="text-xs text-gray-500">(16)</p>
           </section>
-
-          <form className="mt-4">
-            <button className="block w-full rounded bg-yellow-400 p-4 text-sm font-medium transition hover:scale-105">
-              Add to Cart
-            </button>
-          </form>
         </div>
       </div>
     </div>

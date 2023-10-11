@@ -9,6 +9,7 @@ import {
 import { TbCurrencyTaka } from "react-icons/tb";
 import { TfiLocationPin } from "react-icons/tfi";
 import ProductCard from "./ProductCard";
+import { Link } from "react-router-dom";
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -68,7 +69,9 @@ const AllProducts = () => {
 
         <div className="grid grid-cols-3 gap-6 mt-4">
           {currentItems?.map((product) => (
-            <ProductCard key={product?._id} product={product}></ProductCard>
+            <Link to={`/singleproduct/${product?._id}`}>
+              <ProductCard key={product?._id} product={product}></ProductCard>
+            </Link>
           ))}
         </div>
         <div className="pagination mt-6">

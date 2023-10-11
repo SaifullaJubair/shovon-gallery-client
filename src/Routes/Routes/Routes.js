@@ -1,6 +1,7 @@
 import AboutUs from "../../Pages/AboutUs/AboutUs";
 import AllProducts from "../../Pages/AllProducts/AllProducts";
 import Contact from "../../Pages/ContactUs/Contact";
+import SingleProduct from "../../Pages/SingleProduct/SingleProduct";
 import AddProducts from "../../components/AddProducts/AddProducts";
 import Categories from "../../components/Categories/Categories";
 import PrivateRoute from "./PrivateRoute";
@@ -30,6 +31,12 @@ const router = createBrowserRouter([
       {
         path: "/allproducts",
         element: <AllProducts></AllProducts>,
+      },
+      {
+        path: "/singleproduct/:id",
+        element: <SingleProduct></SingleProduct>,
+        // loader: ({ params }) =>
+        //   fetch(`http://localhost:5000/singleproduct/${params.id}`),
       },
       {
         path: "/addproducts",

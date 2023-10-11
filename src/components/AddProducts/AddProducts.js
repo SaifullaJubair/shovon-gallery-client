@@ -204,8 +204,6 @@ function AddProducts() {
         //   },
         // ],
 
-        advertised: false,
-        review: false,
         post_date: new Date().toISOString(),
       };
       console.log(product);

@@ -69,9 +69,7 @@ const AllProducts = () => {
 
         <div className="grid grid-cols-3 gap-6 mt-4">
           {currentItems?.map((product) => (
-            <Link to={`/singleproduct/${product?._id}`}>
-              <ProductCard key={product?._id} product={product}></ProductCard>
-            </Link>
+            <ProductCard key={product?._id} product={product}></ProductCard>
           ))}
         </div>
         <div className="pagination mt-6">

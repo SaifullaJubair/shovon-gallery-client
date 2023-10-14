@@ -13,6 +13,7 @@ import {
 import { IoCall } from "react-icons/io5";
 
 import { BiInfoCircle, BiPurchaseTagAlt, BiSend } from "react-icons/bi";
+import { BsStarFill } from "react-icons/bs";
 
 // function numberWithCommas(x) {
 //   x = x.toString();
@@ -131,7 +132,7 @@ const SingleProduct = () => {
           <div className="">
             <section>
               <img
-                className=" lg:w-[382px] lg:h-[382px] md:w-[382px] md:h-[382px]"
+                className=" w-full lg:h-[382px]  md:h-[272px] sm:h-[353px]"
                 src={primary_img}
                 alt="property_picture"
               />
@@ -152,13 +153,47 @@ const SingleProduct = () => {
         </div>
 
         {/* Name price and buy add to cart section  */}
-        <div className="lg:col-span-3 md:col-span-3 sm:col-span-1 col-span-1 mx-2 border-red-500 border-2">
-          <h2 className="font-semibold lg:text-2xl md:text-2xl sm:text-xl text:lg p-2 text-gray-800 max-w-screen-md">
+        <div className="lg:col-span-3 md:col-span-3 sm:col-span-1 col-span-1 border-red-500 border-2 p-2 ">
+          <h2 className="font-semibold lg:text-2xl md:text-2xl sm:text-xl text:lg  text-gray-800 max-w-screen-md">
             {product_heading}
           </h2>
+          {/* review and ans section  */}
+          <section className=" flex items-center gap-1 mt-4 mb-6 ">
+            <span className="flex items-center gap-1">
+              <BsStarFill className="text-yellow-300 text-xs" />
+              <BsStarFill className="text-yellow-300 text-xs" />
+              <BsStarFill className="text-yellow-300 text-xs" />
+              <BsStarFill className="text-yellow-300 text-xs" />
+              <BsStarFill className="text-yellow-300 text-xs" />
+            </span>
+            <p className="text-xs">
+              <span className=" text-blue-400  font-semibold"> 16 Ratings</span>{" "}
+              |
+              <span className=" text-blue-400  font-semibold">
+                {" "}
+                10 Answered Questions
+              </span>
+            </p>
+          </section>
+
+          {/* price section  */}
+          <hr className="w-full" />
+          <p className="my-2 font-semibold text-3xl text-orange-500 flex items-center ">
+            <span className="text-4xl">
+              <TbCurrencyTaka></TbCurrencyTaka>
+            </span>
+            {price}
+          </p>
+          <p className="text-gray-600 mb-4">
+            Product Color :{" "}
+            <span className="font-semibold">{primary_color}</span>
+          </p>
+          <hr className="w-full" />
+
+          <p className="text-gray-600 my-4">Color Family : </p>
         </div>
         {/*--------- right sidebar -------- */}
-        <div className="lg:col-span-2 md:col-span-2  col-span-1 border-red-500 border-2">
+        <div className="lg:col-span-2 md md:col-span-2 hidden md:flex flex-col   col-span-1 border-red-500 border-2 ">
           <form className="m-2">
             <div className="relative z-0 w-full mb-6 group">
               <input
@@ -226,13 +261,13 @@ const SingleProduct = () => {
             <div className="flex gap-2">
               <button
                 type="submit"
-                className="text-white bg-secondary hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-md w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-900 dark:hover:bg-blue-900 dark:focus:ring-blue-900"
+                className="text-white bg-secondary hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md lg:text-md md:text-sm w-full sm:w-auto lg:px-5 md:px-3 py-2.5 text-center dark:bg-blue-900 dark:hover:bg-blue-900 dark:focus:ring-blue-900"
               >
                 Submit
               </button>
               <span
                 onClick={() => setShowCallNowModal(!showCallNowModal)}
-                className="text-white bg-secondary hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-md w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-900 dark:hover:bg-blue-900 dark:focus:ring-blue-900 flex items-center gap-1 cursor-pointer"
+                className="text-white bg-secondary hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md lg:text-md md:text-sm w-full sm:w-auto lg:px-5 md:px-3 text-md py-2.5 text-center dark:bg-blue-900 dark:hover:bg-blue-900 dark:focus:ring-blue-900 flex items-center gap-1 cursor-pointer"
               >
                 <IoCall /> Call Now
               </span>

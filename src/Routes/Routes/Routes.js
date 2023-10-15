@@ -1,6 +1,7 @@
 import AboutUs from "../../Pages/AboutUs/AboutUs";
 import AllProducts from "../../Pages/AllProducts/AllProducts";
 import Contact from "../../Pages/ContactUs/Contact";
+import AddToCart from "../../Pages/Home/AddToCart/AddToCart";
 import SingleProduct from "../../Pages/SingleProduct/SingleProduct";
 import AddProducts from "../../components/AddProducts/AddProducts";
 import Categories from "../../components/Categories/Categories";
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/allproducts",
         element: <AllProducts></AllProducts>,
+      },
+      {
+        path: "/cart",
+        element: <AddToCart></AddToCart>,
       },
       {
         path: "/singleproduct/:id",

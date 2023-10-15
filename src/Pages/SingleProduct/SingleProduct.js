@@ -14,6 +14,8 @@ import { IoCall } from "react-icons/io5";
 
 import { BiInfoCircle, BiPurchaseTagAlt, BiSend } from "react-icons/bi";
 import { BsStarFill } from "react-icons/bs";
+import { Button, Tooltip } from "flowbite-react";
+import AddToCart from "../Home/AddToCart/AddToCart";
 
 // function numberWithCommas(x) {
 //   x = x.toString();
@@ -29,7 +31,8 @@ const SingleProduct = () => {
   const [showCallNowModal, setShowCallNowModal] = useState(false);
   const [wishList, setWishList] = useState(false);
   const { user } = useContext(AuthContext);
-
+  const [quantity, setQuantity] = useState(1);
+  const [selectedColor, setSelectedColor] = useState("");
   const { id } = useParams();
   const {
     _id,
@@ -50,6 +53,7 @@ const SingleProduct = () => {
     feature_img1,
     feature_img2,
     wishlist,
+    post_date,
   } = singleProduct;
 
   // const priceWithCommas = numberWithCommas(price);
@@ -124,11 +128,53 @@ const SingleProduct = () => {
         } else setWishList(false);
       });
   }, [singleProduct?._id, user?.email]);
+
+  // quantity
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+    console.log(value);
+    // Ensure the input value is a positive integer or set it to 1 if invalid
+    setQuantity(Math.max(parseInt(value, 10) || 1, 1));
+  };
+
+  const handleIncrement = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const addToCart = () => {
+    const selectedColorObject = available_color.find(
+      (color) => color.id === selectedColor
+    );
+    const cartItem = {
+      product_id: _id,
+      product_uid: product_uid,
+      product_heading: product_heading,
+      product_color: primary_color,
+      selected_color: selectedColorObject,
+      quantity: quantity,
+      price: price,
+      primary_img: primary_img,
+    };
+
+    // Pass cartItem as a prop to the AddToCart component
+    return <AddToCart cartItem={cartItem} />;
+  };
+
+  const handleColorSelect = (colorId) => {
+    setSelectedColor(colorId);
+  };
+
   return (
     <div className="my-10 mb-10 max-w-[1440px] w-[95%] mx-auto overflow-x-auto">
       <div className="grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-7 lg:grid-cols-7  border-black border-2">
         {/* img div  */}
-        <div className=" lg:col-span-2 md:col-span-2 sm:col-span-1  col-span-1  border-red-500 border-2">
+        <div className=" lg:col-span-2 md:col-span-2 sm:col-span-1  col-span-1 ">
           <div className="">
             <section>
               <img
@@ -141,11 +187,11 @@ const SingleProduct = () => {
               <img
                 src={feature_img1}
                 alt="feature_img-1"
-                className="mb-2 h-20 w-20 mr-2 border-orange-400 border-2"
+                className="mb-2 h-20 w-20 mr-2 border-2"
               />
               <img
                 src={feature_img2}
-                className="h-20 w-20 0 border-orange-400 border-2"
+                className="h-20 w-20 0 border-2"
                 alt="feature_img-1"
               />
             </section>
@@ -153,7 +199,7 @@ const SingleProduct = () => {
         </div>
 
         {/* Name price and buy add to cart section  */}
-        <div className="lg:col-span-3 md:col-span-3 sm:col-span-1 col-span-1 border-red-500 border-2 p-2 ">
+        <div className="lg:col-span-3 md:col-span-3 sm:col-span-1 col-span-1 p-4 ">
           <h2 className="font-semibold lg:text-2xl md:text-2xl sm:text-xl text:lg  text-gray-800 max-w-screen-md">
             {product_heading}
           </h2>
@@ -188,12 +234,61 @@ const SingleProduct = () => {
             Product Color :{" "}
             <span className="font-semibold">{primary_color}</span>
           </p>
+
+          <div className="flex flex-wrap items-center text-gray-600 mb-4">
+            Available Color :
+            {available_color?.map((color) => (
+              <Tooltip
+                content={color?.name}
+                className="text-xs text-red-400 inline"
+                style="light"
+              >
+                <div
+                  key={color?.id}
+                  className={`w-8 h-8 rounded-full ml-2 hover:border-orange-400 border-2 cursor-pointer ${
+                    selectedColor === color.id ? "border-orange-400" : ""
+                  }`}
+                  style={{ backgroundColor: color?.id }}
+                  onClick={() => handleColorSelect(color.id)}
+                ></div>
+              </Tooltip>
+            ))}
+          </div>
           <hr className="w-full" />
 
-          <p className="text-gray-600 my-4">Color Family : </p>
+          {/* quantity  */}
+          <div className="flex items-center mt-4">
+            <button
+              className="bg-gray-300 px-4 py-2 rounded-l"
+              onClick={handleDecrement}
+            >
+              -
+            </button>
+            <input
+              className="bg-white px-4 py-2 w-16 text-center"
+              value={quantity}
+              onChange={handleInputChange}
+            />
+            <button
+              className="bg-gray-300 px-4 py-2 rounded-r"
+              onClick={handleIncrement}
+            >
+              +
+            </button>
+          </div>
+
+          <div className="flex my-6">
+            <span className="mr-2">
+              <Button gradientMonochrome="success">Buy</Button>
+            </span>
+            <Button gradientDuoTone="purpleToPink" outline onClick={addToCart}>
+              <p>Add to Cart</p>
+            </Button>
+          </div>
         </div>
+
         {/*--------- right sidebar -------- */}
-        <div className="lg:col-span-2 md md:col-span-2 hidden md:flex flex-col   col-span-1 border-red-500 border-2 ">
+        <div className="lg:col-span-2 bg-gray-100/50 md md:col-span-2 hidden md:flex flex-col   col-span-1  ">
           <form className="m-2">
             <div className="relative z-0 w-full mb-6 group">
               <input
@@ -274,6 +369,115 @@ const SingleProduct = () => {
             </div>
           </form>
         </div>
+      </div>
+
+      {/* product specification  */}
+
+      <div className="grid lg:grid-cols-7 gap-2 my-10">
+        <div className="lg:col-span-5 ">
+          <p className="text-lg font-semibold text-gray-800">
+            Product Specification of {product_heading}
+          </p>
+          <div className="relative overflow-x-auto">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <tbody>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    Product Type
+                  </th>
+                  <td className="px-6 py-4">{product_name}</td>
+                </tr>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    Color
+                  </th>
+                  <td className="px-6 py-4">{primary_color}</td>
+                </tr>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    Available Color
+                  </th>
+                  <td className="px-6 py-4 flex ">
+                    {" "}
+                    {available_color?.map((color) => (
+                      <div
+                        key={color?.id}
+                        className="mr-2"
+                        // style={{ backgroundColor: color?.id }}
+                      >
+                        {" "}
+                        {color?.name},
+                      </div>
+                    ))}
+                  </td>
+                </tr>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    Category
+                  </th>
+                  <td className="px-6 py-4">{category}</td>
+                </tr>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    Box Content
+                  </th>
+                  <td className="px-6 py-4">{box_content}</td>
+                </tr>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    Registered
+                  </th>
+                  <td className="px-6 py-4">{post_date?.slice(0, 10)}</td>
+                </tr>
+
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    Reference no.
+                  </th>
+                  <td className="px-6 py-4">SG-{_id}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          {/* Product Details  */}
+          <div>
+            <p className="text-lg font-semibold my-6 text-gray-800">
+              Product Details of {product_heading}
+            </p>
+            <p className=" text-gray-800 my-2 ">{product_highlight}</p>
+            <p className=" text-gray-800  my-2">{details}</p>
+          </div>
+          {/* Product Review  */}
+          <div>
+            <h1>Here Review will pending</h1>
+          </div>
+          {/* QnS  */}
+          <div>
+            <h1>Here QnS </h1>
+          </div>
+        </div>
+        <div className="lg:col-span-1"></div>
       </div>
     </div>
   );

@@ -3,16 +3,38 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthProvider/AuthProvider";
+import { useEffect } from "react";
+import Loader from "../Loader/Loader";
 
 const NavbarBottom = () => {
   let [open, setOpen] = useState(false);
-  const { user, logout } = useContext(AuthContext);
-  // console.log(user);
+  const { user, logout, loading } = useContext(AuthContext);
+
+  const [singleUser, setSingleUser] = useState(null);
+  useEffect(() => {
+    if (user && user.email) {
+      // Fetch user data only if user is available and has an email
+      fetch(`http://localhost:5000/singleuser/${user.email}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSingleUser(data);
+        })
+        .catch((error) => {
+          // Handle fetch error if necessary
+          console.error(error);
+        });
+    } else {
+      // Handle case when user is not authenticated
+      setSingleUser(null); // Set singleUser to null or an empty object
+    }
+  }, [user]);
+
   const handleLogout = () => {
     logout()
       .then(() => {})
       .catch((error) => console.log(error));
   };
+
   return (
     <div className="sticky top-0 z-40">
       <div className=" w-full ">
@@ -127,16 +149,16 @@ const NavbarBottom = () => {
                     label={
                       <Avatar
                         alt="User settings"
-                        img="https://lh3.googleusercontent.com/a/ACg8ocIJFYXX1tROeSpNFO3DezBFqhGmQX8wINvgw2uSZpoSDLo=s96-c"
+                        img={singleUser?.img}
                         rounded
                         className="md:ml-8 text-xl "
                       />
                     }
                   >
                     <Dropdown.Header>
-                      <span className="block text-sm">{user?.displayName}</span>
+                      <span className="block text-sm">{singleUser?.name}</span>
                       <span className="block truncate text-sm font-medium">
-                        {user?.email}
+                        {singleUser?.email}
                       </span>
                     </Dropdown.Header>
                     <ul>

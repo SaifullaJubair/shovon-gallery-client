@@ -139,7 +139,7 @@ const Register = () => {
               displayName: name,
               photoURL: imgData.data.url,
             };
-            console.log(name);
+            // console.log(name);
             updateUserProfile(currentUser)
               .then((result) => {
                 // const users =  { name, email, password, createdAt: new Date().toISOString(), photoURL: data?.data?.display_url };

@@ -15,13 +15,22 @@ const UserProfile = () => {
       .catch((error) => console.log(error));
   };
   useEffect(() => {
-    fetch(`http://localhost:5000/singleuser/${user?.email}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setSingleUser(data);
-        // console.log(data);
-      });
-  }, [user, refetch]);
+    if (user && user.email) {
+      // Fetch user data only if user is available and has an email
+      fetch(`http://localhost:5000/singleuser/${user.email}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSingleUser(data);
+        })
+        .catch((error) => {
+          // Handle fetch error if necessary
+          console.error(error);
+        });
+    } else {
+      // Handle case when user is not authenticated
+      setSingleUser(null); // Set singleUser to null or an empty object
+    }
+  }, [user]);
 
   const showEditModal = (singleUser) => {
     setEditData(singleUser);

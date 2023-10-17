@@ -204,23 +204,60 @@ const SingleProduct = () => {
             {product_heading}
           </h2>
           {/* review and ans section  */}
-          <section className=" flex items-center gap-1 mt-4 mb-6 ">
-            <span className="flex items-center gap-1">
-              <BsStarFill className="text-yellow-300 text-xs" />
-              <BsStarFill className="text-yellow-300 text-xs" />
-              <BsStarFill className="text-yellow-300 text-xs" />
-              <BsStarFill className="text-yellow-300 text-xs" />
-              <BsStarFill className="text-yellow-300 text-xs" />
-            </span>
-            <p className="text-xs">
-              <span className=" text-blue-400  font-semibold"> 16 Ratings</span>{" "}
-              |
-              <span className=" text-blue-400  font-semibold">
-                {" "}
-                10 Answered Questions
+          <div className="flex justify-between items-center">
+            <section className=" flex items-center gap-1 mt-4 mb-6 ">
+              <span className="flex items-center gap-1">
+                <BsStarFill className="text-yellow-300 text-xs" />
+                <BsStarFill className="text-yellow-300 text-xs" />
+                <BsStarFill className="text-yellow-300 text-xs" />
+                <BsStarFill className="text-yellow-300 text-xs" />
+                <BsStarFill className="text-yellow-300 text-xs" />
               </span>
-            </p>
-          </section>
+              <p className="text-xs">
+                <span className=" text-blue-400  font-semibold">
+                  {" "}
+                  16 Ratings
+                </span>{" "}
+                |
+                <span className=" text-blue-400  font-semibold">
+                  {" "}
+                  10 Answered Questions
+                </span>
+              </p>
+            </section>
+            <div className="">
+              <button
+                onClick={() => handleWishList(singleProduct)}
+                type="button"
+                className="py-2 mb-2  text-sm font-medium text-primary focus:outline-none bg-primary/5
+                     rounded-md transition duration-300 hover:bg-primary/10 focus:z-10 focus:ring-4 focus:ring-gray-200 w-[108px]"
+              >
+                {wishList ? (
+                  <>
+                    <FaHeart className="inline  font-bold text-secondary" />
+                    Saved
+                  </>
+                ) : (
+                  <>
+                    <FaRegHeart className="inline font-bold" />
+                    Save
+                  </>
+                )}
+              </button>
+              {/* {user?.email && !singleProduct?.paid && (
+                <Link
+                  to={`/purchase/${singleProduct?._id}`}
+                  type="button"
+                  className="py-2.5 px-5 mr-2 mb-2 text-md font-medium text-primary focus:outline-none bg-primary/5
+                     rounded-md transition duration-300 hover:bg-primary/10 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                >
+                  <BiPurchaseTagAlt className="inline mr-2 font-bold">
+                    Buy now
+                  </BiPurchaseTagAlt>
+                </Link>
+              )} */}
+            </div>
+          </div>
 
           {/* price section  */}
           <hr className="w-full" />
@@ -245,7 +282,7 @@ const SingleProduct = () => {
               >
                 <div
                   key={color?.id}
-                  className={`w-8 h-8 rounded-full ml-2 hover:border-orange-400 border-2 cursor-pointer ${
+                  className={`w-6 h-6 rounded-full ml-1 hover:border-orange-400 border-2 cursor-pointer ${
                     selectedColor === color.id ? "border-orange-400" : ""
                   }`}
                   style={{ backgroundColor: color?.id }}

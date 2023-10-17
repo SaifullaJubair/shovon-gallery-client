@@ -6,7 +6,7 @@ const Loader = () => {
     <div className="flex flex-row gap-3 items-center justify-center min-h-[85vh]">
       <Button>
         <Spinner aria-label="Spinner button example" />
-        <span className="pl-3">Loading...</span>
+        <span className="pl-3 text-xl">Loading...</span>
       </Button>
     </div>
   );

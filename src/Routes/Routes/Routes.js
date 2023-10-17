@@ -3,6 +3,7 @@ import AllProducts from "../../Pages/AllProducts/AllProducts";
 import Contact from "../../Pages/ContactUs/Contact";
 import AddToCart from "../../Pages/Home/AddToCart/AddToCart";
 import SingleProduct from "../../Pages/SingleProduct/SingleProduct";
+import UserProfile from "../../Pages/UserProfile/UserProfile";
 import AddProducts from "../../components/AddProducts/AddProducts";
 import Categories from "../../components/Categories/Categories";
 import PrivateRoute from "./PrivateRoute";
@@ -55,6 +56,14 @@ const router = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact></Contact>,
+      },
+      {
+        path: "/userprofile",
+        element: (
+          <PrivateRoute>
+            <UserProfile></UserProfile>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/login",

@@ -141,7 +141,10 @@ const NavbarBottom = () => {
                     </Dropdown.Header>
                     <ul>
                       <li>
-                        <Link className="ml-4 md:my-0 my-8 text-gray-900 border-b-2 border-transparent hover:border-red-700 hover:text-red-700 duration-500">
+                        <Link
+                          className="ml-4 md:my-0 my-8 text-gray-900 border-b-2 border-transparent hover:border-red-700 hover:text-red-700 duration-500"
+                          to="userprofile"
+                        >
                           Profile
                         </Link>
                       </li>

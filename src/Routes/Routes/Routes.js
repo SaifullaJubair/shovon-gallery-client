@@ -115,7 +115,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/add-categories",
+        path: "/dashboard/addcategories",
         element: (
           <AdminRoute>
             <Categories></Categories>
@@ -135,7 +135,7 @@ const router = createBrowserRouter([
         path: "/dashboard/allusers",
         element: (
           <AdminRoute>
-            <AllUsers></AllUsers>
+            <AllUsers></AllUsers>,
           </AdminRoute>
         ),
       },

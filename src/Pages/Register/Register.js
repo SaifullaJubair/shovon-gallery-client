@@ -64,6 +64,7 @@ const Register = () => {
       email,
       uid: myuuid,
       img: photoURL,
+      role: "user",
       createdAt: new Date().toISOString(),
     };
     console.log(user);

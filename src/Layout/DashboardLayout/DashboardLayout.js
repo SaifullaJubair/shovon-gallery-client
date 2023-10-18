@@ -105,6 +105,7 @@ const DashboardLayout = () => {
                         </span>
                       </Link>
                     </li>
+
                     {/* <li>
                     <FaHeart className="inline-block ml-4 mr-6 h-7" />
                     <Link to={`/dashboard/mywishlist`}>
@@ -136,9 +137,17 @@ const DashboardLayout = () => {
                   <>
                     <li>
                       <FaHeart className="inline-block ml-4 mr-6 h-7" />
-                      <Link to={`/dashboard/categories`}>
+                      <Link to={`/dashboard/addcategories`}>
                         <span className={hide ? "hidden" : "inline"}>
                           Categories
+                        </span>
+                      </Link>
+                    </li>
+                    <li>
+                      <BiGroup className="inline-block ml-4 mr-6 h-7"></BiGroup>
+                      <Link to={`/dashboard/allusers`}>
+                        <span className={hide ? "hidden" : "inline"}>
+                          All Users
                         </span>
                       </Link>
                     </li>
@@ -151,7 +160,7 @@ const DashboardLayout = () => {
                     </span>
                   </Link>
                 </li> */}
-
+                    {/* 
                     <li>
                       <FaLaptopHouse className="inline-block ml-4 mr-6 h-7"></FaLaptopHouse>
                       <Link to={`/dashboard/allproducts`}>
@@ -168,16 +177,9 @@ const DashboardLayout = () => {
                           Add Property
                         </span>
                       </Link>
-                    </li>
+                    </li> */}
 
-                    {/* <li>
-                    <BiGroup className="inline-block ml-4 mr-6 h-7"></BiGroup>
-                    <Link to={`/dashboard/allusers`}>
-                      <span className={hide ? "hidden" : "inline"}>
-                        All Users
-                      </span>
-                    </Link>
-                  </li>
+                    {/* 
                   <li>
                     <BiCommentDetail className="inline-block ml-4 mr-6 h-7"></BiCommentDetail>
                     <Link to={`/dashboard/mycomments`}>

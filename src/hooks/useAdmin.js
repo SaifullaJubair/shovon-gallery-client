@@ -5,13 +5,27 @@ const useAdmin = (email) => {
   const [isAdminLoading, setIsAdminLoading] = useState(true);
   useEffect(() => {
     if (email) {
-      fetch(`https://mobosell-server-a12.vercel.app/users/admin/${email}`)
-        .then((res) => res.json())
-        .then((data) => {
-          // console.log(data)
-          setIsAdmin(data.isAdmin);
+      const checkAdmin = async function () {
+        try {
+          const res = await fetch(
+            `http://localhost:5000/users/checkAdmin?email=${email}`
+          );
+
+          const data = await res.json();
+
+          if (data) {
+            setIsAdmin(data.isAdmin);
+            // console.log(data);
+            setIsAdminLoading(false);
+          } else if (!data) {
+            setIsAdminLoading(false);
+          }
+        } catch (err) {
           setIsAdminLoading(false);
-        });
+          console.error(err);
+        }
+      };
+      checkAdmin();
     }
   }, [email]);
   return [isAdmin, isAdminLoading];

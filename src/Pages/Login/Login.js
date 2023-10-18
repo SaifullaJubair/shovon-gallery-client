@@ -61,6 +61,7 @@ const Login = () => {
       email,
       uid: myuuid,
       img: photoURL,
+      role: "user",
       createdAt: new Date().toISOString(),
     };
     fetch("http://localhost:5000/adduser", {

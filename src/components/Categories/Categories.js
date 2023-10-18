@@ -98,7 +98,7 @@ const Categories = () => {
       });
   };
   return (
-    <div className="max-w-[1440px] w-[95%] mx-auto mt-7 gap-6 flex ">
+    <div className="flex-1 overflow-x-hidden overflow-y-auto max-w-[1440px]">
       {/* <DashboardSideBar></DashboardSideBar> */}
 
       <div className="flex-grow">

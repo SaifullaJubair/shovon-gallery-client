@@ -34,10 +34,6 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "/categories",
-        element: <Categories></Categories>,
-      },
-      {
         path: "/allproducts",
         element: <AllProducts></AllProducts>,
       },
@@ -50,10 +46,6 @@ const router = createBrowserRouter([
         element: <SingleProduct></SingleProduct>,
         // loader: ({ params }) =>
         //   fetch(`http://localhost:5000/singleproduct/${params.id}`),
-      },
-      {
-        path: "/addproducts",
-        element: <AddProducts></AddProducts>,
       },
       {
         path: "/about",

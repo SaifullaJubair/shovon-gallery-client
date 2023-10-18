@@ -240,9 +240,7 @@ function AddProducts() {
   };
 
   return (
-    <div className="flex">
-      {/* <DashboardSideBar></DashboardSideBar> */}
-
+    <div className="w-full">
       <div className="  max-w-[768px] w-[95%] mx-auto">
         <h2 className="title uppercase p-8 text-center mb-8 bg-secondary text-white text-2xl font-semibold">
           Add Your Product

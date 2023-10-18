@@ -51,17 +51,16 @@ const DashboardLayout = () => {
       <TopNavbar></TopNavbar>
       <SecondNavbar></SecondNavbar>
 
-      <div className="mx-auto flex gap-6">
-        <div
-          className="bg-primary min-h-screen text-white  w-fit "
+      <div className="mx-auto flex gap-2">
+        <aside
+          className="bg-primary  inset-y-0 left-0 z-50  min-h-screen text-white  w-fit "
           onMouseEnter={() => setHide(false)}
-          onMouseLeave={() => setHide(true)}
         >
           <div
             className={
               hide
                 ? `h-full p-3 space-y-2 w-[80px] `
-                : `h-full p-3 space-y-2 w-[200px]  `
+                : `h-full p-3 space-y-2 w-[230px]  `
             }
           >
             <div
@@ -136,6 +135,14 @@ const DashboardLayout = () => {
                 {isAdmin && (
                   <>
                     <li>
+                      <FaLaptopHouse className="inline-block ml-4 mr-6 h-7"></FaLaptopHouse>
+                      <Link to={`/dashboard/add-product`}>
+                        <span className={hide ? "hidden" : "inline"}>
+                          Add Products
+                        </span>
+                      </Link>
+                    </li>
+                    <li>
                       <FaHeart className="inline-block ml-4 mr-6 h-7" />
                       <Link to={`/dashboard/addcategories`}>
                         <span className={hide ? "hidden" : "inline"}>
@@ -143,6 +150,7 @@ const DashboardLayout = () => {
                         </span>
                       </Link>
                     </li>
+
                     <li>
                       <BiGroup className="inline-block ml-4 mr-6 h-7"></BiGroup>
                       <Link to={`/dashboard/allusers`}>
@@ -161,14 +169,7 @@ const DashboardLayout = () => {
                   </Link>
                 </li> */}
                     {/* 
-                    <li>
-                      <FaLaptopHouse className="inline-block ml-4 mr-6 h-7"></FaLaptopHouse>
-                      <Link to={`/dashboard/allproducts`}>
-                        <span className={hide ? "hidden" : "inline"}>
-                          All Products
-                        </span>
-                      </Link>
-                    </li>
+                   
                     <li className="dark:bg-gray-800 dark:text-gray-50">
                       <CgAddR className="inline-block ml-4 mr-6 h-7 text-white"></CgAddR>
                       <Link to={`/dashboard/addproperty`}>
@@ -207,6 +208,8 @@ const DashboardLayout = () => {
                   </li> */}
                   </>
                 )}
+
+                {/*  Admin end here */}
                 <li>
                   <FaHeart className="inline-block ml-4 mr-6 h-7" />
                   <Link to={`/dashboard/mywishlist`}>
@@ -252,7 +255,7 @@ const DashboardLayout = () => {
               </ul>
             </div>
           </div>
-        </div>
+        </aside>
         <Outlet></Outlet>
       </div>
 

@@ -9,7 +9,6 @@ function UpdateProduct() {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location.state?.from?.pathname || "/";
 
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date().toISOString());
@@ -27,6 +26,7 @@ function UpdateProduct() {
     product_heading,
     box_content,
     primary_color,
+    product_status,
     primary_img,
     price,
     available_color,
@@ -40,30 +40,20 @@ function UpdateProduct() {
     wishlist,
     post_date,
   } = singleProduct;
-  //   console.log(product);
 
-  // const [images, setImages] = useState([]);
-  // const [imagesPreview, setImagesPreview] = useState([]);
-
-  // const createProductImagesChange = (e) => {
-  //   const files = Array.from(e.target.files);
-
-  //   setImages([]);
-  //   setImagesPreview([]);
-
-  //   files.forEach((file) => {
-  //     const reader = new FileReader();
-
-  //     reader.onload = () => {
-  //       if (reader.readyState === 2) {
-  //         setImagesPreview((old) => [...old, reader.result]);
-  //         setImages((old) => [...old, reader.result]);
-  //       }
-  //     };
-
-  //     reader.readAsDataURL(file);
-  //   });
-  // };
+  const currentDate = new Date();
+  const options = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZoneName: "short",
+    timeZone: "Asia/Dhaka", // Set the time zone to Bangladesh
+  };
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+    currentDate
+  );
 
   useEffect(() => {
     fetch("http://localhost:5000/allcategories")
@@ -110,6 +100,7 @@ function UpdateProduct() {
       price,
       primaryColor,
       primaryImg,
+      productStatus,
       description,
       productHighlight,
       optionalImg1,
@@ -128,25 +119,15 @@ function UpdateProduct() {
         primary_color: primaryColor,
         primary_img: primaryImg,
         available_color: value,
+        product_status: productStatus,
         user_email: user?.email,
         user_image: user?.photoURL,
         user_name: user?.displayName,
         product_highlight: productHighlight,
         details: description,
-        feature_img1: feature_img1,
-        feature_img2: feature_img2,
-        // optional_img3: optionalImgBbData03?.data.url,
-        // variants: [
-        //   {//
-        //     floor,
-        //     room,
-        //     balcony,
-        //     bathroom,
-        //     feature_img: featureImgBbData.data.url,
-        //   },
-        // ],
-        // available: true,
-        post_date: new Date().toISOString(),
+        feature_img1: optionalImg1,
+        feature_img2: optionalImg2,
+        post_date: formattedDate,
       };
       console.log(updateFields);
       const config = {
@@ -415,6 +396,35 @@ function UpdateProduct() {
             </div>
           </div>
           <div className="grid gap-5 md:grid-cols-2 md:gap-6">
+            <div className="relative w-full mt-6 mb-6 group">
+              <label
+                for="product_status"
+                className="peer-focus:font-medium absolute text-md pl-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Product Status
+              </label>
+              <select
+                id="productStatus"
+                className={`block shadow-md shadow-primary/10 py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
+                  errors.productStatus
+                    ? "focus:border-red-500 border-red-500"
+                    : "focus:border-secondary"
+                }`}
+                {...register("productStatus", { required: true })}
+              >
+                <option disabled selected>
+                  {product_status}
+                </option>
+                <option>Available</option>
+                <option>Unavailable</option>
+              </select>
+              {errors.productStatus && (
+                <span className="text-xs text-red-500">
+                  This field is required
+                </span>
+              )}
+            </div>
+
             {/* Primary product img here  */}
 
             <div className="relative w-full mb-6 group">

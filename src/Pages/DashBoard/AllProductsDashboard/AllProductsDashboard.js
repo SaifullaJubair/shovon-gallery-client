@@ -1,16 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Label, Modal, Select, Table, TextInput } from "flowbite-react";
-import { FaEdit, FaMailBulk, FaTrash, FaUser } from "react-icons/fa";
+import {
+  FaEdit,
+  FaExternalLinkAlt,
+  FaMailBulk,
+  FaTrash,
+  FaUser,
+} from "react-icons/fa";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../Contexts/AuthProvider/AuthProvider";
 import Loader from "../../../Shared/Loader/Loader";
 import { Link } from "react-router-dom";
 
-const AllUsers = () => {
+const AllProductsDashboard = () => {
   const [products, setProducts] = useState(null);
   const [refetch, setRefetch] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [editData, setEditData] = useState(null);
+  const [toggleStates, setToggleStates] = useState({});
   const { user, loading } = useContext(AuthContext);
 
   useEffect(() => {
@@ -18,6 +25,11 @@ const AllUsers = () => {
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
+        const initialToggleStates = {};
+        data.forEach((product) => {
+          initialToggleStates[product._id] = product.product_status;
+        });
+        setToggleStates(initialToggleStates);
         setProducts(data);
       });
   }, [refetch]);
@@ -47,53 +59,15 @@ const AllUsers = () => {
     setDeleteData(null);
   };
 
-  // const showEditModal = (product) => {
-  //   setEditData(product);
-  //   // console.log(product);
-  // };
-  // const onEditClose = () => {
-  //   setEditData(null);
-  // };
-
-  // const handleEdit = (product, e) => {
-  //   e.preventDefault();
-  //   const form = e.target;
-  //   const product_name = form.name.value;
-  //   const price = form.price.value;
-
-  //   const data = {
-  //     product_name,
-  //     price,
-  //     _id: product?._id,
-  //   };
-  //   console.log(data);
-  //   fetch("http://localhost:5000/editproduct", {
-  //     method: "PUT",
-  //     headers: {
-  //       "content-type": "application/json",
-  //     },
-  //     body: JSON.stringify(data),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data.acknowledged) {
-  //         form.reset("");
-  //         toast("Edit successful", {
-  //           position: toast.POSITION.TOP_CENTER,
-  //         });
-  //         setEditData(null);
-  //         setRefetch(!refetch);
-  //       }
-  //     });
-  // };
-
-  const [isChecked, setIsChecked] = useState(true);
-
   const handleToggle = async (product) => {
     try {
       const updatedFields = {
-        product_status: isChecked ? "unavailable" : "available",
+        product_status:
+          toggleStates[product._id] === "Available"
+            ? "Unavailable"
+            : "Available",
       };
+
       const response = await fetch(
         `http://localhost:5000/update/product/${product._id}`,
         {
@@ -108,9 +82,14 @@ const AllUsers = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Product status updated successfully:", data);
-        setRefetch(!refetch); // Optionally, you can use this to trigger a data refetch after the update.
-        setIsChecked(!isChecked); // Toggle the local checkbox state after successful update
+        toast(`${product?.product_name} product status change`, {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        setRefetch(!refetch); // Trigger a data refetch after the update.
+        setToggleStates((prevState) => ({
+          ...prevState,
+          [product._id]: updatedFields.product_status, // Update the toggle state for the specific product
+        }));
       } else {
         console.error("Error updating product status:", data);
       }
@@ -168,36 +147,48 @@ const AllUsers = () => {
                     <input
                       type="checkbox"
                       className="sr-only"
-                      checked={isChecked}
-                      onChange={() => setIsChecked(!isChecked)}
+                      checked={toggleStates[product._id] === "Available"}
+                      onChange={() => handleToggle(product)}
                     />
                     <div
                       className={`${
-                        isChecked
+                        toggleStates[product._id] === "Available"
                           ? "w-11 h-6 bg-green-500 rounded-full p-1 transition duration-300 ease-in-out"
                           : "w-11 h-6 bg-red-500 rounded-full p-1 transition duration-300 ease-in-out"
                       }`}
                     >
                       <div
                         className={`${
-                          isChecked ? "translate-x-5" : "translate-x-0"
+                          toggleStates[product._id] === "Available"
+                            ? "translate-x-5"
+                            : "translate-x-0"
                         } w-4 h-4 bg-white rounded-full shadow-md transform ring-0 transition-transform duration-300 ease-in-out`}
                       />
                     </div>
                     <span
-                      className={`ml-3 text-sm font-medium ${
-                        isChecked ? "text-green-500" : "text-red-500"
+                      className={`ml-3 text-xs font-medium ${
+                        toggleStates[product._id] === "Available"
+                          ? "text-green-500"
+                          : "text-red-500"
                       }`}
                     >
-                      {isChecked ? "Available" : "Unavailable"}
+                      {toggleStates[product._id] === "Available"
+                        ? "Available"
+                        : "Unavailable"}
                     </span>
                   </label>
                 </Table.Cell>
 
-                <Table.Cell className="flex gap-3">
+                <Table.Cell className="flex justify-center items-center gap-2">
+                  <Link to={`/singleproduct/${product._id}`}>
+                    <Button size="xs" color="purple">
+                      <FaExternalLinkAlt className="mr-1"></FaExternalLinkAlt>{" "}
+                      Visit
+                    </Button>
+                  </Link>
                   <Link to={`/dashboard/updateproduct/${product._id}`}>
                     <Button size="xs" color="success">
-                      <FaEdit className="mr-2"></FaEdit> Edit
+                      <FaEdit className="mr-1"></FaEdit> Edit
                     </Button>
                   </Link>
 
@@ -206,64 +197,9 @@ const AllUsers = () => {
                     color="failure"
                     onClick={() => setDeleteData(product)}
                   >
-                    <FaTrash className="mr-2"></FaTrash> Delete
+                    <FaTrash className="mr-1"></FaTrash> Delete
                   </Button>
 
-                  {/* {editData !== null && (
-                    <div>
-                      <div>
-                        <Modal
-                          show={true}
-                          size="md"
-                          popup={true}
-                          onClose={onEditClose}
-                        >
-                          <Modal.Header />
-                          <Modal.Body>
-                            <form onSubmit={handleEdit}>
-                              <h3 className="mb-5 text-lg font-medium text-gray-500 dark:text-gray-400">
-                                Update your profile
-                              </h3>
-                              <div>
-                                <div className="mb-2 block">
-                                  <Label value=" Product Name" />
-                                </div>
-                                <TextInput
-                                  name="product_name"
-                                  defaultValue={editData?.product_name}
-                                  type="text"
-                                />
-                              </div>
-                              <div>
-                                <div className="my-2 block">
-                                  <Label value="Price" />
-                                </div>
-                                <TextInput
-                                  name="price"
-                                  type="number"
-                                  defaultValue={editData?.price}
-                                />
-                              </div>
-
-                              <div className="flex justify-center gap-4 mt-8">
-                                <Button color="success" type="submit">
-                                  Yes, I'm sure
-                                </Button>
-                                <Button
-                                  color="gray"
-                                  onClick={() => {
-                                    setEditData(null);
-                                  }}
-                                >
-                                  No, cancel
-                                </Button>
-                              </div>
-                            </form>
-                          </Modal.Body>
-                        </Modal>
-                      </div>
-                    </div>
-                  )} */}
                   {deleteData !== null && (
                     <div
                       id="popup-modal"
@@ -344,4 +280,4 @@ const AllUsers = () => {
   );
 };
 
-export default AllUsers;
+export default AllProductsDashboard;

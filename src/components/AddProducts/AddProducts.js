@@ -26,29 +26,6 @@ function AddProducts() {
   const [value, setValue] = useState();
   const [categories, setCategories] = useState(null);
 
-  // const [images, setImages] = useState([]);
-  // const [imagesPreview, setImagesPreview] = useState([]);
-
-  // const createProductImagesChange = (e) => {
-  //   const files = Array.from(e.target.files);
-
-  //   setImages([]);
-  //   setImagesPreview([]);
-
-  //   files.forEach((file) => {
-  //     const reader = new FileReader();
-
-  //     reader.onload = () => {
-  //       if (reader.readyState === 2) {
-  //         setImagesPreview((old) => [...old, reader.result]);
-  //         setImages((old) => [...old, reader.result]);
-  //       }
-  //     };
-
-  //     reader.readAsDataURL(file);
-  //   });
-  // };
-
   useEffect(() => {
     fetch("http://localhost:5000/allcategories")
       .then((res) => res.json())
@@ -60,9 +37,21 @@ function AddProducts() {
     formState: { errors },
   } = useForm();
 
-  const handleChange = (selectedDate) => {
-    setDate(new Date(selectedDate).toISOString());
+  const currentDate = new Date();
+  const options = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZoneName: "short",
+    timeZone: "Asia/Dhaka", // Set the time zone to Bangladesh
   };
+
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+    currentDate
+  );
+  // console.log(formattedDate);
   const option = [
     { id: "#FF0000", name: "Red" },
     { id: "#0000FF", name: "Blue" },
@@ -94,6 +83,7 @@ function AddProducts() {
       price,
       primaryColor,
       primaryImg,
+      product_status,
       description,
       productHighlight,
       optionalImg1,
@@ -186,6 +176,7 @@ function AddProducts() {
         primary_color: primaryColor,
         primary_img: productImgBbData.data.url,
         available_color: value,
+        product_status,
         user_email: user?.email,
         user_image: user?.photoURL,
         user_name: user?.displayName,
@@ -204,7 +195,7 @@ function AddProducts() {
         //   },
         // ],
 
-        post_date: new Date().toISOString(),
+        post_date: formattedDate,
       };
       console.log(product);
       const config = {
@@ -469,6 +460,25 @@ function AddProducts() {
                 multi
                 onChange={(value) => setValue(value)}
               ></Select>
+            </div>
+            <div className="relative w-full mt-4 mb-6 group">
+              <label
+                for="product_status"
+                className="peer-focus:font-medium absolute text-md pl-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Product Status
+              </label>
+              <select
+                id="product_status"
+                className="block py-2.5 shadow-md pl-2 shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300  dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
+                {...register("product_status", { required: true })}
+              >
+                <option disabled selected>
+                  Select product status
+                </option>
+                <option>Available</option>
+                <option>Unavailable</option>
+              </select>
             </div>
           </div>
           {/*Optional img  */}

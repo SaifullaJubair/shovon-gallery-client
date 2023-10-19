@@ -2,8 +2,8 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div>
-      <footer className="bg-white">
+    <div className="bg-white">
+      <footer className="max-w-[1440px] w-[95%] mx-auto">
         <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="lg:flex lg:items-start lg:gap-8">
             <div className="text-teal-600">

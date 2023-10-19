@@ -4,6 +4,7 @@ import AllProducts from "../../Pages/AllProducts/AllProducts";
 import Contact from "../../Pages/ContactUs/Contact";
 import AllBuyers from "../../Pages/DashBoard/AllBuyers/AllBuyers";
 import AllUsers from "../../Pages/DashBoard/AllUsers/AllUsers";
+import AllProductsDashboard from "../../Pages/DashBoard/AllProductsDashboard/AllProductsDashboard";
 import MyOrders from "../../Pages/DashBoard/MyOrders/MyOrders";
 
 import MyWishList from "../../Pages/DashBoard/MyWishList/MyWishList";
@@ -98,6 +99,7 @@ const router = createBrowserRouter([
         element: <MyWishList></MyWishList>,
       },
 
+      // Admin Route
       {
         path: "/dashboard/add-product",
         element: (
@@ -107,7 +109,15 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/addcategories",
+        path: "/dashboard/all-product",
+        element: (
+          <AdminRoute>
+            <AllProductsDashboard></AllProductsDashboard>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/add-categories",
         element: (
           <AdminRoute>
             <Categories></Categories>
@@ -124,7 +134,7 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "/dashboard/allusers",
+        path: "/dashboard/all-users",
         element: (
           <AdminRoute>
             <AllUsers></AllUsers>,

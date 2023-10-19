@@ -53,14 +53,14 @@ const DashboardLayout = () => {
 
       <div className="mx-auto flex gap-2">
         <aside
-          className="bg-primary  inset-y-0 left-0 z-50  min-h-screen text-white  w-fit "
+          className="bg-primary  inset-y-0 left-0  min-h-screen text-white  w-fit "
           onMouseEnter={() => setHide(false)}
         >
           <div
             className={
               hide
-                ? `h-full p-3 space-y-2 w-[80px] `
-                : `h-full p-3 space-y-2 w-[230px]  `
+                ? `h-full p-3 space-y-2 w-[80px] duration-150 `
+                : `h-full p-3 space-y-2 w-[230px]  duration-150`
             }
           >
             <div
@@ -143,8 +143,16 @@ const DashboardLayout = () => {
                       </Link>
                     </li>
                     <li>
+                      <FaLaptopHouse className="inline-block ml-4 mr-6 h-7"></FaLaptopHouse>
+                      <Link to={`/dashboard/all-product`}>
+                        <span className={hide ? "hidden" : "inline"}>
+                          All Products
+                        </span>
+                      </Link>
+                    </li>
+                    <li>
                       <FaHeart className="inline-block ml-4 mr-6 h-7" />
-                      <Link to={`/dashboard/addcategories`}>
+                      <Link to={`/dashboard/add-categories`}>
                         <span className={hide ? "hidden" : "inline"}>
                           Categories
                         </span>
@@ -153,7 +161,7 @@ const DashboardLayout = () => {
 
                     <li>
                       <BiGroup className="inline-block ml-4 mr-6 h-7"></BiGroup>
-                      <Link to={`/dashboard/allusers`}>
+                      <Link to={`/dashboard/all-users`}>
                         <span className={hide ? "hidden" : "inline"}>
                           All Users
                         </span>

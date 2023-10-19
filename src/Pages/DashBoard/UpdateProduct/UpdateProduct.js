@@ -1,11 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
-import DatePicker from "tailwind-datepicker-react";
-// import DashboardSideBar from "../DashboardSideBar/DashboardSideBar";
 import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { v4 as uuidv4 } from "uuid";
 import Select from "react-dropdown-select";
 import { AuthContext } from "../../../Contexts/AuthProvider/AuthProvider";
 function UpdateProduct() {
@@ -19,13 +15,10 @@ function UpdateProduct() {
   const [date, setDate] = useState(new Date().toISOString());
   const [agree, setAgree] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [productPurpose, setProductPurpose] = useState("toRent");
-  const [defineOption, setDefineOption] = useState("commercial");
   const [errPrice, setErrPrice] = useState(0);
-  const [errSize, setErrSize] = useState(0);
   const [value, setValue] = useState();
   const [categories, setCategories] = useState(null);
-  const product = useLoaderData();
+  const singleProduct = useLoaderData();
   const {
     _id,
     product_uid,
@@ -46,8 +39,8 @@ function UpdateProduct() {
     feature_img2,
     wishlist,
     post_date,
-  } = product;
-  console.log(product);
+  } = singleProduct;
+  //   console.log(product);
 
   // const [images, setImages] = useState([]);
   // const [imagesPreview, setImagesPreview] = useState([]);
@@ -123,99 +116,25 @@ function UpdateProduct() {
       optionalImg2,
     } = data;
 
-    // primary img
-    const productImage = primaryImg[0];
-    const productFormData = new FormData();
-    productFormData.append("image", productImage);
-
-    const imageHostKey = process.env.REACT_APP_imgbb_key;
-    const productImageConfig = {
-      method: "POST",
-      body: productFormData,
-    };
-
-    // optional img01
-    const optionalImage01 = optionalImg1[0];
-    const optionalImgFormData = new FormData();
-    optionalImgFormData.append("image", optionalImage01);
-
-    const optionalImageConfig = {
-      method: "POST",
-      body: optionalImgFormData,
-    };
-    // optional img02
-    const optionalImage02 = optionalImg2[0];
-    const optionalImgFormData02 = new FormData();
-    optionalImgFormData02.append("image", optionalImage02);
-
-    const optionalImageConfig02 = {
-      method: "POST",
-      body: optionalImgFormData02,
-    };
-    // optional img03
-    // const optionalImage03 = optionalImg3[0];
-    // const optionalImgFormData03 = new FormData();
-    // optionalImgFormData03.append("image", optionalImage03);
-
-    // const optionalImageConfig03 = {
-    //   method: "POST",
-    //   body: optionalImgFormData03,
-    // };
-
     try {
       setLoading(true);
-      const productImgBbRes = await fetch(
-        `https://api.imgbb.com/1/upload?key=${imageHostKey}`,
-        productImageConfig
-      );
-      const productImgBbData = await productImgBbRes.json();
 
-      // optional image post01
-      const optionalImgBbRes = await fetch(
-        `https://api.imgbb.com/1/upload?key=${imageHostKey}`,
-        optionalImageConfig
-      );
-      const optionalImgBbData = await optionalImgBbRes.json();
-
-      // optional image post02
-      const optionalImgBbRes02 = await fetch(
-        `https://api.imgbb.com/1/upload?key=${imageHostKey}`,
-        optionalImageConfig02
-      );
-      const optionalImgBbData02 = await optionalImgBbRes02.json();
-
-      // optional image post03
-      // const optionalImgBbRes03 = await fetch(
-      //   `https://api.imgbb.com/1/upload?key=${imageHostKey}`,
-      //   optionalImageConfig03
-      // );
-      // const optionalImgBbData03 = await optionalImgBbRes03.json();
-
-      if (
-        !productImgBbData.success &&
-        !optionalImgBbData.success &&
-        !optionalImgBbData02
-      )
-        return;
-
-      let myuuid = uuidv4();
-      const product = {
-        product_uid: myuuid,
+      const updateFields = {
         product_name: productName,
         category,
         product_heading: productHeading,
         box_content: boxContent,
         price,
         primary_color: primaryColor,
-        primary_img: productImgBbData.data.url,
+        primary_img: primaryImg,
         available_color: value,
         user_email: user?.email,
         user_image: user?.photoURL,
         user_name: user?.displayName,
         product_highlight: productHighlight,
         details: description,
-        feature_img1: optionalImgBbData?.data.url,
-        feature_img2: optionalImgBbData02?.data.url,
+        feature_img1: feature_img1,
+        feature_img2: feature_img2,
         // optional_img3: optionalImgBbData03?.data.url,
         // variants: [
         //   {//
@@ -226,28 +145,31 @@ function UpdateProduct() {
         //     feature_img: featureImgBbData.data.url,
         //   },
         // ],
-
+        // available: true,
         post_date: new Date().toISOString(),
       };
-      console.log(product);
+      console.log(updateFields);
       const config = {
-        method: "POST",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           // authorization: `Bearer ${localStorage.getItem(fareBD-token)}`,
         },
-        body: JSON.stringify(product),
+        body: JSON.stringify(updateFields),
       };
 
-      const res = await fetch("http://localhost:5000/products", config);
+      const res = await fetch(
+        `http://localhost:5000/update/product/${singleProduct?._id}`,
+        config
+      );
       const data = await res.json();
 
       if (data.acknowledged) {
         setLoading(false);
-        navigate(from, { replace: true });
+        navigate("/dashboard/all-product");
 
         toast.success(
-          `Hey ${user?.displayName}! your product registered successfully`,
+          `Hey ${user?.displayName}! your product Updated successfully`,
           {
             position: toast.POSITION.TOP_CENTER,
           }
@@ -276,7 +198,7 @@ function UpdateProduct() {
           {/* Product Name and Category  */}
           <div className="grid gap-5 md:grid-cols-2 md:gap-6">
             {/* Product name is here  */}
-            <div className="relative w-full mb-6 group">
+            <div className="relative w-full mb-8 group">
               <label
                 for="floating_name"
                 className=" peer-focus:font-medium absolute text-md pl-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -288,12 +210,11 @@ function UpdateProduct() {
                 name="floating_name"
                 id="floating_name"
                 defaultValue={product_name}
-                className={`block shadow-md shadow-primary/10 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
+                className={`block shadow-md shadow-primary/10 py-2.5 pl-2 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
                   errors.productName
                     ? "focus:border-red-500 border-red-500"
                     : "focus:border-secondary"
                 }`}
-                placeholder=" "
                 {...register("productName")}
               />
 
@@ -305,7 +226,7 @@ function UpdateProduct() {
             </div>
 
             {/* product category  */}
-            <div className="relative w-full mb-6 group">
+            <div className="relative w-full mb-8 group">
               <label
                 for="category"
                 className="peer-focus:font-medium absolute text-md pl-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -329,25 +250,23 @@ function UpdateProduct() {
             </div>
           </div>
           {/* Product  heading  */}
-          <div className="relative w-full mb-6 group">
+          <div className="relative w-full mb-8 group">
+            <label
+              for="floating_heading"
+              className="peer-focus:font-medium absolute text-md pl-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >
+              Product Heading
+            </label>
             <input
               type="text"
               name="floating_heading"
               id="floating_heading"
-              className={`block shadow-md shadow-primary/10 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
-                errors.productHeading
-                  ? "focus:border-red-500 border-red-500"
-                  : "focus:border-secondary"
-              }`}
+              defaultValue={product_heading}
+              className={`block shadow-md shadow-primary/10 py-2.5  px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:border-secondary focus:outline-none focus:ring-0  peer `}
               placeholder=" "
-              {...register("productHeading", { required: true })}
+              {...register("productHeading")}
             />
-            <label
-              for="floating_heading"
-              className="peer-focus:font-medium absolute pl-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Product Heading
-            </label>
+
             {errors.productHeading && (
               <span className="text-xs text-red-500">
                 This field is required
@@ -359,11 +278,18 @@ function UpdateProduct() {
           <div className="grid gap-5 md:grid-cols-2 md:gap-6">
             {/* Box Content here  */}
             <div className="relative w-full  group">
+              <label
+                for="floating_boxContent"
+                className="peer-focus:font-medium absolute text-md pl-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Box Content: What you provide in the box
+              </label>
               <input
                 type="text"
                 name="floating_boxContent"
                 id="floating_boxContent"
-                className={`block shadow-md shadow-primary/10 py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
+                defaultValue={box_content}
+                className={`block shadow-md shadow-primary/10 py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
                   errors.boxContent
                     ? "focus:border-red-500 border-red-500"
                     : "focus:border-secondary"
@@ -371,12 +297,7 @@ function UpdateProduct() {
                 placeholder=" "
                 {...register("boxContent", { required: true })}
               />
-              <label
-                for="floating_boxContent"
-                className="peer-focus:font-medium absolute pl-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Box Content: What you provide in the box
-              </label>
+
               {errors.boxContent && (
                 <span className="text-xs text-red-500">
                   This field is required
@@ -385,13 +306,20 @@ function UpdateProduct() {
             </div>
             {/* Product price here  */}
             <div className="relative w-full mb-6 group">
+              <label
+                for="floating_price"
+                className="peer-focus:font-medium absolute text-md pl-2 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Price
+              </label>
               <input
                 onKeyUp={(e) => setErrPrice(e.target.value)}
                 type="number"
                 min="1"
                 name="floating_price"
                 id="floating_price"
-                className={`block py-2.5 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 peer ${
+                defaultValue={price}
+                className={`block py-2.5 shadow-md shadow-primary/10 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 peer ${
                   parseInt(errPrice) < 0
                     ? "border-red-500 focus:border-red-500"
                     : "focus:border-secondary"
@@ -399,12 +327,6 @@ function UpdateProduct() {
                 placeholder=" "
                 {...register("price", { required: true })}
               />
-              <label
-                for="floating_price"
-                className="peer-focus:font-medium pl-2 absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Price
-              </label>
               {errors.price && (
                 <span className="text-xs text-red-500">
                   This field is required
@@ -416,7 +338,7 @@ function UpdateProduct() {
           {/* Color Variant and Primary product img  */}
           <div className="grid gap-5 md:grid-cols-2 md:gap-6">
             {/* Select Color  */}
-            <div className="relative w-full group">
+            <div className="relative mt-4 w-full group">
               <label
                 for="primaryColor"
                 className="  text-xs pl-2  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -429,7 +351,7 @@ function UpdateProduct() {
                 {...register("primaryColor", { required: true })}
               >
                 <option disabled selected>
-                  Select Color
+                  {primary_color}
                 </option>
                 <option value="Red">Red</option>
                 <option value="Blue">Blue</option>
@@ -453,6 +375,46 @@ function UpdateProduct() {
                 <option value="Bronze">Bronze</option>
               </select>
             </div>
+            <div className="relative w-full mb-6 group ">
+              <label
+                for="availableColor"
+                className="pl-2  text-gray-500  transform  font-semibold"
+              >
+                <span className="  text-sm  ">Select Available Color:</span>{" "}
+                <br />
+                <span className="  text-xs  "> Color Selected: </span>
+                {available_color?.map((color) => (
+                  <div
+                    key={color?.id}
+                    className=" text-xs pl-1 text-gray-500  transform  font-semibold  inline-flex items-center "
+                    // style={{ backgroundColor: color?.id }}
+                  >
+                    {" "}
+                    {color?.name},
+                  </div>
+                ))}
+              </label>
+              <Select
+                name="select"
+                options={option}
+                labelField="name"
+                valueField="id"
+                defaultValue={available_color?.map((color) => (
+                  <div
+                    key={color?.id}
+                    className="mr-2"
+                    // style={{ backgroundColor: color?.id }}
+                  >
+                    {" "}
+                    {color?.name},
+                  </div>
+                ))}
+                multi
+                onChange={(value) => setValue(value)}
+              ></Select>
+            </div>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2 md:gap-6">
             {/* Primary product img here  */}
 
             <div className="relative w-full mb-6 group">
@@ -463,11 +425,15 @@ function UpdateProduct() {
                 Upload Product Primary img
               </label>
               <input
-                style={{ lineHeight: "10px" }}
-                className="block w-full text-xs text-gray-900 rounded-sm shadow-md cursor-pointer shadow-primary/10 bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:placeholder-gray-400"
-                aria-describedby="user_avatar_help"
+                defaultValue={primary_img}
+                className={`block shadow-md shadow-primary/10 py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
+                  errors.primaryImg
+                    ? "focus:border-red-500 border-red-500"
+                    : "focus:border-secondary"
+                }`}
+                placeholder=" "
                 id="user_avatar small_input"
-                type="file"
+                type="url"
                 {...register("primaryImg", { required: true })}
               />
               {errors?.primaryImg && (
@@ -475,24 +441,6 @@ function UpdateProduct() {
                   Image must be provided
                 </p>
               )}
-            </div>
-          </div>
-          <div className="grid gap-5 md:grid-cols-2 md:gap-6">
-            <div className="relative w-full mb-6 group ">
-              <label
-                for="availableColor"
-                className="  text-xs pl-2  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] font-semibold peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Available Color
-              </label>
-              <Select
-                name="select"
-                options={option}
-                labelField="name"
-                valueField="id"
-                multi
-                onChange={(value) => setValue(value)}
-              ></Select>
             </div>
           </div>
           {/*Optional img  */}
@@ -505,11 +453,14 @@ function UpdateProduct() {
                 Product Feature img 01
               </label>
               <input
-                style={{ lineHeight: "10px" }}
-                className="block w-full text-xs text-gray-900 rounded-sm shadow-md cursor-pointer shadow-primary/10 bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:placeholder-gray-400"
-                aria-describedby="user_avatar_help"
+                defaultValue={feature_img1}
+                className={`block shadow-md shadow-primary/10 py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
+                  errors.optionalImg1
+                    ? "focus:border-red-500 border-red-500"
+                    : "focus:border-secondary"
+                }`}
                 id="user_avatar small_input"
-                type="file"
+                type="url"
                 {...register("optionalImg1", { required: true })}
               />
               {errors?.optionalImg1 && (
@@ -527,11 +478,14 @@ function UpdateProduct() {
                 Product Feature img 02
               </label>
               <input
-                style={{ lineHeight: "10px" }}
-                className="block w-full text-xs text-gray-900 rounded-sm shadow-md cursor-pointer shadow-primary/10 bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:placeholder-gray-400"
-                aria-describedby="user_avatar_help"
+                defaultValue={feature_img2}
+                className={`block shadow-md shadow-primary/10 py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
+                  errors.optionalImg2
+                    ? "focus:border-red-500 border-red-500"
+                    : "focus:border-secondary"
+                }`}
                 id="user_avatar small_input"
-                type="file"
+                type="url"
                 {...register("optionalImg2", { required: true })}
               />
               {errors?.optionalImg2 && (
@@ -572,13 +526,14 @@ function UpdateProduct() {
           <div className="flex flex-col items-start mb-6">
             <label
               for="productHighlight"
-              className="block mb-2 text-sm pl-2 font-medium text-gray-900 dark:text-white"
+              className="block mt-2 text-sm pl-2 font-semibold text-gray-600 dark:text-white"
             >
               Product Highlight
             </label>
             <textarea
               id="productHighlight"
               rows="4"
+              defaultValue={product_highlight}
               className="block py-2.5 pl-2 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
               placeholder="Write your product key feature..."
               {...register("productHighlight", { required: true })}
@@ -594,13 +549,14 @@ function UpdateProduct() {
           <div className="flex flex-col items-start mb-6">
             <label
               for="message"
-              className="block mb-2 pl-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 pl-2 text-sm font-semibold text-gray-600 dark:text-white"
             >
               Product Description
             </label>
             <textarea
               id="message"
               rows="4"
+              defaultValue={details}
               className="block py-2.5 pl-2 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
               placeholder="Write your product description here..."
               {...register("description", { required: true })}
@@ -626,7 +582,7 @@ function UpdateProduct() {
               for="terms"
               className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
-              I agree with the
+              I agree with the{" "}
               <a
                 href="#"
                 className="text-blue-600 hover:underline dark:text-blue-500"

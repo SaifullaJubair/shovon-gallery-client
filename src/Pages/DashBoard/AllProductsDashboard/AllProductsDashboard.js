@@ -89,8 +89,34 @@ const AllUsers = () => {
 
   const [isChecked, setIsChecked] = useState(true);
 
-  const handleToggle = () => {
-    setIsChecked(!isChecked);
+  const handleToggle = async (product) => {
+    try {
+      const updatedFields = {
+        product_status: isChecked ? "unavailable" : "available",
+      };
+      const response = await fetch(
+        `http://localhost:5000/update/product/${product._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedFields),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Product status updated successfully:", data);
+        setRefetch(!refetch); // Optionally, you can use this to trigger a data refetch after the update.
+        setIsChecked(!isChecked); // Toggle the local checkbox state after successful update
+      } else {
+        console.error("Error updating product status:", data);
+      }
+    } catch (error) {
+      console.error("Error updating product status:", error);
+    }
   };
 
   // if (loading || !user) {
@@ -143,7 +169,7 @@ const AllUsers = () => {
                       type="checkbox"
                       className="sr-only"
                       checked={isChecked}
-                      onChange={handleToggle}
+                      onChange={() => setIsChecked(!isChecked)}
                     />
                     <div
                       className={`${

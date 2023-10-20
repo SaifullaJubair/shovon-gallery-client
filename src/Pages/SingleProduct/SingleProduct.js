@@ -45,6 +45,7 @@ const SingleProduct = () => {
     primary_img,
     price,
     available_color,
+    product_status,
     user_email,
     user_image,
     user_name,
@@ -72,17 +73,11 @@ const SingleProduct = () => {
 
     const wishItemInfo = {
       // UserInfo
-      userId: user?.uid,
-      userName: user?.displayName,
-      userEmail: user?.email,
-      userPhoto: user?.photoURL,
-      // ProductInfo
       productId: singleProduct?._id,
-      product_name: singleProduct?.product_name,
-      category: singleProduct?.category,
-      primary_color: singleProduct?.primary_color,
-      primary_img: singleProduct?.primary_img,
-      price: singleProduct?.price,
+      userId: user?.uid,
+      userEmail: user?.email,
+      userName: user?.displayName,
+      userPhoto: user?.photoURL,
     };
     // console.log(wishItemInfo);
 

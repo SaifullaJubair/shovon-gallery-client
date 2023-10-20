@@ -25,6 +25,7 @@ const ProductCard = ({ product }) => {
     primary_color,
     primary_img,
     price,
+    product_status,
     available_color,
     user_email,
     user_image,
@@ -33,34 +34,18 @@ const ProductCard = ({ product }) => {
     details,
     feature_img1,
     feature_img2,
-    wishlist,
   } = product;
-
-  // useEffect(() => {
-  //   fetch(`http://localhost:5000/singleproduct/${id}`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setSingleProduct(data);
-  //       console.log(data);
-  //     });
-  // }, []);
 
   const handleWishList = (product) => {
     setWishList((prevState) => !prevState);
 
     const wishItemInfo = {
       // UserInfo
-      userId: user?.uid,
-      userName: user?.displayName,
-      userEmail: user?.email,
-      userPhoto: user?.photoURL,
-      // ProductInfo
       productId: product?._id,
-      product_name: product?.product_name,
-      category: product?.category,
-      primary_color: product?.primary_color,
-      primary_img: product?.primary_img,
-      price: product?.price,
+      userId: user?.uid,
+      userEmail: user?.email,
+      userName: user?.displayName,
+      userPhoto: user?.photoURL,
     };
     // console.log(wishItemInfo);
 

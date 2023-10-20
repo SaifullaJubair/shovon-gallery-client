@@ -102,7 +102,7 @@ const Categories = () => {
       {/* <DashboardSideBar></DashboardSideBar> */}
 
       <div className="flex-grow">
-        <h2 className="title uppercase p-4 text-center  mb-10 bg-purple-300 text-black text-2xl font-semibold">
+        <h2 className="title uppercase p-4 text-center  mb-10 bg-orange-500 text-white text-2xl font-semibold">
           Add News Category{" "}
         </h2>
 
@@ -128,7 +128,7 @@ const Categories = () => {
           </button>
         </form>
 
-        <h2 className="title uppercase p-4 text-center mt-24 mb-10 bg-purple-300 text-black text-2xl font-semibold">
+        <h2 className="title uppercase p-4 text-center mt-24 mb-10 bg-orange-500 text-white text-2xl font-semibold">
           All Categories{" "}
         </h2>
 

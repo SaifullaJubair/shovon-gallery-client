@@ -152,20 +152,6 @@ const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
-      // {
-      //   path: "/dashboard/reportedProduct",
-      //   element: (
-      //     <AdminRoute>
-      //       <ReportedProduct></ReportedProduct>
-      //     </AdminRoute>
-      //   ),
-      // },
-      // {
-      //   path: "/dashboard/payment/:id",
-      //   element: <Payment></Payment>,
-      //   loader: ({ params }) =>
-      //     fetch(`https://mobosell-server-a12.vercel.app/bookings/${params.id}`),
-      // },
     ],
   },
 ]);

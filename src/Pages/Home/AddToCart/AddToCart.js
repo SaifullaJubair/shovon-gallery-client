@@ -10,7 +10,7 @@ import { AuthContext } from "../../../Contexts/AuthProvider/AuthProvider";
 
 const AddToCart = () => {
   const [refetch, setRefetch] = useState(false);
-  const [cartPosts, setCartPosts] = useState([]);
+  const [cartPosts, setCartPosts] = useState(null);
   const { user } = useContext(AuthContext);
   const [deleteData, setDeleteData] = useState(null);
 
@@ -40,7 +40,7 @@ const AddToCart = () => {
         // Check if deletion was successful
         if (data.deletedCount > 0) {
           setDeleteData(false);
-          toast.success("Product remove successfully from wishlist!", {
+          toast.error("Product remove successfully from Cart!", {
             position: toast.POSITION.TOP_CENTER,
           });
           setRefetch(!refetch);
@@ -64,7 +64,6 @@ const AddToCart = () => {
       </div>
     ); // You can show a loading indicator
   }
-
   if (cartPosts.length === 0) {
     return (
       <div className="min-h-screen flex mx-auto items-center text-gray-700 font-semibold text-2xl justify-center">

@@ -15,7 +15,7 @@ import { IoCall } from "react-icons/io5";
 import { BiInfoCircle, BiPurchaseTagAlt, BiSend } from "react-icons/bi";
 import { BsStarFill } from "react-icons/bs";
 import { Button, Tooltip } from "flowbite-react";
-import AddToCart from "../Home/AddToCart/AddToCart";
+import { toast } from "react-toastify";
 
 // function numberWithCommas(x) {
 //   x = x.toString();
@@ -30,6 +30,7 @@ const SingleProduct = () => {
   const [loading, setLoading] = useState(false);
   const [showCallNowModal, setShowCallNowModal] = useState(false);
   const [wishList, setWishList] = useState(false);
+  const [cart, setCart] = useState(false);
   const { user } = useContext(AuthContext);
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("");
@@ -64,7 +65,7 @@ const SingleProduct = () => {
       .then((res) => res.json())
       .then((data) => {
         setSingleProduct(data);
-        console.log(data);
+        // console.log(data);
       });
   }, []);
 
@@ -124,6 +125,67 @@ const SingleProduct = () => {
       });
   }, [singleProduct?._id, user?.email]);
 
+  // useEffect(() => {
+  //   if (!user?.email) return;
+  //   fetch(`http://localhost:5000/cart/${user?.email}`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       if (data.userEmail === user.email) {
+  //         setCart(true);
+  //       } else setCart(false);
+  //     });
+  // }, [singleProduct?._id, user?.email]);
+
+  const handleAddToCart = () => {
+    setCart((prevState) => !prevState);
+    // Gather product data and other necessary information
+    const cartData = {
+      productId: singleProduct?._id,
+      userId: user?.uid,
+      userEmail: user?.email,
+      userName: user?.displayName,
+    };
+    fetch(
+      `http://localhost:5000/cart/${singleProduct?._id}?email=${user?.email}`
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (
+          data &&
+          data.productId === singleProduct?._id &&
+          data.userEmail === user?.email
+        ) {
+          // Product is already in the cart, show a toast notification
+          toast.error("This product is already in your cart");
+        } else {
+          // Product is not in the cart, add it to the cart collection
+          fetch("http://localhost:5000/add-cart", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(cartData),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              // Product added to cart successfully, show a success toast notification
+              toast.success("Product added to cart successfully");
+            })
+            .catch((error) => {
+              console.error("Error adding product to cart:", error);
+            });
+        }
+      })
+      .catch((error) => {
+        console.error("Error checking if product is in cart:", error);
+      });
+  };
+
   // quantity
   const handleInputChange = (event) => {
     const value = event.target.value;
@@ -140,25 +202,6 @@ const SingleProduct = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
     }
-  };
-
-  const addToCart = () => {
-    const selectedColorObject = available_color.find(
-      (color) => color.id === selectedColor
-    );
-    const cartItem = {
-      product_id: _id,
-      product_uid: product_uid,
-      product_heading: product_heading,
-      product_color: primary_color,
-      selected_color: selectedColorObject,
-      quantity: quantity,
-      price: price,
-      primary_img: primary_img,
-    };
-
-    // Pass cartItem as a prop to the AddToCart component
-    return <AddToCart cartItem={cartItem} />;
   };
 
   const handleColorSelect = (colorId) => {
@@ -313,7 +356,11 @@ const SingleProduct = () => {
             <span className="mr-2">
               <Button gradientMonochrome="success">Buy</Button>
             </span>
-            <Button gradientDuoTone="purpleToPink" outline onClick={addToCart}>
+            <Button
+              gradientDuoTone="purpleToPink"
+              outline
+              onClick={() => handleAddToCart(singleProduct)}
+            >
               <p>Add to Cart</p>
             </Button>
           </div>

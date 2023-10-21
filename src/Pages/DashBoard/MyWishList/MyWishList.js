@@ -40,7 +40,7 @@ const MyWishlist = () => {
         // Check if deletion was successful
         if (data.deletedCount > 0) {
           setDeleteData(false);
-          toast.success("Property deleted successfully from wishlist!");
+          toast.success("Product remove successfully from cart!");
           setRefetch(!refetch);
         }
       })

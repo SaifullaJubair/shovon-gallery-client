@@ -40,7 +40,10 @@ const MyWishlist = () => {
         // Check if deletion was successful
         if (data.deletedCount > 0) {
           setDeleteData(false);
-          toast.success("Product remove successfully from cart!");
+          toast.error("Product remove successfully from Wishlist!", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+
           setRefetch(!refetch);
         }
       })

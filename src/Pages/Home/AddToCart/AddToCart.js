@@ -40,13 +40,17 @@ const AddToCart = () => {
         // Check if deletion was successful
         if (data.deletedCount > 0) {
           setDeleteData(false);
-          toast.success("Product remove successfully from wishlist!");
+          toast.success("Product remove successfully from wishlist!", {
+            position: toast.POSITION.TOP_CENTER,
+          });
           setRefetch(!refetch);
         }
       })
       .catch((err) => {
         console.error(err);
-        toast.error("Something went wrong!");
+        toast.error("Something went wrong!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
       });
   };
   const onClose = () => {

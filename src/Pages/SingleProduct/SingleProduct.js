@@ -161,7 +161,9 @@ const SingleProduct = () => {
           data.userEmail === user?.email
         ) {
           // Product is already in the cart, show a toast notification
-          toast.error("This product is already in your cart");
+          toast.error("This product is already in your cart", {
+            position: toast.POSITION.TOP_CENTER,
+          });
         } else {
           // Product is not in the cart, add it to the cart collection
           fetch("http://localhost:5000/add-cart", {
@@ -174,7 +176,9 @@ const SingleProduct = () => {
             .then((res) => res.json())
             .then((data) => {
               // Product added to cart successfully, show a success toast notification
-              toast.success("Product added to cart successfully");
+              toast.success("Product added to cart successfully", {
+                position: toast.POSITION.TOP_CENTER,
+              });
             })
             .catch((error) => {
               console.error("Error adding product to cart:", error);

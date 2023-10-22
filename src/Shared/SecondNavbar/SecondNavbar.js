@@ -5,6 +5,8 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthProvider/AuthProvider";
 import { useEffect } from "react";
 import Loader from "../Loader/Loader";
+import { FaCarAlt, FaCartPlus } from "react-icons/fa";
+import { BsCartPlus } from "react-icons/bs";
 
 const SecondNavbar = () => {
   let [open, setOpen] = useState(false);
@@ -139,7 +141,14 @@ const SecondNavbar = () => {
                 ContactUs
               </NavLink>
             </li>
-
+            <li className="mb-2 md:mb-0 lg:mb-0 ml-auto md:ml-0">
+              <NavLink
+                to="/cart"
+                className="md:ml-8 text-md font-semibold md:my-0 my-7 flex items-center border-b-2 border-transparent hover:border-red-700 hover:text-red-700 duration-500"
+              >
+                Cart <BsCartPlus className="ml-2" />
+              </NavLink>
+            </li>
             <div>
               {user?.uid ? (
                 <>

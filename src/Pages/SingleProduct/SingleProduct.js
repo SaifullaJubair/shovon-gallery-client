@@ -125,17 +125,6 @@ const SingleProduct = () => {
       });
   }, [singleProduct?._id, user?.email]);
 
-  // useEffect(() => {
-  //   if (!user?.email) return;
-  //   fetch(`http://localhost:5000/cart/${user?.email}`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data.userEmail === user.email) {
-  //         setCart(true);
-  //       } else setCart(false);
-  //     });
-  // }, [singleProduct?._id, user?.email]);
-
   const handleAddToCart = () => {
     setCart((prevState) => !prevState);
     // Gather product data and other necessary information
@@ -144,6 +133,8 @@ const SingleProduct = () => {
       userId: user?.uid,
       userEmail: user?.email,
       userName: user?.displayName,
+      selectedColor: selectedColor,
+      quantity: quantity,
     };
     fetch(
       `http://localhost:5000/cart/${singleProduct?._id}?email=${user?.email}`
@@ -208,8 +199,9 @@ const SingleProduct = () => {
     }
   };
 
-  const handleColorSelect = (colorId) => {
-    setSelectedColor(colorId);
+  const handleColorSelect = (colorName) => {
+    setSelectedColor(colorName);
+    // console.log(colorName);
   };
 
   return (
@@ -325,10 +317,12 @@ const SingleProduct = () => {
                 <div
                   key={color?.id}
                   className={`w-6 h-6 rounded-full ml-1 hover:border-orange-400 border-2 cursor-pointer ${
-                    selectedColor === color.id ? "border-orange-400" : ""
+                    selectedColor === color.name
+                      ? "border-orange-500 scale-110"
+                      : ""
                   }`}
                   style={{ backgroundColor: color?.id }}
-                  onClick={() => handleColorSelect(color.id)}
+                  onClick={() => handleColorSelect(color?.name)}
                 ></div>
               </Tooltip>
             ))}

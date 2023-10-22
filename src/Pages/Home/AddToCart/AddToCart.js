@@ -7,7 +7,7 @@ import ConfirmationModal from "../../../components/ConfirmationModal/Confirmatio
 import { Link } from "react-router-dom";
 import Loader from "../../../Shared/Loader/Loader";
 import { AuthContext } from "../../../Contexts/AuthProvider/AuthProvider";
-import SecondNavbar from "../../../Shared/SecondNavbar/SecondNavbar";
+
 
 const AddToCart = () => {
   const [refetch, setRefetch] = useState(false);
@@ -56,6 +56,7 @@ const AddToCart = () => {
         });
       });
   };
+
   const onClose = () => {
     setDeleteData(null);
   };
@@ -111,7 +112,7 @@ const AddToCart = () => {
     <div className="  ">
       <div className="flex flex-col max-w-4xl p-6 space-y-4 my-10 sm:p-10 mx-auto bg-gray-50 text-gray-800">
         <h2 className="text-xl font-semibold flex items-center gap-1">
-          Your cart <BiCart></BiCart>
+          You have {cartPosts?.length} product in your cart <BiCart></BiCart>
         </h2>
         <ul className="flex flex-col divide-y divide-gray-300">
           {cartPosts?.map((item) => {
@@ -162,6 +163,7 @@ const AddToCart = () => {
                         )}
                       </div>
                     </Link>
+         
                     <div className="text-lg flex items-centers mt-1 ">
                       <p className="font-semibold">
                         {" "}
@@ -206,8 +208,8 @@ const AddToCart = () => {
                         onClick={() => setDeleteData(item)}
                       >
                         <BiTrash className="text-lg"></BiTrash>
+                        <span>Remove</span>
                       </button>
-                      <span>Remove</span>
 
                       {
                         // Delete Confirmation Modal

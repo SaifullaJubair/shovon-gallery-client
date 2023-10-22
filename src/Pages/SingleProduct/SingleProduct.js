@@ -125,7 +125,19 @@ const SingleProduct = () => {
       });
   }, [singleProduct?._id, user?.email]);
 
+  const handleColorSelect = (colorName) => {
+    setSelectedColor(colorName);
+    // console.log(colorName);
+  };
   const handleAddToCart = () => {
+    if (!user?.uid) {
+      // User is not logged in, show a toast notification
+      toast.error("Please log in to add the product to your cart", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+
     setCart((prevState) => !prevState);
     // Gather product data and other necessary information
     const cartData = {
@@ -136,8 +148,9 @@ const SingleProduct = () => {
       selectedColor: selectedColor,
       quantity: quantity,
     };
+    // console.log("cartData:", cartData);
     fetch(
-      `http://localhost:5000/cart/${singleProduct?._id}?email=${user?.email}`
+      `http://localhost:5000/cart/${singleProduct?._id}?emailc=${user?.email}`
     )
       .then((res) => {
         if (!res.ok) {
@@ -146,6 +159,8 @@ const SingleProduct = () => {
         return res.json();
       })
       .then((data) => {
+        console.log(data);
+        // console.log(selectedColor);
         if (
           data &&
           data.productId === singleProduct?._id &&
@@ -197,11 +212,6 @@ const SingleProduct = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
     }
-  };
-
-  const handleColorSelect = (colorName) => {
-    setSelectedColor(colorName);
-    // console.log(colorName);
   };
 
   return (

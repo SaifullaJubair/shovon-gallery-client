@@ -16,6 +16,7 @@ import Categories from "../../components/Categories/Categories";
 import AdminRoute from "../AdminRoutes/AdminRoutes";
 import PrivateRoute from "./PrivateRoute";
 import UpdateProduct from "../../Pages/DashBoard/UpdateProduct/UpdateProduct";
+import ProductByCategory from "../../Pages/ProductsByCategory/ProductByCategory";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main/Main");
@@ -52,6 +53,12 @@ const router = createBrowserRouter([
         element: <SingleProduct></SingleProduct>,
         // loader: ({ params }) =>
         //   fetch(`http://localhost:5000/singleproduct/${params.id}`),
+      },
+      {
+        path: "/category/:name",
+        element: <ProductByCategory></ProductByCategory>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/category/${params.name}`),
       },
       {
         path: "/about",

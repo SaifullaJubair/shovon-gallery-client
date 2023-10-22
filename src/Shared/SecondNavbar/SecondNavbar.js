@@ -11,6 +11,15 @@ import { BsCartPlus } from "react-icons/bs";
 const SecondNavbar = () => {
   let [open, setOpen] = useState(false);
   const { user, logout, loading } = useContext(AuthContext);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/allcategories")
+      .then((res) => res.json())
+      .then((data) => {
+        setCategories(data);
+      });
+  }, []);
 
   const [singleUser, setSingleUser] = useState(null);
   useEffect(() => {
@@ -110,12 +119,30 @@ const SecondNavbar = () => {
               </NavLink>
             </li>
             <li className=" my-2 md:my-0 lg:my-0">
-              <NavLink
+              <div className="md:ml-8 text-md font-semibold md:my-0 my-7 text-gray-900 border-b-2 border-transparent hover:border-red-700 hover:text-red-700 duration-500">
+                <Dropdown arrowIcon={true} inline label="Category">
+                  <ul>
+                    {categories.map((category) => (
+                      <li key={category?._id} className="my-1.5">
+                        {" "}
+                        <NavLink
+                          className="p-2 m-2 text-gray-600 font-semibold border-b-2 border-transparent hover:border-red-700 hover:text-red-700 duration-500"
+                          to={`/category/${category?.name}`}
+                        >
+                          {" "}
+                          {category?.name}{" "}
+                        </NavLink>
+                      </li>
+                    ))}
+                  </ul>
+                </Dropdown>
+              </div>
+              {/* <NavLink
                 to="/categories"
                 className="md:ml-8 text-md font-semibold  text-gray-900 border-b-2 border-transparent hover:border-red-700 hover:text-red-700 duration-500"
               >
                 Categories
-              </NavLink>
+              </NavLink> */}
             </li>
             <li className=" my-2 md:my-0 lg:my-0">
               <NavLink

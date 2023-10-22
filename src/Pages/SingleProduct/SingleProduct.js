@@ -150,7 +150,7 @@ const SingleProduct = () => {
     };
     // console.log("cartData:", cartData);
     fetch(
-      `http://localhost:5000/cart/${singleProduct?._id}?emailc=${user?.email}`
+      `http://localhost:5000/cart/${singleProduct?._id}?email=${user?.email}`
     )
       .then((res) => {
         if (!res.ok) {

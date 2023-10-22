@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import Loader from "../../../Shared/Loader/Loader";
 import { AuthContext } from "../../../Contexts/AuthProvider/AuthProvider";
 
-
 const AddToCart = () => {
   const [refetch, setRefetch] = useState(false);
   const [cartPosts, setCartPosts] = useState([]);
@@ -163,7 +162,7 @@ const AddToCart = () => {
                         )}
                       </div>
                     </Link>
-         
+
                     <div className="text-lg flex items-centers mt-1 ">
                       <p className="font-semibold">
                         {" "}
@@ -171,7 +170,7 @@ const AddToCart = () => {
                         <span className="font-bold text-xl">৳</span>
                       </p>
 
-                      <p className="mx-2.5 mt-1.5 text-sm">Quantity:</p>
+                      <p className="mx-3 mt-1.5 text-sm">Quantity:</p>
                       <select
                         id="quantity"
                         className="block py-2  px-2 w-16 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer focus:border-secondary"
@@ -194,7 +193,7 @@ const AddToCart = () => {
                     </div>
                     <p className="text-gray-700">
                       Subtotal:{" "}
-                      <span className="font-semibold">
+                      <span className=" ml-1.5 font-semibold">
                         {subtotal} <span className="font-bold text-xl">৳</span>{" "}
                       </span>
                     </p>

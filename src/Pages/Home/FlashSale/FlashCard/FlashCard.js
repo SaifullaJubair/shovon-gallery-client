@@ -30,7 +30,7 @@ const FlashCard = ({ product }) => {
 
   return (
     <div
-      className="w-[300px] "
+      className="w-[280px] mx-auto "
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >

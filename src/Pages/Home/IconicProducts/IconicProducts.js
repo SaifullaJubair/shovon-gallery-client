@@ -1,6 +1,23 @@
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const IconicProducts = () => {
+  const [products, setProducts] = useState([]);
+  const [singleProduct, setSingleProduct] = useState([]);
+  const [nextTwoProducts, setNextTwoProducts] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:5000/products")
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        setProducts(data);
+        setSingleProduct(data[0]);
+        setNextTwoProducts(data.slice(1, 3));
+      });
+  }, []);
+  console.log(nextTwoProducts);
   return (
     <div>
       <section>
@@ -18,64 +35,50 @@ const IconicProducts = () => {
           </header>
 
           <ul className="grid grid-cols-1 gap-4 mt-8 lg:grid-cols-3">
-            <li>
-              <a href="#" className="relative block group">
-                <img
-                  src="https://images.unsplash.com/photo-1618898909019-010e4e234c55?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-                  alt=""
-                  className="object-cover w-full transition duration-500 aspect-square group-hover:opacity-60"
-                />
+            {nextTwoProducts.map((item) => (
+              <Link to={`/singleproduct/${item?._id}`}>
+                <li key={item._id}>
+                  <div className="relative block group">
+                    <img
+                      src={item.primary_img}
+                      alt={item.product_name}
+                      className="object-cover w-full transition duration-500 aspect-square opacity-75 group-hover:opacity-60"
+                    />
 
-                <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-                  <h3 className="text-xl font-medium text-white">
-                    Casual Trainers
-                  </h3>
+                    <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
+                      <h3 className="text-xl font-medium text-white">
+                        {item.product_name}
+                      </h3>
 
-                  <span className="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white">
-                    Shop Now
-                  </span>
-                </div>
-              </a>
-            </li>
-
-            <li>
-              <a href="#" className="relative block group">
-                <img
-                  src="https://images.unsplash.com/photo-1624623278313-a930126a11c3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-                  alt=""
-                  className="object-cover w-full transition duration-500 aspect-square group-hover:opacity-60"
-                />
-
-                <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-                  <h3 className="text-xl font-medium text-white">
-                    Winter Jumpers
-                  </h3>
-
-                  <span className="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white">
-                    Shop Now
-                  </span>
-                </div>
-              </a>
-            </li>
+                      <span className="mt-1.5 inline-block bg-secondary px-5 py-3 text-xs font-medium uppercase tracking-wide text-white">
+                        Shop Now
+                      </span>
+                    </div>
+                  </div>
+                </li>
+              </Link>
+            ))}
 
             <li className="lg:col-span-2 lg:col-start-2 lg:row-span-2 lg:row-start-1">
-              <a href="#" className="relative block group">
-                <img
-                  src="https://images.unsplash.com/photo-1593795899768-947c4929449d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2672&q=80"
-                  alt=""
-                  className="object-cover w-full transition duration-500 aspect-square group-hover:opacity-60"
-                />
+              <Link to={`/singleproduct/${singleProduct?._id}`}>
+                <div className="relative block group">
+                  <img
+                    src={singleProduct.primary_img}
+                    alt=""
+                    className="object-cover w-full transition duration-500 opacity-75 aspect-square group-hover:opacity-60"
+                  />
 
-                <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-                  <h3 className="text-xl font-medium text-white">
-                    Skinny Jeans Blue
-                  </h3>
+                  <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
+                    <h3 className="text-xl font-medium text-white">
+                      {singleProduct.product_name}
+                    </h3>
 
-                  <span className="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white">
-                    Shop Now
-                  </span>
+                    <span className="mt-1.5 inline-block bg-secondary px-5 py-3 text-xs font-medium uppercase tracking-wide text-white">
+                      Shop Now
+                    </span>
+                  </div>
                 </div>
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

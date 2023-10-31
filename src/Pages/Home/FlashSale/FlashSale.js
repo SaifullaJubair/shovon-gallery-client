@@ -17,7 +17,7 @@ const FlashSale = () => {
         setProducts(data.slice(0, 4));
       });
   }, []);
-  console.log(products);
+  // console.log(products);
   return (
     <div className=" mx-auto">
       <div className="flex md:flex-col lg:flex-col xl:flex-col 2xl-flex-row flex-col lg:mx-[60px] md:mx-7 mx-6">

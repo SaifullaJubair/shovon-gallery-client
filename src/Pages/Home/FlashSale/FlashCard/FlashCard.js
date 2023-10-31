@@ -30,11 +30,11 @@ const FlashCard = ({ product }) => {
 
   return (
     <div
-      className="w-[280px] "
+      className="w-[300px] "
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <div className=" max-w-sm bg-white border border-gray-200  ">
+      <div className=" max-w-sm shadow-md hover:shadow-2xl ">
         {isHovering ? (
           <div>
             <FlashCarousel product={product}></FlashCarousel>

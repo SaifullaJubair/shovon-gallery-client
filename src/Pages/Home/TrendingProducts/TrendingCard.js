@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 
-const TrendingCard = () => {
+const TrendingCard = ({ product }) => {
+  const [isHovering, setIsHovering] = useState(false);
+
+  const {
+    _id,
+    product_uid,
+    product_name,
+    category,
+    product_heading,
+    box_content,
+    primary_color,
+    primary_img,
+    price,
+    product_status,
+    available_color,
+    user_email,
+    user_image,
+    user_name,
+    product_highlight,
+    details,
+    feature_img1,
+    feature_img2,
+  } = product;
   return (
-    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mx-auto">
-      <a href="#">
-        <img
-          className="p-8 rounded-t-lg"
-          src="https://demo.xpeedstudio.com/marketov2/jewelry/wp-content/uploads/sites/17/2018/05/1-min.jpg"
-          alt=""
-        />
-      </a>
+    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mx-auto ">
+      <img className="w-full h-72 rounded-t-lg" src={primary_img} alt="" />
+
       <div className="px-5 pb-5">
         <a href="#">
           <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">

@@ -52,7 +52,7 @@ const FeaturedCategories = () => {
               />
             </svg>
           </div>
-          <div className="relative grid gap-2 grid-cols-3 md:grid-cols-6 lg:grid-cols-8">
+          <div className="relative grid gap-2 grid-cols-3 md:grid-cols-6 lg:grid-cols-7">
             {categories.map((category) => (
               <Link to={`/category/${category?.name}`}>
                 <div

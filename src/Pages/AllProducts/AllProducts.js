@@ -1,34 +1,20 @@
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
-import { HiOutlineSquares2X2 } from "react-icons/hi2";
-import {
-  MdOutlineApartment,
-  MdOutlineBathroom,
-  MdOutlineBedroomChild,
-} from "react-icons/md";
-import { TbCurrencyTaka } from "react-icons/tb";
-import { TfiLocationPin } from "react-icons/tfi";
 import ProductCard from "./ProductCard";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import Loader from "../../Shared/Loader/Loader";
+import { AuthContext } from "../../Contexts/AuthProvider/AuthProvider";
+import ProductsCategorySideBar from "../../components/ProductsCategorySideBar/ProductsCategorySideBar";
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [itemOffset, setItemOffset] = useState(0);
-
+  const { loading } = useContext(AuthContext);
   useEffect(() => {
     fetch("http://localhost:5000/products")
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
         setProducts(data);
-      });
-  }, []);
-  useEffect(() => {
-    fetch("http://localhost:5000/allcategories")
-      .then((res) => res.json())
-      .then((data) => {
-        setCategories(data);
-        // console.log(data);
       });
   }, []);
 
@@ -46,32 +32,30 @@ const AllProducts = () => {
     // );
     setItemOffset(newOffset);
   };
-  return (
-    <div className="container grid grid-cols-6 my-6 gap-2">
-      <div className=" shadow-md ">
-        <div className=" col-span-1 mx-auto pl-6 ">
-          <h2 className="text-lg font-semibold text-gray-800 ">Category</h2>
-          <p className="text-sm text-gray-600 font-semibold mt-4 "> All</p>
-          {categories.map((category) => (
-            <p
-              className="text-sm text-gray-600 font-semibold mt-4 "
-              key={category?._id}
-            >
-              {category?.name}
-            </p>
-          ))}
-        </div>
-      </div>
-      <div className="col-span-5 mx-2 ">
-        <h3 className="text-gray-800 font-semibold text-lg">
-          Total 12 products{" "}
-        </h3>
 
-        <div className="grid grid-cols-3 gap-6 mt-4">
-          {currentItems?.map((product) => (
-            <ProductCard key={product?._id} product={product}></ProductCard>
-          ))}
-        </div>
+  if (loading) {
+    return <Loader />;
+  }
+
+  return (
+    <div className="flex ">
+      <ProductsCategorySideBar />
+      <div className=" w-full m-6 ">
+        <h3 className="text-gray-800 font-semibold text-lg">
+          Total {products.length} products{" "}
+        </h3>
+        {products.length === 0 ? (
+          <div className="flex mx-auto items-center h-full text-gray-700 font-semibold text-2xl justify-center mt-4">
+            <p>No products in this category are currently available.😢</p>
+          </div>
+        ) : (
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 lg:gap-6 md:gap-4 gap-2 mt-4">
+            {currentItems?.map((product) => (
+              <ProductCard key={product?._id} product={product} />
+            ))}
+          </div>
+        )}
+
         <div className="pagination mt-6">
           <ReactPaginate
             breakLabel="..."

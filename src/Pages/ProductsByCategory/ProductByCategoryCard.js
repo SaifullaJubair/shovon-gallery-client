@@ -89,7 +89,9 @@ const ProductCard = ({ product }) => {
         } else setWishList(false);
       });
   }, [product?._id, user?.email]);
+
   // console.log(product);
+
   return (
     <div>
       <div className="group relative block overflow-hidden  hover:shadow-lg ">
@@ -134,7 +136,7 @@ const ProductCard = ({ product }) => {
           <img
             src={primary_img}
             alt=""
-            className="lg:h-64 md:h-64 h-96 w-full transition duration-500 group-hover:scale-105 "
+            className="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
           />
 
           <div className="relative border border-gray-100 bg-white ">

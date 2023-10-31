@@ -11,12 +11,13 @@ import MyWishList from "../../Pages/DashBoard/MyWishList/MyWishList";
 import AddToCart from "../../Pages/Home/AddToCart/AddToCart";
 import SingleProduct from "../../Pages/SingleProduct/SingleProduct";
 import UserProfile from "../../Pages/UserProfile/UserProfile";
-import AddProducts from "../../components/AddProducts/AddProducts";
-import Categories from "../../components/Categories/Categories";
+
 import AdminRoute from "../AdminRoutes/AdminRoutes";
 import PrivateRoute from "./PrivateRoute";
 import UpdateProduct from "../../Pages/DashBoard/UpdateProduct/UpdateProduct";
 import ProductByCategory from "../../Pages/ProductsByCategory/ProductByCategory";
+import AddProducts from "../../Pages/DashBoard/AddProducts/AddProducts";
+import Categories from "../../Pages/DashBoard/Categories/Categories";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main/Main");
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "/allproducts",
+        path: "/category/all",
         element: <AllProducts></AllProducts>,
       },
       {
@@ -142,7 +143,7 @@ const router = createBrowserRouter([
         path: "/dashboard/add-categories",
         element: (
           <AdminRoute>
-            <Categories></Categories>
+            <Categories />
           </AdminRoute>
         ),
       },

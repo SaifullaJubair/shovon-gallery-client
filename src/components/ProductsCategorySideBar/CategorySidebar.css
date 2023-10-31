@@ -1,0 +1,33 @@
+/* ProductsCategorySideBar.css */
+.sidebar-toggle {
+  display: none; /* Hidden by default on all screen sizes */
+  cursor: pointer;
+}
+
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  z-index: 50;
+  background-color: #ffffff;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Media query for medium and large screens */
+@media (max-width: 767px) {
+  .sidebar {
+    display: none; /* Hidden by default on small screens */
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  .sidebar-toggle {
+    display: block;
+  }
+
+  .sidebar.open {
+    display: block;
+    /* Visible when the open class is present */
+  }
+}

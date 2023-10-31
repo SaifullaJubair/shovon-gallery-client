@@ -5,7 +5,7 @@ import Loader from "../../Shared/Loader/Loader";
 import useAdmin from "../../hooks/useAdmin";
 import useBuyer from "../../hooks/useBuyer";
 import TopNavbar from "../../Shared/TopNavbar/TopNavbar";
-import { Link, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import SecondNavbar from "../../Shared/SecondNavbar/SecondNavbar";
 import { AiOutlineLogout } from "react-icons/ai";
 import { BiCommentDetail, BiGroup } from "react-icons/bi";
@@ -98,36 +98,36 @@ const DashboardLayout = () => {
                   <>
                     <li>
                       <FaHeart className="inline-block ml-4 mr-6 h-7" />
-                      <Link to={`/dashboard/myorders`}>
+                      <NavLink to={`/dashboard/myorders`}>
                         <span className={hide ? "hidden" : "inline"}>
                           My Orders
                         </span>
-                      </Link>
+                      </NavLink>
                     </li>
 
                     {/* <li>
                     <FaHeart className="inline-block ml-4 mr-6 h-7" />
-                    <Link to={`/dashboard/mywishlist`}>
+                    <NavLink to={`/dashboard/mywishlist`}>
                       <span className={hide ? "hidden" : "inline"}>
                         My Wishlist
                       </span>
-                    </Link>
+                    </NavLink>
                   </li> */}
                     {/* <li>
                   <BiDislike className="inline-block ml-4 mr-6 h-7"></BiDislike>
-                  <Link to={`/dashboard/myfeedback`}>
+                  <NavLink to={`/dashboard/myfeedback`}>
                     <span className={hide ? "hidden" : "inline"}>
                       My Feedback
                     </span>
-                  </Link>
+                  </NavLink>
                 </li> */}
                     {/* <li>
                     <BiCommentDetail className="inline-block ml-4 mr-6 h-7"></BiCommentDetail>
-                    <Link to={`/dashboard/mycomments`}>
+                    <NavLink to={`/dashboard/mycomments`}>
                       <span className={hide ? "hidden" : "inline"}>
                         My Comments
                       </span>
-                    </Link>
+                    </NavLink>
                   </li> */}
                   </>
                 )}
@@ -136,83 +136,83 @@ const DashboardLayout = () => {
                   <>
                     <li>
                       <FaLaptopHouse className="inline-block ml-4 mr-6 h-7"></FaLaptopHouse>
-                      <Link to={`/dashboard/add-product`}>
+                      <NavLink to={`/dashboard/add-product`}>
                         <span className={hide ? "hidden" : "inline"}>
                           Add Products
                         </span>
-                      </Link>
+                      </NavLink>
                     </li>
                     <li>
                       <FaLaptopHouse className="inline-block ml-4 mr-6 h-7"></FaLaptopHouse>
-                      <Link to={`/dashboard/all-product`}>
+                      <NavLink to={`/dashboard/all-product`}>
                         <span className={hide ? "hidden" : "inline"}>
                           All Products
                         </span>
-                      </Link>
+                      </NavLink>
                     </li>
                     <li>
                       <FaHeart className="inline-block ml-4 mr-6 h-7" />
-                      <Link to={`/dashboard/add-categories`}>
+                      <NavLink to={`/dashboard/add-categories`}>
                         <span className={hide ? "hidden" : "inline"}>
                           Categories
                         </span>
-                      </Link>
+                      </NavLink>
                     </li>
 
                     <li>
                       <BiGroup className="inline-block ml-4 mr-6 h-7"></BiGroup>
-                      <Link to={`/dashboard/all-users`}>
+                      <NavLink to={`/dashboard/all-users`}>
                         <span className={hide ? "hidden" : "inline"}>
                           All Users
                         </span>
-                      </Link>
+                      </NavLink>
                     </li>
 
                     {/* <li>
                   <BiCommentDetail className="inline-block ml-4 mr-6 h-7"></BiCommentDetail>
-                  <Link to={`/dashboard/allfeedback`}>
+                  <NavLink to={`/dashboard/allfeedback`}>
                     <span className={hide ? "hidden" : "inline"}>
                       All Feedback
                     </span>
-                  </Link>
+                  </NavLink>
                 </li> */}
                     {/* 
                    
                     <li className="dark:bg-gray-800 dark:text-gray-50">
                       <CgAddR className="inline-block ml-4 mr-6 h-7 text-white"></CgAddR>
-                      <Link to={`/dashboard/addproperty`}>
+                      <NavLink to={`/dashboard/addproperty`}>
                         <span className={hide ? "hidden" : "inline"}>
                           {" "}
                           Add Property
                         </span>
-                      </Link>
+                      </NavLink>
                     </li> */}
 
                     {/* 
                   <li>
                     <BiCommentDetail className="inline-block ml-4 mr-6 h-7"></BiCommentDetail>
-                    <Link to={`/dashboard/mycomments`}>
+                    <NavLink to={`/dashboard/mycomments`}>
                       <span className={hide ? "hidden" : "inline"}>
                         My Comments
                       </span>
-                    </Link>
+                    </NavLink>
                   </li>
 
                   <li>
                     <BiCommentDetail className="inline-block ml-4 mr-6 h-7"></BiCommentDetail>
-                    <Link to={`/dashboard/allcomments`}>
+                    <NavLink to={`/dashboard/allcomments`}>
                       <span className={hide ? "hidden" : "inline"}>
                         All Comments
                       </span>
-                    </Link>
+                    </NavLink>
                   </li>
                   <li>
                     <RiEditBoxLine className="inline-block ml-4 mr-6 h-7"></RiEditBoxLine>
-                    <Link to={`/dashboard/allblogs`}>
+                    <NavLink to={`/dashboard/allblogs`}>
                       <span className={hide ? "hidden" : "inline"}>
                         All Blogs
                       </span>
-                    </Link>
+                    </NavLink>
                   </li> */}
                   </>
                 )}
@@ -220,26 +220,26 @@ const DashboardLayout = () => {
                 {/*  Admin end here */}
                 <li>
                   <FaHeart className="inline-block ml-4 mr-6 h-7" />
-                  <Link to={`/dashboard/mywishlist`}>
+                  <NavLink to={`/dashboard/mywishlist`}>
                     <span className={hide ? "hidden" : "inline"}>
                       My Wishlist
                     </span>
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
                   <RiEditBoxLine className="inline-block ml-4 mr-6 h-7"></RiEditBoxLine>
-                  <Link to={`/dashboard/myblog`}>
+                  <NavLink to={`/dashboard/myblog`}>
                     <span className={hide ? "hidden" : "inline"}>My Blog</span>
-                  </Link>
+                  </NavLink>
                 </li>
 
                 <li>
                   <BsGraphUp className="inline-block ml-4 mr-6 h-7"></BsGraphUp>
-                  <Link to={`/dashboard/statistics`}>
+                  <NavLink to={`/dashboard/statistics`}>
                     <span className={hide ? "hidden" : "inline"}>
                       Statistics
                     </span>
-                  </Link>
+                  </NavLink>
                 </li>
               </ul>
               <hr className="bg-white border-0" />
@@ -247,9 +247,9 @@ const DashboardLayout = () => {
               <ul className="pt-4 pb-2  text-lg flex flex-col gap-4">
                 <li>
                   <MdOutlineAccountCircle className="inline ml-4 mr-6 h-7"></MdOutlineAccountCircle>
-                  <Link to={`/userprofile`}>
+                  <NavLink to={`/userprofile`}>
                     <span className={hide ? "hidden" : "inline"}>Profile</span>
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
                   <AiOutlineLogout className="inline ml-4 mr-6 h-7"></AiOutlineLogout>

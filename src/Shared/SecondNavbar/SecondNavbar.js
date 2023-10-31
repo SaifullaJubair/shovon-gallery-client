@@ -48,7 +48,7 @@ const SecondNavbar = () => {
 
   return (
     <div className="sticky top-0 z-40">
-      <div className=" max-w-[1440px]  mx-auto ">
+      <div className=" max-w-[1440px]  mx-auto  shadow-xl">
         <div className="md:flex items-center justify-between bg-white py-2 md:px-10 px-7">
           <div className="font-bold text-2xl cursor-pointer flex items-center font-[Poppins] text-gray-900">
             <span className="text-3xl text-red-700 mr-1 pt-2">
@@ -119,7 +119,7 @@ const SecondNavbar = () => {
               </NavLink>
             </li>
             <li className=" my-2 md:my-0 lg:my-0">
-              <div className="md:ml-8 text-md font-semibold md:my-0 my-7 text-gray-900 border-b-2 border-transparent hover:border-red-700 hover:text-red-700 duration-500">
+              <div className="md:ml-8 text-md font-semibold md:my-0  text-gray-900 border-b-2 border-transparent hover:border-red-700 hover:text-red-700 duration-500">
                 <Dropdown arrowIcon={true} inline label="Category">
                   <ul>
                     {categories.map((category) => (
@@ -129,7 +129,6 @@ const SecondNavbar = () => {
                           className="p-2 m-2 text-gray-600 font-semibold border-b-2 border-transparent hover:border-red-700 hover:text-red-700 duration-500"
                           to={`/category/${category?.name}`}
                         >
-                          {" "}
                           {category?.name}{" "}
                         </NavLink>
                       </li>
@@ -146,7 +145,7 @@ const SecondNavbar = () => {
             </li>
             <li className=" my-2 md:my-0 lg:my-0">
               <NavLink
-                to="/allproducts"
+                to="/category/all"
                 className="md:ml-8 text-md font-semibold  text-gray-900 border-b-2 border-transparent hover:border-red-700 hover:text-red-700 duration-500"
               >
                 AllProducts
@@ -163,7 +162,7 @@ const SecondNavbar = () => {
             <li className="mb-2 md:mb-0 lg:mb-0">
               <NavLink
                 to="/contact"
-                className="md:ml-8 text-md font-semibold md:my-0 my-7 text-gray-900 border-b-2 border-transparent hover:border-red-700 hover:text-red-700 duration-500"
+                className="md:ml-8 text-md font-semibold md:my-0  text-gray-900 border-b-2 border-transparent hover:border-red-700 hover:text-red-700 duration-500"
               >
                 ContactUs
               </NavLink>
@@ -171,7 +170,7 @@ const SecondNavbar = () => {
             <li className="mb-2 md:mb-0 lg:mb-0 ml-auto md:ml-0">
               <NavLink
                 to="/cart"
-                className="md:ml-8 text-md font-semibold md:my-0 my-7 flex items-center border-b-2 border-transparent hover:border-red-700 hover:text-red-700 duration-500"
+                className="md:ml-8 text-md font-semibold md:my-0 my-2 flex items-center border-b-2 border-transparent hover:border-red-700 hover:text-red-700 duration-500"
               >
                 Cart <BsCartPlus className="ml-2" />
               </NavLink>

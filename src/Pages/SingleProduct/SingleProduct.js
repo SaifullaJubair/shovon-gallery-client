@@ -1,18 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { TbCurrencyTaka } from "react-icons/tb";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthProvider/AuthProvider";
-import {
-  FaBath,
-  FaBed,
-  FaBorderAll,
-  FaHeart,
-  FaMapMarkerAlt,
-  FaRegHeart,
-} from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { IoCall } from "react-icons/io5";
 
-import { BiInfoCircle, BiPurchaseTagAlt, BiSend } from "react-icons/bi";
 import { BsStarFill } from "react-icons/bs";
 import { Button, Tooltip } from "flowbite-react";
 import { toast } from "react-toastify";
@@ -26,18 +18,15 @@ import { toast } from "react-toastify";
 
 const SingleProduct = () => {
   const [singleProduct, setSingleProduct] = useState({});
-  const [recommendations, setRecommendations] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [showCallNowModal, setShowCallNowModal] = useState(false);
   const [wishList, setWishList] = useState(false);
-  const [cart, setCart] = useState(false);
+  const [setCart] = useState(false);
   const { user } = useContext(AuthContext);
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("");
   const { id } = useParams();
   const {
     _id,
-    product_uid,
     product_name,
     category,
     product_heading,
@@ -46,15 +35,11 @@ const SingleProduct = () => {
     primary_img,
     price,
     available_color,
-    product_status,
-    user_email,
-    user_image,
-    user_name,
+
     product_highlight,
     details,
     feature_img1,
     feature_img2,
-    wishlist,
     post_date,
   } = singleProduct;
 

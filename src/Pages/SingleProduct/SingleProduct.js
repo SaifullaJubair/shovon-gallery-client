@@ -20,7 +20,7 @@ const SingleProduct = () => {
   const [singleProduct, setSingleProduct] = useState({});
   const [showCallNowModal, setShowCallNowModal] = useState(false);
   const [wishList, setWishList] = useState(false);
-  const [setCart] = useState(false);
+  const [cart, setCart] = useState(false);
   const { user } = useContext(AuthContext);
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("");
@@ -123,8 +123,6 @@ const SingleProduct = () => {
       return;
     }
 
-    setCart((prevState) => !prevState);
-    // Gather product data and other necessary information
     const cartData = {
       productId: singleProduct?._id,
       userId: user?.uid,
@@ -144,8 +142,6 @@ const SingleProduct = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
-        // console.log(selectedColor);
         if (
           data &&
           data.productId === singleProduct?._id &&
@@ -170,6 +166,8 @@ const SingleProduct = () => {
               toast.success("Product added to cart successfully", {
                 position: toast.POSITION.TOP_CENTER,
               });
+              // Set cart to true after adding the product to the cart
+              setCart(true);
             })
             .catch((error) => {
               console.error("Error adding product to cart:", error);
@@ -263,12 +261,12 @@ const SingleProduct = () => {
               >
                 {wishList ? (
                   <>
-                    <FaHeart className="inline  font-bold text-secondary" />
+                    <FaHeart className="inline  font-bold text-secondary mr-1" />
                     Saved
                   </>
                 ) : (
                   <>
-                    <FaRegHeart className="inline font-bold" />
+                    <FaRegHeart className="inline font-bold mr-1" />
                     Save
                   </>
                 )}

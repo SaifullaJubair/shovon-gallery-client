@@ -36,13 +36,13 @@ const IconicProducts = () => {
 
           <ul className="grid grid-cols-1 gap-4 mt-8 lg:grid-cols-3">
             {nextTwoProducts.map((item) => (
-              <Link to={`/singleproduct/${item?._id}`}>
-                <li key={item._id}>
+              <Link to={`/singleproduct/${item?._id}`} key={item._id}>
+                <li>
                   <div className="relative block group">
                     <img
                       src={item.primary_img}
                       alt={item.product_name}
-                      className="object-cover w-full transition duration-500 aspect-square opacity-75 group-hover:opacity-60"
+                      className="object-cover w-full transition duration-500 aspect-square group-hover:opacity-60"
                     />
 
                     <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
@@ -65,7 +65,7 @@ const IconicProducts = () => {
                   <img
                     src={singleProduct.primary_img}
                     alt=""
-                    className="object-cover w-full transition duration-500 opacity-75 aspect-square group-hover:opacity-60"
+                    className="object-cover w-full transition duration-500  aspect-square group-hover:opacity-60"
                   />
 
                   <div className="absolute inset-0 flex flex-col items-start justify-end p-6">

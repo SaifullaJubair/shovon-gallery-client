@@ -19,32 +19,31 @@ const TopNavbar = () => {
       <div className="max-w-[1440px] w-[95%] mx-auto flex justify-between">
         {/* Contact section */}
         <div className="flex space-x-5 py-4">
-          <div className="flex space-x-2">
-            <div className="text-white text-xs">
+          <div className="flex items-center justify-center ">
+            <div className="text-white text-xs px-1">
               {" "}
               <FaLocationArrow></FaLocationArrow>
             </div>
-            <p className="text-white text-xs">1216/2, Dhaka City</p>
+            <p className="text-white text-xs">
+              2No Shonadanga Khulna, Bangladesh
+            </p>
           </div>
-          <div className="flex space-x-2">
+          <div className="flex items-center justify-center">
             <div className="text-white text-xs">
               <FaPhoneAlt></FaPhoneAlt>
             </div>
-            <p className="text-white text-xs">+(88) 017 800 628</p>
+            <p className="text-white text-xs">+(88) 01923 868 397</p>
           </div>
-          <div className="flex space-x-2">
+          <div className="flex items-center justify-center space-x-2">
             <div className="text-white text-xs">
               <FaRegEnvelope></FaRegEnvelope>{" "}
             </div>
-            <p className="text-white text-xs">info.contact@gmail.com</p>
+            <p className="text-white text-xs">saifullajubair6@gmail.com</p>
           </div>
         </div>
 
         {/* Signin/signup & social media section */}
-        <div className="flex space-x-4 py-4">
-          {/* { !user && <><div className="text-white text-xs"><Link to={'/register'}>Register</Link></div>
-               <div className="text-white text-xs"><Link to={'/login'}>Login</Link></div>
-               <div className="text-white text-xs"><FaGripLinesVertical /> </div></>} */}
+        <div className="flex items-center justify-center space-x-4 py-4">
           <div className="text-white text-sm">
             <Link to={"https://www.facebook.com/"}>
               <FaFacebook />

@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import Loader from "../Loader/Loader";
 import { FaCarAlt, FaCartPlus } from "react-icons/fa";
 import { BsCartPlus } from "react-icons/bs";
-
+import logo from "../../assets/Logo & Cover Photo/Logo & Cover Photo/Shovon Gallery/Logo_Shovon Gallery_01.png";
 const SecondNavbar = () => {
   let [open, setOpen] = useState(false);
   const { user, logout, loading } = useContext(AuthContext);
@@ -49,13 +49,20 @@ const SecondNavbar = () => {
   return (
     <div className="sticky top-0 z-40">
       <div className=" max-w-[1440px]  mx-auto  shadow-xl">
-        <div className="md:flex items-center justify-between bg-white py-2 md:px-10 px-7">
-          <div className="font-bold text-2xl cursor-pointer flex items-center font-[Poppins] text-gray-900">
-            <span className="text-3xl text-red-700 mr-1 pt-2">
-              <ion-icon name="car"></ion-icon>
-            </span>
-            Designer
-          </div>
+        <div className="md:flex items-center justify-between bg-white py-2 md:px-10 px-4">
+          <Link to="/">
+            <div className="font-bold  cursor-pointer flex items-center font-[Poppins] text-gray-900">
+              <img
+                src={logo}
+                alt="logo"
+                className="lg:w-16 h-12 md:w-12 w-12"
+              />
+              <span className="text-gray-700 font-semibold ml-2 lg:text-lg md:text-sm text-lg">
+                <span className="text-red-500 font-bold">S</span>hovon{" "}
+                <span className="text-red-500 font-bold">G</span>allery
+              </span>
+            </div>
+          </Link>
 
           <div
             onClick={() => setOpen(!open)}

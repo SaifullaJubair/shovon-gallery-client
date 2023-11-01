@@ -11,6 +11,7 @@ import FixedImg from "../FixedImg/FixedImg";
 import ShopLocation from "../ShopLocation/ShopLocation";
 import { AuthContext } from "../../../Contexts/AuthProvider/AuthProvider";
 import Loader from "../../../Shared/Loader/Loader";
+import { Helmet } from "react-helmet-async";
 
 const Home = () => {
   const { loading } = useContext(AuthContext);
@@ -19,6 +20,9 @@ const Home = () => {
   }
   return (
     <div>
+      <Helmet>
+        <title>ShovonGallery-Home</title>
+      </Helmet>
       <Banner></Banner>
       <FeaturedCategories></FeaturedCategories>
       <ParallaxBanner></ParallaxBanner>

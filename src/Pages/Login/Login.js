@@ -31,6 +31,7 @@ const Login = () => {
   const googleProvider = new GoogleAuthProvider();
 
   const handleGoogleSignIn = () => {
+    setLoading(true);
     providerLogin(googleProvider)
       .then((result) => {
         const user = result.user;
@@ -40,16 +41,19 @@ const Login = () => {
           displayName: user.displayName,
           email: user.email,
         };
+
         updateUserProfile(currentUser)
           .then(() => {
             saveUser(user.displayName, user.email, user.photoURL);
+            setLoading(false);
+            navigate(from, { replace: true });
           })
           .catch((error) => console.error(error));
-        navigate(from, { replace: true });
 
         // console.log(currentUser);
-        setError("");
+        // setError("");
       })
+
       .catch((error) => console.error(error, error.message));
   };
 
@@ -98,6 +102,7 @@ const Login = () => {
         toast("login success", {
           position: toast.POSITION.TOP_CENTER,
         });
+        navigate(from, { replace: true });
       })
       .catch((e) => {
         // console.error(e);
@@ -129,6 +134,7 @@ const Login = () => {
       })
       .catch((error) => {
         setError(error.message);
+        setLoading(false);
       });
   };
 
@@ -220,7 +226,7 @@ const Login = () => {
               Log in
             </Button>
           )} */}
-            {loading ? (
+            {/* {loading ? (
               <Loader />
             ) : (
               <Button
@@ -229,7 +235,7 @@ const Login = () => {
               >
                 Login
               </Button>
-            )}
+            )} */}
           </form>
           <p className="my-4">
             Forgot Password?

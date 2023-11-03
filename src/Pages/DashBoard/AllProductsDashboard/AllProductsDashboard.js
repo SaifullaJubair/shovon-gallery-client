@@ -140,7 +140,7 @@ const AllProductsDashboard = () => {
                 <Table.Cell>{product.category}</Table.Cell>
                 <Table.Cell>{product.price}</Table.Cell>
                 <Table.Cell>{product.primary_color}</Table.Cell>
-                <Table.Cell>{product.post_date.slice(0, 10)}</Table.Cell>
+                <Table.Cell>{product.post_date.slice(0, 11)}</Table.Cell>
                 <Table.Cell>
                   {/* toggle button */}
                   <label className="relative inline-flex items-center cursor-pointer">

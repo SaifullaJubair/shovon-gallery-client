@@ -18,6 +18,7 @@ import UpdateProduct from "../../Pages/DashBoard/UpdateProduct/UpdateProduct";
 import ProductByCategory from "../../Pages/ProductsByCategory/ProductByCategory";
 import AddProducts from "../../Pages/DashBoard/AddProducts/AddProducts";
 import Categories from "../../Pages/DashBoard/Categories/Categories";
+import AddBannerImg from "../../Pages/DashBoard/AddBannerImg/AddBannerImg";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main/Main");
@@ -144,6 +145,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <Categories />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/add-banner-img",
+        element: (
+          <AdminRoute>
+            <AddBannerImg />
           </AdminRoute>
         ),
       },

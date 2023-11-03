@@ -17,7 +17,7 @@ const IconicProducts = () => {
         setNextTwoProducts(data.slice(1, 3));
       });
   }, []);
-  console.log(nextTwoProducts);
+  // console.log(nextTwoProducts);
   return (
     <div>
       <section>

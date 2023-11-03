@@ -12,6 +12,7 @@ const SecondNavbar = () => {
   let [open, setOpen] = useState(false);
   const { user, logout, loading } = useContext(AuthContext);
   const [categories, setCategories] = useState([]);
+  const [singleUser, setSingleUser] = useState(null);
 
   useEffect(() => {
     fetch("http://localhost:5000/allcategories")
@@ -21,7 +22,6 @@ const SecondNavbar = () => {
       });
   }, []);
 
-  const [singleUser, setSingleUser] = useState(null);
   useEffect(() => {
     if (user && user.email) {
       // Fetch user data only if user is available and has an email

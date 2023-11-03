@@ -35,6 +35,7 @@ const Register = () => {
     setTermsAccepted(event.target.checked);
   };
   const handleGoogleSignIn = () => {
+    setLoading(true);
     providerLogin(googleProvider)
       .then((result) => {
         const user = result.user;
@@ -47,6 +48,8 @@ const Register = () => {
         updateUserProfile(currentUser)
           .then(() => {
             saveUser(user.displayName, user.email, user.photoURL);
+            setLoading(false);
+            navigate(from, { replace: true });
           })
           .catch((error) => console.error(error));
         // console.log(currentUser);
@@ -162,6 +165,7 @@ const Register = () => {
                     });
                     // form.reset()
                     // router.push('/')
+                    navigate(from, { replace: true });
                   })
                   .catch((err) => console.log(err));
                 const user = result.user;

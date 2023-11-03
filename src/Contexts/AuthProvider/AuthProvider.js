@@ -24,18 +24,18 @@ const AuthProvider = ({ children }) => {
 
   // Provider
   const providerLogin = (provider) => {
-    setLoading(true);
+    // setLoading(true);
     return signInWithPopup(auth, provider);
   };
 
   const redirect = (provider) => {
-    setLoading(true);
+    // setLoading(true);
     return signInWithRedirect(auth, provider);
   };
   // updateProfile
   const updateUserProfile = (profile) => {
     // console.log(profile)
-    setLoading(true);
+    // setLoading(true);
     return updateProfile(auth.currentUser, profile);
   };
   //  create user

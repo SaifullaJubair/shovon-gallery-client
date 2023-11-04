@@ -54,11 +54,8 @@ const FeaturedCategories = () => {
           </div>
           <div className="relative grid gap-2 grid-cols-3 md:grid-cols-6 lg:grid-cols-7">
             {categories.map((category) => (
-              <Link to={`/category/${category?.name}`}>
-                <div
-                  key={category?._id}
-                  className=" transition-shadow-lg duration-200 bg-white rounded-xl shadow-xl group hover:shadow-2xl"
-                >
+              <Link to={`/category/${category?.name}`} key={category?._id}>
+                <div className=" transition-shadow-lg duration-200 bg-white rounded-xl shadow-xl group hover:shadow-2xl">
                   <div className="py-5 px-2 overflow-hidden h-[140px]">
                     <div className="flex items-center mx-auto justify-center w-10 h-10 mb-3 rounded-full bg-indigo-50">
                       <svg

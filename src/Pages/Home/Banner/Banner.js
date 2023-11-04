@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-// import "./Banner.css";
+// import "./Banner.css"
 
 // Import Swiper styles
 import "swiper/css";
@@ -12,8 +12,30 @@ import "swiper/css/pagination";
 // import required modules
 import { EffectFade, Autoplay, Pagination, Navigation } from "swiper/modules";
 import { Carousel } from "flowbite-react";
+import { useEffect } from "react";
+import Loader from "../../../Shared/Loader/Loader";
+import img1 from "../../../assets/product-img/Artificial Flower Bangles-6-1.jpg";
+import img2 from "../../../assets/product-img/Artificial Flower Jewellery Set-17-1.png";
+import img3 from "../../../assets/product-img/Antique Jewellery Set-10.jpg";
+import img4 from "../../../assets/product-img/Artificial Flower Jewellery Set-48.png";
+import img5 from "../../../assets/product-img/Artificial Flower Jewellery Set-7.jpg";
 
 const Banner = () => {
+  const [bannerImg, setBannerImg] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    fetch("http://localhost:5000/allBannerImg")
+      .then((res) => res.json())
+      .then((data) => {
+        const activeBannerImg = data.filter((item) => item.status === "Active");
+        setBannerImg(activeBannerImg);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setIsLoading(false); // Set loading state to false in case of error
+      });
+  }, []);
   return (
     // <div className="">
     //   <Swiper
@@ -82,24 +104,29 @@ const Banner = () => {
     //     </SwiperSlide>
     //   </Swiper>
     // </div>
-    <div className="h-[650px] w-full mx-auto  bg-white">
-      <Carousel>
-        <img
-          src="https://cdn.shopify.com/s/files/1/0317/1421/products/Saddle_Chair_DawsonAndCo_TimothyOulton3.jpg?v=1651539635"
-          alt="..."
-          className="w-full h-full"
-        />
-        <img
-          src="https://img.freepik.com/free-photo/home-indoor-design-concept_23-2148811458.jpg?w=1380&t=st=1680968742~exp=1680969342~hmac=b6fd366916607df72d1393f6b4a9da07b8d165df96458197b1118d7274cb2987"
-          alt="..."
-          className="w-full h-full"
-        />
-        <img
-          src="https://images.pexels.com/photos/1961772/pexels-photo-1961772.jpeg?auto=compress&cs=tinysrgb&w=1600"
-          alt="..."
-          className="w-full h-full"
-        />
-      </Carousel>
+    <div className="lg:h-[750px] md:h-[500px] h-[400px] mx w-full ">
+      {isLoading ? (
+        <Loader />
+      ) : bannerImg.length > 1 ? (
+        <Carousel>
+          {bannerImg.map((item) => (
+            <img
+              src={item?.bannerImg}
+              alt="..."
+              className="w-full h-full"
+              key={item._id}
+            />
+          ))}
+        </Carousel>
+      ) : (
+        <Carousel>
+          <img src={img1} alt="..." className="w-full h-full" />
+          <img src={img2} alt="..." className="w-full h-full" />
+          <img src={img3} alt="..." className="w-full h-full" />
+          <img src={img4} alt="..." className="w-full h-full" />
+          <img src={img5} alt="..." className="w-full h-full" />
+        </Carousel>
+      )}
     </div>
   );
 };

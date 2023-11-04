@@ -25,11 +25,11 @@ const Home = () => {
       </Helmet>
       <Banner></Banner>
       <FeaturedCategories></FeaturedCategories>
-      <ParallaxBanner></ParallaxBanner>
+      {/* <ParallaxBanner></ParallaxBanner> */}
       <FlashSale></FlashSale>
-      <Discount></Discount>
       <FixedImg></FixedImg>
       <TrendingProducts></TrendingProducts>
+      <Discount></Discount>
       <IconicProducts></IconicProducts>
       {/* <CustomerReview></CustomerReview> */}
       <ShopLocation></ShopLocation>

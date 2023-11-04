@@ -166,6 +166,14 @@ const DashboardLayout = () => {
                         </span>
                       </NavLink>
                     </li>
+                    <li>
+                      <FaHeart className="inline-block ml-4 mr-6 h-7" />
+                      <NavLink to={`/dashboard/add-fixed-img`}>
+                        <span className={hide ? "hidden" : "inline"}>
+                          Fixed Image
+                        </span>
+                      </NavLink>
+                    </li>
 
                     <li>
                       <BiGroup className="inline-block ml-4 mr-6 h-7"></BiGroup>

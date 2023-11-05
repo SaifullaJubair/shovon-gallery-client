@@ -8,6 +8,7 @@ import { IoCall } from "react-icons/io5";
 import { BsStarFill } from "react-icons/bs";
 import { Button, Tooltip } from "flowbite-react";
 import { toast } from "react-toastify";
+import QnA from "./QnA";
 
 // function numberWithCommas(x) {
 //   x = x.toString();
@@ -443,10 +444,10 @@ const SingleProduct = () => {
 
       {/* product specification  */}
 
-      <div className="grid lg:grid-cols-7 gap-2 my-10">
-        <div className="lg:col-span-5 ">
-          <p className="text-lg font-semibold text-gray-800">
-            Product Specification of {product_heading}
+      <div className="grid lg:grid-cols-7 md:grid-5 grid-cols-1 gap-2 my-10">
+        <div className="lg:col-span-5 md:col-span-3 col-span-1">
+          <p className="text-lg font-semibold bg-gray-50 p-2 text-gray-800">
+            Product Specification of {product_name}
           </p>
           <div className="relative overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -531,12 +532,12 @@ const SingleProduct = () => {
             </table>
           </div>
           {/* Product Details  */}
-          <div>
-            <p className="text-lg font-semibold my-6 text-gray-800">
-              Product Details of {product_heading}
+          <div className="mb-6">
+            <p className="text-lg bg-gray-50 p-2 font-semibold my-2 text-gray-800 break-words">
+              Product Details of : {product_name}
             </p>
-            <p className=" text-gray-800 my-2 ">{product_highlight}</p>
-            <p className=" text-gray-800  my-2">{details}</p>
+            <p className="text-gray-800 m-2 break-words">{product_highlight}</p>
+            <p className="text-gray-800 m-2  break-words">{details}</p>
           </div>
           {/* Product Review  */}
           <div>
@@ -544,10 +545,15 @@ const SingleProduct = () => {
           </div>
           {/* QnS  */}
           <div>
-            <h1>Here QnS </h1>
+            <QnA singleProduct={singleProduct}></QnA>
           </div>
         </div>
-        <div className="lg:col-span-1"></div>
+        {/* ... */}
+
+        {/* Suggest Product Right side */}
+        <div className="lg:col-span-2 md:col-span-2 col-span-1">
+          <img src={primary_img} alt="" />
+        </div>
       </div>
     </div>
   );

@@ -26,9 +26,9 @@ const ProductByCategory = () => {
     // );
     setItemOffset(newOffset);
   };
-  if (loading) {
-    return <Loader />;
-  }
+  // if (loading) {
+  //   return <Loader />;
+  // }
 
   return (
     <div className=" flex  ">

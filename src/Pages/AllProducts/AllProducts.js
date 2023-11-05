@@ -8,13 +8,15 @@ import ProductsCategorySideBar from "../../components/ProductsCategorySideBar/Pr
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [itemOffset, setItemOffset] = useState(0);
-  const { loading } = useContext(AuthContext);
+  // const { loading } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetch("http://localhost:5000/products")
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
         setProducts(data);
+        setLoading(false);
       });
   }, []);
 

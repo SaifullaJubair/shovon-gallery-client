@@ -28,7 +28,7 @@ const ProductsCategorySideBar = () => {
   }
 
   return (
-    <div className="sidebar-container h-0">
+    <div className="sidebar-container ">
       <div
         className={`sidebar-toggle ${hide ? "open" : ""}`}
         onClick={() => toggleSidebar()}

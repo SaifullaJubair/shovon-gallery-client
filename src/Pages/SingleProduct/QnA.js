@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import Loader from "../../Shared/Loader/Loader";
+import ReactPaginate from "react-paginate";
 
 const QnA = ({ singleProduct }) => {
   const [question, setQuestion] = useState("");
@@ -21,6 +22,9 @@ const QnA = ({ singleProduct }) => {
   const [refetch, setRefetch] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [editData, setEditData] = useState(null);
+  const [replyData, setReplyData] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+  const [itemOffset, setItemOffset] = useState(0);
   const { user, loading } = useContext(AuthContext);
   const [singleUser, setSingleUser] = useState(null);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -39,16 +43,18 @@ const QnA = ({ singleProduct }) => {
     currentDate
   );
   useEffect(() => {
-    fetch("http://localhost:5000/all-qna")
+    fetch(`http://localhost:5000/all-qna/${singleProduct._id}`)
       .then((res) => res.json())
       .then((data) => {
         setQnA(data);
+        setLoading(false);
       })
       .catch((error) => {
         // Handle fetch error if necessary
         console.error(error);
+        setLoading(false);
       });
-  }, [refetch]);
+  }, [refetch, singleProduct]);
 
   useEffect(() => {
     if (user && user.email) {
@@ -67,9 +73,50 @@ const QnA = ({ singleProduct }) => {
       setSingleUser(null); // Set singleUser to null or an empty object
     }
   }, [user]);
+
   const handleDelete = (data) => {
-    fetch("http://localhost:5000/delete-qna", {
+    fetch(`http://localhost:5000/delete-qna`, {
       method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        _id: data._id,
+        email: data.email, // Include user's email in the request body
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          toast("Delete successful", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          setDeleteData(null);
+          setRefetch(!refetch);
+        } else {
+          // Handle unauthorized or item not found case here
+          toast.error("Unauthorized or item not found", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+      })
+      .catch((error) => {
+        // Handle errors if necessary
+        console.error(error);
+      });
+  };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const question = form.editQuestion.value;
+    const data = {
+      _id: editData?._id,
+      question,
+      postDate: formattedDate,
+    };
+    fetch("http://localhost:5000/edit-question", {
+      method: "PUT",
       headers: {
         "content-type": "application/json",
       },
@@ -77,21 +124,22 @@ const QnA = ({ singleProduct }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        toast("Delete successful", {
+        form.reset("");
+        toast("Edit successful", {
           position: toast.POSITION.TOP_CENTER,
         });
-        setDeleteData(null);
+        setEditData(null);
         setRefetch(!refetch);
       });
   };
-
-  const handleEdit = (e) => {
+  const handleReply = (e) => {
     e.preventDefault();
     const form = e.target;
     const reply = form.replyQuestion.value;
     const data = {
-      _id: editData?._id,
+      _id: replyData?._id,
       reply,
+      replyDate: formattedDate,
     };
     fetch("http://localhost:5000/reply-question", {
       method: "PUT",
@@ -106,7 +154,7 @@ const QnA = ({ singleProduct }) => {
         toast("Edit successful", {
           position: toast.POSITION.TOP_CENTER,
         });
-        setEditData(null);
+        setReplyData(null);
         setRefetch(!refetch);
       });
   };
@@ -162,6 +210,21 @@ const QnA = ({ singleProduct }) => {
       });
   };
 
+  const itemsPerPage = 6;
+
+  const endOffset = itemOffset + itemsPerPage;
+
+  const currentItems = qna.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(qna.length / itemsPerPage);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % qna.length;
+    // console.log(
+    //     `User requested page number ${event.selected}, which is offset ${newOffset}`
+    // );
+    setItemOffset(newOffset);
+  };
+
   const showModal = (item) => {
     setDeleteData(item);
     // console.log(item);
@@ -170,16 +233,24 @@ const QnA = ({ singleProduct }) => {
     setEditData(item);
     // console.log(item);
   };
+  const showReplyModal = (item) => {
+    setReplyData(item);
+    // console.log(item);
+  };
   const onClose = () => {
     setDeleteData(null);
   };
   const onEditClose = () => {
     setEditData(null);
   };
+  const onReplyClose = () => {
+    setReplyData(null);
+  };
 
-  if (loading) {
-    <Loader />;
+  if (loading || isLoading) {
+    return <Loader />; // Show loader while data is being fetched or processed
   }
+
   return (
     <div>
       <div>
@@ -221,45 +292,61 @@ const QnA = ({ singleProduct }) => {
           </h1>
 
           {/* Question and Answer */}
-          {qna.map((item) => (
-            <div key={item._id}>
+          {currentItems.map((item) => (
+            <div key={item?._id}>
               <div className="mb-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center w-full  p-2">
-                    <FaQuestionCircle className="text-blue-600" />{" "}
-                    <h1 className="ml-3">{item.question}</h1>
+                  <div className="flex items-center  px-2 py-4 ">
+                    <FaQuestionCircle className="text-blue-600 w-10 text-xl" />{" "}
+                    <h1 className="pl-3 ">{item?.question}</h1>
+                    <p className="text-gray-500 ml-4 mr-2 text-xs">
+                      {item?.postDate.slice(0, 21)}
+                    </p>
                   </div>
+                  {(singleUser?.role === "admin" ||
+                    item?.email === singleUser?.email) && (
+                    <Dropdown
+                      arrowIcon={false}
+                      inline
+                      label={<FaEllipsisV className="cursor-pointer mr-1" />}
+                    >
+                      <ul className="px-2 text-gray-500">
+                        {item?.email === singleUser?.email && (
+                          <>
+                            <li
+                              className="flex items-center my-2 px-2 cursor-pointer  hover:text-secondary hover:underline"
+                              onClick={() => showEditModal(item)}
+                            >
+                              <FaEdit className=" mr-1.5" /> Edit
+                            </li>
+                            <li
+                              className="flex items-center mb-2 hover:text-red-500 hover:underline px-2 cursor-pointer"
+                              onClick={() => showModal(item)}
+                            >
+                              <FaTrash className=" mr-1.5" /> Delete
+                            </li>
+                          </>
+                        )}
 
-                  <Dropdown
-                    arrowIcon={false}
-                    inline
-                    label={<FaEllipsisV className="cursor-pointer mr-1" />}
-                  >
-                    <ul className="px-2 text-gray-600">
-                      <li
-                        className="flex items-center my-2 px-2 cursor-pointer  hover:text-secondary hover:underline"
-                        onClick={() => showEditModal(item)}
-                      >
-                        <FaEdit className=" mr-1.5" /> Edit
-                      </li>
-                      <li
-                        className="flex items-center mb-2 hover:text-red-500 hover:underline px-2 cursor-pointer"
-                        onClick={() => showModal(item)}
-                      >
-                        <FaTrash className=" mr-1.5" /> Delete
-                      </li>
-                      <li
-                        className="flex items-center my-2 px-2 cursor-pointer  hover:text-secondary hover:underline"
-                        onClick={() => showEditModal(item)}
-                      >
-                        <FaComment className=" mr-1.5" /> Reply
-                      </li>
-                    </ul>
-                  </Dropdown>
+                        {singleUser?.role === "admin" && (
+                          <li
+                            className="flex items-center my-2 px-2 cursor-pointer hover:text-secondary hover:underline"
+                            onClick={() => showReplyModal(item)}
+                          >
+                            <FaComment className="mr-1.5" /> Reply
+                          </li>
+                        )}
+                      </ul>
+                    </Dropdown>
+                  )}
                 </div>
-                <div className="flex items-center p-2 ">
-                  <BsChatDotsFill className="text-gray-600" />{" "}
-                  <h1 className="ml-3 ">{item.reply}</h1>
+
+                <div className="flex items-center px-2 py-4">
+                  <BsChatDotsFill className="text-gray-600 w-10 text-xl" />{" "}
+                  <h1 className="ml-3 ">{item?.reply}</h1>
+                  <p className="text-gray-600 ml-4 mr-2 text-xs">
+                    {item?.replyDate?.slice(0, 21)}
+                  </p>
                   <hr />
                 </div>
               </div>
@@ -310,16 +397,17 @@ const QnA = ({ singleProduct }) => {
                 <Modal.Body>
                   <form onSubmit={handleEdit}>
                     <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                      Are you sure you want to reply this ?
+                      Are you sure you want to edit this ?
                     </h3>
                     {/* name input field  */}
                     <div className="mb-2">
                       <textarea
-                        id="reply"
-                        name="replyQuestion"
+                        id="editQuestion"
+                        name="editQuestion"
+                        defaultValue={editData?.question}
                         rows="4"
                         className="block py-2.5 pl-2 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
-                        placeholder="Ask seller a question about this product ..."
+                        placeholder="Edit your question ..."
                       ></textarea>
                     </div>
 
@@ -342,6 +430,59 @@ const QnA = ({ singleProduct }) => {
             </div>
           </div>
         )}
+        {replyData !== null && (
+          <div>
+            <div>
+              <Modal show={true} size="md" popup={true} onClose={onReplyClose}>
+                <Modal.Header />
+                <Modal.Body>
+                  <form onSubmit={handleReply}>
+                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                      Are you sure you want to reply this ?
+                    </h3>
+                    {/* name input field  */}
+                    <div className="mb-2">
+                      <textarea
+                        id="reply"
+                        name="replyQuestion"
+                        defaultValue={replyData?.reply}
+                        rows="4"
+                        className="block py-2.5 pl-2 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
+                        placeholder="Answers to user questions ..."
+                      ></textarea>
+                    </div>
+
+                    <div className="flex justify-center gap-4 mt-8">
+                      <Button color="success" type="submit">
+                        Yes, I'm sure
+                      </Button>
+                      <Button
+                        color="gray"
+                        onClick={() => {
+                          setReplyData(null);
+                        }}
+                      >
+                        No, cancel
+                      </Button>
+                    </div>
+                  </form>
+                </Modal.Body>
+              </Modal>
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="pagination mt-6">
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="<"
+          renderOnZeroPageCount={null}
+          containerClassName="pagination-menu"
+        />
       </div>
     </div>
   );

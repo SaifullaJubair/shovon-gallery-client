@@ -104,7 +104,7 @@ const Banner = () => {
     //     </SwiperSlide>
     //   </Swiper>
     // </div>
-    <div className="lg:h-[750px] md:h-[500px] h-[400px] mx w-full ">
+    <div className="lg:h-[820px] md:h-[500px] h-[400px] mx w-full ">
       {isLoading ? (
         <Loader />
       ) : bannerImg.length > 1 ? (

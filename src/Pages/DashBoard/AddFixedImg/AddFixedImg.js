@@ -130,11 +130,9 @@ const AddFixedImg = () => {
   };
   return (
     <div className="flex-1 overflow-x-hidden overflow-y-auto max-w-[1440px]">
-      {/* <DashboardSideBar></DashboardSideBar> */}
-
       <div className="flex-grow">
         <h2 className="title uppercase p-4 text-center  mb-10 bg-orange-500 text-white text-2xl font-semibold">
-          Add Banner Image
+          Add Fixed Image
         </h2>
 
         <form
@@ -190,7 +188,7 @@ const AddFixedImg = () => {
         </h2>
 
         <small className="text-gray-700 font-medium ">
-          #Note: Minimum upload or active 2 fixed images to show in home page.
+          #Note: Only one active fixed image will show in home page.
         </small>
 
         <Table striped={true}>

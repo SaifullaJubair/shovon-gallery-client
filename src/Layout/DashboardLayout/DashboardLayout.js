@@ -243,6 +243,12 @@ const DashboardLayout = () => {
                   </NavLink>
                 </li>
                 <li>
+                  <FaHeart className="inline-block ml-4 mr-6 h-7" />
+                  <NavLink to={`/dashboard/QnA`}>
+                    <span className={hide ? "hidden" : "inline"}>My QnA</span>
+                  </NavLink>
+                </li>
+                <li>
                   <RiEditBoxLine className="inline-block ml-4 mr-6 h-7"></RiEditBoxLine>
                   <NavLink to={`/dashboard/myblog`}>
                     <span className={hide ? "hidden" : "inline"}>My Blog</span>

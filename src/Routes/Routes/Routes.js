@@ -20,6 +20,7 @@ import AddProducts from "../../Pages/DashBoard/AddProducts/AddProducts";
 import Categories from "../../Pages/DashBoard/Categories/Categories";
 import AddBannerImg from "../../Pages/DashBoard/AddBannerImg/AddBannerImg";
 import AddFixedImg from "../../Pages/DashBoard/AddFixedImg/AddFixedImg";
+import MyQnA from "../../Pages/DashBoard/MyQnA/MyQnA";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main/Main");
@@ -112,6 +113,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/mywishlist",
         element: <MyWishList></MyWishList>,
+      },
+      {
+        path: "/dashboard/QnA",
+        element: <MyQnA></MyQnA>,
       },
 
       // Admin Route

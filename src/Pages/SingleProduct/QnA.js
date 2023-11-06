@@ -52,7 +52,6 @@ const QnA = ({ singleProduct }) => {
       .catch((error) => {
         // Handle fetch error if necessary
         console.error(error);
-        setLoading(false);
       });
   }, [refetch, singleProduct]);
 
@@ -161,11 +160,11 @@ const QnA = ({ singleProduct }) => {
 
   const handleInputChange = (e) => {
     // Limit input to 300 characters
-    if (e.target.value.length <= 300) {
+    if (e.target.value.length <= 160) {
       setQuestion(e.target.value);
     }
   };
-  const remainingCharacters = 300 - question.length;
+  const remainingCharacters = 160 - question.length;
 
   const handleAskQuestion = () => {
     // Check if user is logged in
@@ -264,15 +263,15 @@ const QnA = ({ singleProduct }) => {
           <div className="flex flex-col items-start my-6">
             <textarea
               id="qna"
-              rows="4"
+              rows="3"
               value={question}
               onChange={handleInputChange}
-              maxLength={300} // Set maximum length to 300 characters
+              maxLength={160} // Set maximum length to 300 characters
               className="block py-2.5 pl-2 shadow-md shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
               placeholder="Ask seller a question about this product ..."
             ></textarea>
             <div className="text-right w-full text-gray-500 text-sm">
-              {remainingCharacters} / 300
+              {remainingCharacters} / 160
             </div>
             <button
               className="inline-block rounded bg-secondary px-4 mx-2 py-3 text-sm font-medium text-white transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring "
@@ -299,10 +298,8 @@ const QnA = ({ singleProduct }) => {
                   <div className="flex items-center  px-2 py-4 ">
                     <FaQuestionCircle className="text-blue-600 w-10 text-xl" />{" "}
                     <h1 className="pl-3 ">{item?.question}</h1>
-                    <p className="text-gray-500 ml-4 mr-2 text-xs">
-                      {item?.postDate.slice(0, 21)}
-                    </p>
                   </div>
+
                   {(singleUser?.role === "admin" ||
                     item?.email === singleUser?.email) && (
                     <Dropdown
@@ -340,17 +337,33 @@ const QnA = ({ singleProduct }) => {
                     </Dropdown>
                   )}
                 </div>
+                <p className="text-gray-500 ml-4 pb-1 mr-2 text-xs">
+                  {item?.postDate?.slice(0, 21)}
+                </p>
 
-                <div className="flex items-center px-2 py-4">
+                {/* {singleUser?.role === "admin" && (
+                 <div className="flex items-center px-2 py-4">
                   <BsChatDotsFill className="text-gray-600 w-10 text-xl" />{" "}
                   <h1 className="ml-3 ">{item?.reply}</h1>
-                  <p className="text-gray-600 ml-4 mr-2 text-xs">
-                    {item?.replyDate?.slice(0, 21)}
-                  </p>
-                  <hr />
                 </div>
+                <p className="text-gray-600 ml-4 mr-2 pb-2 text-xs">
+                  {item?.replyDate?.slice(0, 21)}
+                </p>
+             )} */}
+
+                {item?.reply?.length > 0 && (
+                  <>
+                    <div className="flex items-center px-2 py-4">
+                      <BsChatDotsFill className="text-gray-600 w-10 text-xl" />{" "}
+                      <h1 className="ml-3 ">{item?.reply}</h1>
+                    </div>
+                    <p className="text-gray-600 ml-4 mr-2 pb-2 text-xs">
+                      {item?.replyDate?.slice(0, 21)}
+                    </p>
+                  </>
+                )}
+                <hr />
               </div>
-              <hr />
             </div>
           ))}
         </div>

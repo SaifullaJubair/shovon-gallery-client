@@ -92,66 +92,70 @@ const MyWishlist = () => {
             <Table.HeadCell>Actions</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {wishlistPosts?.map((item, index) => (
-              <Table.Row className="bg-white  dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {index + 1}
-                </Table.Cell>
-                <Table.Cell>
-                  <img
-                    src={item?.product?.primary_img}
-                    className="h-12 w-16"
-                    alt=""
-                  />
-                </Table.Cell>
-                <Table.Cell>{item?.product?.product_name}</Table.Cell>
-                <Table.Cell>{item?.product?.category}</Table.Cell>
-                <Table.Cell>
-                  <Tooltip content={item?.product?.primary_color}>
-                    <div
-                      className="w-6 h-6 rounded-full border border-orange-500 "
-                      style={{ backgroundColor: item?.product?.primary_color }}
-                    ></div>
-                  </Tooltip>
-                </Table.Cell>
-                <Table.Cell>{item?.product?.product_status}</Table.Cell>
-                <Table.Cell>${item?.product?.price}</Table.Cell>
-                <Table.Cell className="flex gap-3">
-                  <Link to={`/singleproduct/${item?.product?._id}`}>
-                    <Button size="xs" color="success">
-                      <BiArrowToRight
-                        className="mr-2"
-                        size={16}
-                      ></BiArrowToRight>{" "}
-                      Visit
+            {wishlistPosts
+              .filter((item) => item.product) // Filter out items without product data
+              .map((item, index) => (
+                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    {index + 1}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <img
+                      src={item?.product?.primary_img}
+                      className="h-12 w-16"
+                      alt=""
+                    />
+                  </Table.Cell>
+                  <Table.Cell>{item?.product?.product_name}</Table.Cell>
+                  <Table.Cell>{item?.product?.category}</Table.Cell>
+                  <Table.Cell>
+                    <Tooltip content={item?.product?.primary_color}>
+                      <div
+                        className="w-6 h-6 rounded-full border border-orange-500 "
+                        style={{
+                          backgroundColor: item?.product?.primary_color,
+                        }}
+                      ></div>
+                    </Tooltip>
+                  </Table.Cell>
+                  <Table.Cell>{item?.product?.product_status}</Table.Cell>
+                  <Table.Cell>${item?.product?.price}</Table.Cell>
+                  <Table.Cell className="flex gap-3">
+                    <Link to={`/singleproduct/${item?.product?._id}`}>
+                      <Button size="xs" color="success">
+                        <BiArrowToRight
+                          className="mr-2"
+                          size={16}
+                        ></BiArrowToRight>{" "}
+                        Visit
+                      </Button>
+                    </Link>
+
+                    <Button
+                      size="xs"
+                      color="failure"
+                      onClick={() => setDeleteData(item)}
+                    >
+                      <FaTrash className="mr-2"></FaTrash> Remove
                     </Button>
-                  </Link>
 
-                  <Button
-                    size="xs"
-                    color="failure"
-                    onClick={() => setDeleteData(item)}
-                  >
-                    <FaTrash className="mr-2"></FaTrash> Remove
-                  </Button>
-
-                  {
-                    // Delete Confirmation Modal
-                    deleteData && (
-                      <ConfirmationModal
-                        message={`Are you sure to delete this post?`}
-                        data={deleteData}
-                        setData={setDeleteData}
-                        successAction={handleDeletePost}
-                        successActionName="Yes, I'm Sure!"
-                        cancelActionName="No, Cancel"
-                        successBtnColor="red"
-                      />
-                    )
-                  }
-                </Table.Cell>
-              </Table.Row>
-            ))}
+                    {
+                      // Delete Confirmation Modal
+                      deleteData && (
+                        <ConfirmationModal
+                          message={`Are you sure to delete this post?`}
+                          data={deleteData}
+                          setData={setDeleteData}
+                          successAction={handleDeletePost}
+                          successActionName="Yes, I'm Sure!"
+                          cancelActionName="No, Cancel"
+                          successBtnColor="red"
+                        />
+                      )
+                    }
+                  </Table.Cell>
+                </Table.Row>
+              ))}
           </Table.Body>
         </Table>
       </div>

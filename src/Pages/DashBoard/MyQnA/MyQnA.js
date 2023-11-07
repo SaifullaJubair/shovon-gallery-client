@@ -77,45 +77,48 @@ const MyQnA = () => {
           </p>
         )}
 
-        {currentItems?.map((comment, index) => (
-          <div className="grid lg:grid-cols-11 grid-cols-1 gap-2 bg-gray-50 my-4 py-4">
-            <div className="lg:col-span-2  col-span-1 ml-2">
-              <div className="flex items-center gap-2">
-                <img
-                  src={comment?.product?.primary_img}
-                  className="h-16 w-16 rounded ring-1 ring-blue"
-                  alt=""
-                />
-                <div>
-                  <p>{comment?.product?.product_name}</p>
-                  <p>{comment?.product?.category}</p>
-                  <p>{comment?.product?.price}৳ </p>
+        {currentItems
+          ?.filter((item) => item.product)
+          .map((comment, i) => (
+            <div className="grid lg:grid-cols-11 grid-cols-1 gap-2 bg-gray-50 my-4 py-4">
+              <div className="lg:col-span-2  col-span-1 ml-2">
+                <div className="flex items-center gap-2">
+                  <p className="mx-2">{i + 1}</p>
+                  <img
+                    src={comment?.product?.primary_img}
+                    className="h-20 w-20 rounded ring-1 ring-blue"
+                    alt=""
+                  />
+                  <div className="text-sm">
+                    <p>{comment?.product?.product_name}</p>
+                    <p>{comment?.product?.category}</p>
+                    <p>{comment?.product?.price}৳ </p>
+                  </div>
                 </div>
               </div>
+              <div className="lg:col-span-7 text-sm col-span-1 mx-2 break-words">
+                <p className="m-2">
+                  Q:{" "}
+                  {comment?.question.length > 100
+                    ? comment?.question.slice(0, 100) + "..."
+                    : comment?.question}
+                </p>
+                <p className="mx-2">A: {comment?.reply}</p>
+              </div>
+              <div className="lg:col-span-2 col-span-1">
+                <Link
+                  className="text-blue-400 truncate ... "
+                  to={`/singleproduct/${comment?.product_id}`}
+                >
+                  <div className="mt-4">
+                    <Button size="xs" outline={true}>
+                      <FaExternalLinkAlt className="mr-2" /> Go to Product
+                    </Button>{" "}
+                  </div>
+                </Link>
+              </div>
             </div>
-            <div className="lg:col-span-7  col-span-1 mx-2 break-words">
-              <p>
-                Q:{" "}
-                {comment?.question.length > 100
-                  ? comment?.question.slice(0, 100) + "..."
-                  : comment?.question}
-              </p>
-              <p>A: {comment?.reply}</p>
-            </div>
-            <div className="lg:col-span-2 col-span-1">
-              <Link
-                className="text-blue-400 truncate ... "
-                to={`/singleproduct/${comment?.product_id}`}
-              >
-                <div className="mt-4">
-                  <Button size="xs" outline={true}>
-                    <FaExternalLinkAlt className="mr-2" /> Go to Product
-                  </Button>{" "}
-                </div>
-              </Link>
-            </div>
-          </div>
-        ))}
+          ))}
         <div className="pagination my-6">
           <ReactPaginate
             breakLabel="..."

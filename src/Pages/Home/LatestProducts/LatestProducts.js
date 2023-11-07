@@ -1,13 +1,13 @@
 import { Card } from "flowbite-react";
 import React, { useEffect, useState } from "react";
-import TrendingCard from "./TrendingCard";
+import LatestProductCard from "./LatestProductCard";
 import FlashCard from "../FlashSale/FlashCard/FlashCard";
 
-const TrendingProducts = () => {
+const LatestProducts = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/products")
+    fetch("http://localhost:5000/latest-products-by-category")
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
@@ -23,11 +23,14 @@ const TrendingProducts = () => {
       </div>
       <div className="grid gap-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 ">
         {products.map((product) => (
-          <FlashCard key={product?._id} product={product}></FlashCard>
+          <LatestProductCard
+            key={product?._id}
+            product={product}
+          ></LatestProductCard>
         ))}
       </div>
     </div>
   );
 };
 
-export default TrendingProducts;
+export default LatestProducts;

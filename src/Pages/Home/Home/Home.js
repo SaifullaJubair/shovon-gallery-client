@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Banner from "../Banner/Banner";
 import FeaturedCategories from "../FeaturedCategories/FeaturedCategories";
 import FlashSale from "../FlashSale/FlashSale";
-import TrendingProducts from "../TrendingProducts/TrendingProducts";
+import LatestProducts from "../LatestProducts/LatestProducts";
 import ParallaxBanner from "../ParallaxBanner/ParallaxBanner";
 import Discount from "../Discount/Discount";
 import IconicProducts from "../IconicProducts/IconicProducts";
@@ -28,7 +28,7 @@ const Home = () => {
       {/* <ParallaxBanner></ParallaxBanner> */}
       <FlashSale></FlashSale>
       <FixedImg></FixedImg>
-      <TrendingProducts></TrendingProducts>
+      <LatestProducts></LatestProducts>
       <Discount></Discount>
       <IconicProducts></IconicProducts>
       {/* <CustomerReview></CustomerReview> */}

@@ -114,122 +114,125 @@ const AddToCart = () => {
           You have {cartPosts?.length} product in your cart <BiCart></BiCart>
         </h2>
         <ul className="flex flex-col divide-y divide-gray-300">
-          {cartPosts?.map((item) => {
-            const subtotal = item?.product?.price * item.quantity;
-            return (
-              <li
-                className="flex flex-col py-6 sm:flex-row sm:justify-between"
-                key={item?._id}
-              >
-                <div className="grid grid:cols-1 md:grid-cols-7 lg:grid-cols-7 w-full space-x-2 sm:space-x-4">
-                  <img
-                    className="col-span-1 md:col-span-2 lg:col-span-2 w-full md:h-[200px] border-transparent rounded outline-none bg-gray-500"
-                    src={item?.product?.primary_img}
-                    alt={item?.product?.product_name}
-                  />
-                  <div className="col-span-1  md:col-span-4 lg:col-span-4 pb-4">
-                    <Link to={`/singleproduct/${item?.productId}`}>
-                      <div className="space-y-1">
-                        <h3 className="lg:text-lg my-4 lg:my-0 md:my-0 md:text-md text-md max-w-md font-semibold leading-tight sm:pr-8 hover:text-orange-500 duration-100">
-                          {item?.product?.product_heading}
-                        </h3>
-                        <p className="text-sm  text-gray-600">
-                          {item?.product?.category}
+          {cartPosts
+            ?.filter((item) => item.product)
+            .map((item) => {
+              const subtotal = item?.product?.price * item.quantity;
+              return (
+                <li
+                  className="flex flex-col py-6 sm:flex-row sm:justify-between"
+                  key={item?._id}
+                >
+                  <div className="grid grid:cols-1 md:grid-cols-7 lg:grid-cols-7 w-full space-x-2 sm:space-x-4">
+                    <img
+                      className="col-span-1 md:col-span-2 lg:col-span-2 w-full md:h-[200px] border-transparent rounded outline-none bg-gray-500"
+                      src={item?.product?.primary_img}
+                      alt={item?.product?.product_name}
+                    />
+                    <div className="col-span-1  md:col-span-4 lg:col-span-4 pb-4">
+                      <Link to={`/singleproduct/${item?.productId}`}>
+                        <div className="space-y-1">
+                          <h3 className="lg:text-lg my-4 lg:my-0 md:my-0 md:text-md text-md max-w-md font-semibold leading-tight sm:pr-8 hover:text-orange-500 duration-100">
+                            {item?.product?.product_heading}
+                          </h3>
+                          <p className="text-sm  text-gray-600">
+                            {item?.product?.category}
+                          </p>
+                          {item?.selectedColor ? (
+                            <p className="text-sm flex gap-1 items-center text-gray-600">
+                              Color:
+                              <div
+                                className="w-4 h-4 rounded-full border  "
+                                style={{ backgroundColor: item?.selectedColor }}
+                              />
+                              {item?.selectedColor}{" "}
+                            </p>
+                          ) : (
+                            <p className="text-sm flex gap-1 items-center text-gray-600 ">
+                              Color:{" "}
+                              <div
+                                className="w-4 h-4 rounded-full border  font-semibold "
+                                style={{
+                                  backgroundColor: item?.product?.primary_color,
+                                }}
+                              />
+                              <span className="font-semibold">
+                                {" "}
+                                {item?.product?.primary_color}{" "}
+                              </span>
+                            </p>
+                          )}
+                        </div>
+                      </Link>
+
+                      <div className="text-lg flex items-centers mt-1 ">
+                        <p className="font-semibold">
+                          {" "}
+                          {item?.product?.price}
+                          <span className="font-bold text-xl">৳</span>
                         </p>
-                        {item?.selectedColor ? (
-                          <p className="text-sm flex gap-1 items-center text-gray-600">
-                            Color:
-                            <div
-                              className="w-4 h-4 rounded-full border  "
-                              style={{ backgroundColor: item?.selectedColor }}
-                            />
-                            {item?.selectedColor}{" "}
-                          </p>
-                        ) : (
-                          <p className="text-sm flex gap-1 items-center text-gray-600 ">
-                            Color:{" "}
-                            <div
-                              className="w-4 h-4 rounded-full border  font-semibold "
-                              style={{
-                                backgroundColor: item?.product?.primary_color,
-                              }}
-                            />
-                            <span className="font-semibold">
-                              {" "}
-                              {item?.product?.primary_color}{" "}
-                            </span>
-                          </p>
-                        )}
+
+                        <p className="mx-3 mt-1.5 text-sm">Quantity:</p>
+                        <select
+                          id="quantity"
+                          className="block py-2  px-2 w-16 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer focus:border-secondary"
+                          onChange={(event) => handleInputChange(event, item)}
+                        >
+                          <option defaultValue={item?.quantity}>
+                            {item?.quantity}
+                          </option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                        </select>
                       </div>
-                    </Link>
-
-                    <div className="text-lg flex items-centers mt-1 ">
-                      <p className="font-semibold">
-                        {" "}
-                        {item?.product?.price}
-                        <span className="font-bold text-xl">৳</span>
+                      <p className="text-gray-700">
+                        Subtotal:{" "}
+                        <span className=" ml-1.5 font-semibold">
+                          {subtotal}{" "}
+                          <span className="font-bold text-xl">৳</span>{" "}
+                        </span>
                       </p>
-
-                      <p className="mx-3 mt-1.5 text-sm">Quantity:</p>
-                      <select
-                        id="quantity"
-                        className="block py-2  px-2 w-16 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer focus:border-secondary"
-                        onChange={(event) => handleInputChange(event, item)}
-                      >
-                        <option defaultValue={item?.quantity}>
-                          {item?.quantity}
-                        </option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                      </select>
                     </div>
-                    <p className="text-gray-700">
-                      Subtotal:{" "}
-                      <span className=" ml-1.5 font-semibold">
-                        {subtotal} <span className="font-bold text-xl">৳</span>{" "}
-                      </span>
-                    </p>
-                  </div>
 
-                  <div className="col-span-1 md:col-span-1 lg:col-span-1">
-                    <div className="flex text-sm items-center   hover:text-red-600 ">
-                      <button
-                        type="button"
-                        className="flex items-center px-2 py-1 pl-0 space-x-1"
-                        onClick={() => setDeleteData(item)}
-                      >
-                        <BiTrash className="text-lg"></BiTrash>
-                        <span>Remove</span>
-                      </button>
+                    <div className="col-span-1 md:col-span-1 lg:col-span-1">
+                      <div className="flex text-sm items-center   hover:text-red-600 ">
+                        <button
+                          type="button"
+                          className="flex items-center px-2 py-1 pl-0 space-x-1"
+                          onClick={() => setDeleteData(item)}
+                        >
+                          <BiTrash className="text-lg"></BiTrash>
+                          <span>Remove</span>
+                        </button>
 
-                      {
-                        // Delete Confirmation Modal
-                        deleteData && (
-                          <ConfirmationModal
-                            message={`Are you sure to remove this ${item?.product?.product_name} product from cart?`}
-                            data={deleteData}
-                            setData={setDeleteData}
-                            successAction={handleDeletePost}
-                            successActionName="Yes, I'm Sure!"
-                            cancelActionName="No, Cancel"
-                            successBtnColor="red"
-                          />
-                        )
-                      }
+                        {
+                          // Delete Confirmation Modal
+                          deleteData && (
+                            <ConfirmationModal
+                              message={`Are you sure to remove this ${item?.product?.product_name} product from cart?`}
+                              data={deleteData}
+                              setData={setDeleteData}
+                              successAction={handleDeletePost}
+                              successActionName="Yes, I'm Sure!"
+                              cancelActionName="No, Cancel"
+                              successBtnColor="red"
+                            />
+                          )
+                        }
+                      </div>
                     </div>
                   </div>
-                </div>
-              </li>
-            );
-          })}
+                </li>
+              );
+            })}
         </ul>
 
         <div className="space-y-1 text-right">

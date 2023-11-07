@@ -2,13 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthProvider/AuthProvider";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import { IoCall } from "react-icons/io5";
 
 import { BsStarFill } from "react-icons/bs";
 import { Button, Tooltip } from "flowbite-react";
 import { toast } from "react-toastify";
 import QnA from "./QnA";
+import Suggest from "./Suggest";
+import Loader from "../../Shared/Loader/Loader";
 
 // function numberWithCommas(x) {
 //   x = x.toString();
@@ -20,11 +22,13 @@ import QnA from "./QnA";
 const SingleProduct = () => {
   const [singleProduct, setSingleProduct] = useState({});
   const [showCallNowModal, setShowCallNowModal] = useState(false);
+  const [suggestProduct, setSuggestProduct] = useState([]);
   const [wishList, setWishList] = useState(false);
   const [cart, setCart] = useState(false);
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("");
+  const [isLoading, setLoading] = useState(true);
   const { id } = useParams();
   const {
     _id,
@@ -52,8 +56,23 @@ const SingleProduct = () => {
       .then((data) => {
         setSingleProduct(data);
         // console.log(data);
+        setLoading(false);
       });
-  }, []);
+  }, [id]);
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/category/${singleProduct.category}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setSuggestProduct(data?.slice(0, 6));
+        setLoading(false);
+      })
+      .catch((error) => {
+        // Handle fetch error if necessary
+        console.error(error);
+        setLoading(false);
+      });
+  }, [singleProduct]);
 
   const handleWishList = (singleProduct) => {
     setWishList((prevState) => !prevState);
@@ -198,9 +217,13 @@ const SingleProduct = () => {
     }
   };
 
+  if (loading || isLoading) {
+    return <Loader />;
+  }
+
   return (
     <div className="my-10 mb-10 max-w-[1440px] w-[95%] mx-auto overflow-x-auto">
-      <div className="grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-7 lg:grid-cols-7  border-black border-2">
+      <div className="grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-7 lg:grid-cols-7 ">
         {/* img div  */}
         <div className=" lg:col-span-2 md:col-span-2 sm:col-span-1  col-span-1 ">
           <div className="">
@@ -307,9 +330,9 @@ const SingleProduct = () => {
                 content={color?.name}
                 className="text-xs text-red-400 inline"
                 style="light"
+                key={color?.id}
               >
                 <div
-                  key={color?.id}
                   className={`w-6 h-6 rounded-full ml-1 hover:border-orange-400 border-2 cursor-pointer ${
                     selectedColor === color.name
                       ? "border-orange-500 scale-110"
@@ -552,7 +575,10 @@ const SingleProduct = () => {
 
         {/* Suggest Product Right side */}
         <div className="lg:col-span-2 md:col-span-2 col-span-1">
-          <img src={primary_img} alt="" />
+          <Suggest
+            suggestProduct={suggestProduct}
+            singleProduct={singleProduct}
+          ></Suggest>
         </div>
       </div>
     </div>

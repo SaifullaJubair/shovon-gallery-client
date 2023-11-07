@@ -78,7 +78,7 @@ const MyQnA = () => {
         )}
 
         {currentItems?.map((comment, index) => (
-          <div className="grid lg:grid-cols-11 grid-cols-1 gap-2 bg-gray-100 my-4 py-4">
+          <div className="grid lg:grid-cols-11 grid-cols-1 gap-2 bg-gray-50 my-4 py-4">
             <div className="lg:col-span-2  col-span-1 ml-2">
               <div className="flex items-center gap-2">
                 <img
@@ -116,7 +116,7 @@ const MyQnA = () => {
             </div>
           </div>
         ))}
-        <div className="pagination mt-6">
+        <div className="pagination my-6">
           <ReactPaginate
             breakLabel="..."
             nextLabel=">"

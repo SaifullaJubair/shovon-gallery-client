@@ -15,7 +15,56 @@ const ProductHighlightSection = ({ singleProduct }) => {
   const { user, loading } = useContext(AuthContext);
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("");
+  const [review, setReview] = useState("");
+  const [rating, setRating] = useState(0);
+  const [title, setTitle] = useState("");
 
+  const handleReviewSubmit = () => {
+    // Validate the review, rating, and title (if required)
+    if (!review || !rating) {
+      toast.error("Please provide a review and rating before submitting.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+
+    // Prepare the review data to be submitted
+    const reviewData = {
+      productId: singleProduct?._id,
+      userId: user?.uid, // Assuming user is authenticated and user object is available
+      review: review,
+      rating: rating,
+      title: title, // Optional: If you want to allow users to provide a title for their review
+    };
+
+    // Perform the API call to submit the review
+    fetch("http://localhost:5000/submit-review", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(reviewData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // Review submitted successfully, show a success toast notification
+        toast.success("Review submitted successfully", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+
+        // Optionally, you can reset the review, rating, and title fields after submission
+        setReview("");
+        setRating(0);
+        setTitle("");
+      })
+      .catch((error) => {
+        console.error("Error submitting review:", error);
+        // Show an error toast notification if the submission fails
+        toast.error("Error submitting review. Please try again later.", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      });
+  };
   const {
     _id,
     product_name,
@@ -184,7 +233,7 @@ const ProductHighlightSection = ({ singleProduct }) => {
       </h2>
       {/* review and ans section  */}
       <div className="flex justify-between items-center">
-        <section className=" flex items-center gap-1 mt-4 mb-6 ">
+        {/* <section className=" flex items-center gap-1 mt-4 mb-6 ">
           <span className="flex items-center gap-1">
             <BsStarFill className="text-yellow-300 text-xs" />
             <BsStarFill className="text-yellow-300 text-xs" />
@@ -199,7 +248,42 @@ const ProductHighlightSection = ({ singleProduct }) => {
               10 Answered Questions
             </span>
           </p>
-        </section>
+
+        </section> */}
+
+        {/* Review submission form */}
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold mb-2">Write a Review</h3>
+          <textarea
+            className="w-full h-24 p-2 border rounded-md mb-4"
+            placeholder="Write your review here..."
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
+          />
+          <div className="flex items-center mb-4">
+            <span className="mr-2 font-semibold">Rating:</span>
+            {[1, 2, 3, 4, 5].map((star) => (
+              <BsStarFill
+                key={star}
+                className={`text-gray-300 text-xl cursor-pointer ${
+                  star <= rating ? "text-yellow-300 font-bold" : ""
+                }`}
+                onClick={() => setRating(star)}
+              />
+            ))}
+          </div>
+          {/* Optional: Allow users to provide a title for their review */}
+          {/* <input
+          type="text"
+          className="w-full p-2 border rounded-md mb-4"
+          placeholder="Review Title (Optional)"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        /> */}
+          <Button gradientDuoTone="purpleToPink" onClick={handleReviewSubmit}>
+            Submit Review
+          </Button>
+        </div>
         <div className="">
           <button
             onClick={() => handleWishList(singleProduct)}

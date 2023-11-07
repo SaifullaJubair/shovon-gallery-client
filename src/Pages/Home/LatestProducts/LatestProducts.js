@@ -11,7 +11,7 @@ const LatestProducts = () => {
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
-        setProducts(data.slice(0, 4));
+        setProducts(data);
       });
   }, []);
   return (

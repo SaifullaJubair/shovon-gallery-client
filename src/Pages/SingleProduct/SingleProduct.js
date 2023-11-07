@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import QnA from "./QnA";
 import Suggest from "./Suggest";
 import Loader from "../../Shared/Loader/Loader";
+import RightSideContactForm from "./RightSideContactForm";
 
 // function numberWithCommas(x) {
 //   x = x.toString();
@@ -383,85 +384,7 @@ const SingleProduct = () => {
 
         {/*--------- right sidebar -------- */}
         <div className="lg:col-span-2 bg-gray-100/50 md md:col-span-2 hidden md:flex flex-col   col-span-1  ">
-          <form className="m-2">
-            <div className="relative z-0 w-full mb-6 group">
-              <input
-                type="text"
-                name="floating_name"
-                id="floating_name"
-                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-900 focus:outline-none focus:ring-0 focus:border-blue-900 peer"
-                placeholder=" "
-                required
-              />
-              <label
-                for="floating_name"
-                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-900 peer-focus:dark:text-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Full Name
-              </label>
-            </div>
-            <div className="relative z-0 w-full mb-6 group">
-              <input
-                type="email"
-                name="floating_email"
-                id="floating_email"
-                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-900 focus:outline-none focus:ring-0 focus:border-blue-900 peer"
-                placeholder=" "
-                required
-              />
-              <label
-                for="floating_email"
-                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-900 peer-focus:dark:text-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Email address
-              </label>
-            </div>
-
-            <div className="relative z-0 w-full mb-6 group">
-              <input
-                type="number"
-                name="floating_phone"
-                id="floating_phone"
-                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-900 focus:outline-none focus:ring-0 focus:border-blue-900 peer"
-                placeholder=" "
-                required
-              />
-              <label
-                for="floating_phone"
-                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-900 peer-focus:dark:text-blue-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Phone
-              </label>
-            </div>
-            <div className="mb-6">
-              <label
-                for="message"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Your message
-              </label>
-              <textarea
-                id="message"
-                rows="4"
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-md border border-gray-300 focus:ring-primary focus:border-blue-900 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-900 dark:focus:border-blue-500"
-                placeholder="Leave a comment..."
-              ></textarea>
-            </div>
-            <div className="flex gap-2">
-              <button
-                type="submit"
-                className="text-white bg-secondary hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md lg:text-md md:text-sm w-full sm:w-auto lg:px-5 md:px-3 py-2.5 text-center dark:bg-blue-900 dark:hover:bg-blue-900 dark:focus:ring-blue-900"
-              >
-                Submit
-              </button>
-              <span
-                onClick={() => setShowCallNowModal(!showCallNowModal)}
-                className="text-white bg-secondary hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md lg:text-md md:text-sm w-full sm:w-auto lg:px-5 md:px-3 text-md py-2.5 text-center dark:bg-blue-900 dark:hover:bg-blue-900 dark:focus:ring-blue-900 flex items-center gap-1 cursor-pointer"
-              >
-                <IoCall /> Call Now
-              </span>
-            </div>
-          </form>
+          <RightSideContactForm singleProduct={singleProduct} />
         </div>
       </div>
 

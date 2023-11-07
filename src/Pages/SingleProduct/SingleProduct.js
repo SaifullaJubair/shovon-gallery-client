@@ -12,6 +12,7 @@ import QnA from "./QnA";
 import Suggest from "./Suggest";
 import Loader from "../../Shared/Loader/Loader";
 import RightSideContactForm from "./RightSideContactForm";
+import ProductSpecification from "./ProductSpecification";
 
 // function numberWithCommas(x) {
 //   x = x.toString();
@@ -22,7 +23,6 @@ import RightSideContactForm from "./RightSideContactForm";
 
 const SingleProduct = () => {
   const [singleProduct, setSingleProduct] = useState({});
-  const [showCallNowModal, setShowCallNowModal] = useState(false);
   const [suggestProduct, setSuggestProduct] = useState([]);
   const [wishList, setWishList] = useState(false);
   const [cart, setCart] = useState(false);
@@ -392,99 +392,7 @@ const SingleProduct = () => {
 
       <div className="grid lg:grid-cols-7 md:grid-5 grid-cols-1 gap-2 my-10">
         <div className="lg:col-span-5 md:col-span-3 col-span-1">
-          <p className="text-lg font-semibold bg-gray-50 p-2 text-gray-800">
-            Product Specification of {product_name}
-          </p>
-          <div className="relative overflow-x-auto">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <tbody>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Product Type
-                  </th>
-                  <td className="px-6 py-4">{product_name}</td>
-                </tr>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Color
-                  </th>
-                  <td className="px-6 py-4">{primary_color}</td>
-                </tr>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Available Color
-                  </th>
-                  <td className="px-6 py-4 flex ">
-                    {" "}
-                    {available_color?.map((color) => (
-                      <div
-                        key={color?.id}
-                        className="mr-2"
-                        // style={{ backgroundColor: color?.id }}
-                      >
-                        {" "}
-                        {color?.name},
-                      </div>
-                    ))}
-                  </td>
-                </tr>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Category
-                  </th>
-                  <td className="px-6 py-4">{category}</td>
-                </tr>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Box Content
-                  </th>
-                  <td className="px-6 py-4">{box_content}</td>
-                </tr>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Registered
-                  </th>
-                  <td className="px-6 py-4">{post_date?.slice(0, 10)}</td>
-                </tr>
-
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Reference no.
-                  </th>
-                  <td className="px-6 py-4">SG-{_id}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          {/* Product Details  */}
-          <div className="mb-6">
-            <p className="text-lg bg-gray-50 p-2 font-semibold my-2 text-gray-800 break-words">
-              Product Details of : {product_name}
-            </p>
-            <p className="text-gray-800 m-2 break-words">{product_highlight}</p>
-            <p className="text-gray-800 m-2  break-words">{details}</p>
-          </div>
+          <ProductSpecification singleProduct={singleProduct} />
           {/* Product Review  */}
           <div>
             <h1>Here Review will pending</h1>

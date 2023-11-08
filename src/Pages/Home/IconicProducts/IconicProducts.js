@@ -15,6 +15,9 @@ const IconicProducts = () => {
         setProducts(data);
         setSingleProduct(data[0]);
         setNextTwoProducts(data.slice(1, 3));
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
       });
   }, []);
   // console.log(nextTwoProducts);

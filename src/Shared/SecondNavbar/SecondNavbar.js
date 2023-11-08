@@ -19,6 +19,9 @@ const SecondNavbar = () => {
       .then((res) => res.json())
       .then((data) => {
         setCategories(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
       });
   }, []);
 
@@ -31,8 +34,7 @@ const SecondNavbar = () => {
           setSingleUser(data);
         })
         .catch((error) => {
-          // Handle fetch error if necessary
-          console.error(error);
+          console.error("Error fetching data:", error);
         });
     } else {
       // Handle case when user is not authenticated

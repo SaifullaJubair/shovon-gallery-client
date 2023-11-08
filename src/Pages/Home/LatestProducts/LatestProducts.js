@@ -12,6 +12,9 @@ const LatestProducts = () => {
       .then((data) => {
         // console.log(data);
         setProducts(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
       });
   }, []);
   return (

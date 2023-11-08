@@ -14,6 +14,7 @@ import Loader from "../../Shared/Loader/Loader";
 import RightSideContactForm from "./RightSideContactForm";
 import ProductSpecification from "./ProductSpecification";
 import ProductHighlightSection from "./ProductHighlightSection";
+import SubmitReview from "./SubmitReview";
 
 const SingleProduct = () => {
   const [singleProduct, setSingleProduct] = useState({});
@@ -115,7 +116,7 @@ const SingleProduct = () => {
           <ProductSpecification singleProduct={singleProduct} />
           {/* Product Review  */}
           <div>
-            <h1>Here Review will pending</h1>
+            <SubmitReview singleProduct={singleProduct}></SubmitReview>
           </div>
           {/* QnS  */}
           <div>

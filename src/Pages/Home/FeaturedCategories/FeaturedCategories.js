@@ -9,6 +9,9 @@ const FeaturedCategories = () => {
       .then((res) => res.json())
       .then((data) => {
         setCategories(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
       });
   }, []);
   return (
@@ -73,7 +76,7 @@ const FeaturedCategories = () => {
                       </svg>
                     </div>
                     <p className="mb-2 text-center text-sm  font-semibold">
-                      {category.name}
+                      {category?.name}
                     </p>
                   </div>
                 </div>

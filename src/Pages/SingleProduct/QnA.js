@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import Loader from "../../Shared/Loader/Loader";
 import ReactPaginate from "react-paginate";
+import { Link } from "react-router-dom";
 
 const QnA = ({ singleProduct }) => {
   const [question, setQuestion] = useState("");
@@ -27,7 +28,6 @@ const QnA = ({ singleProduct }) => {
   const [itemOffset, setItemOffset] = useState(0);
   const { user, loading } = useContext(AuthContext);
   const [singleUser, setSingleUser] = useState(null);
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const currentDate = new Date();
   const options = {
@@ -282,7 +282,19 @@ const QnA = ({ singleProduct }) => {
             </button>
           </div>
         ) : (
-          <div>Please login</div>
+          <div>
+            <h1 className="m-2 mb-4">
+              Please{" "}
+              <Link to="/login" className="text-blue-500 font-semibold">
+                Login
+              </Link>{" "}
+              or{" "}
+              <Link to="/register" className="text-blue-500 font-semibold">
+                Register
+              </Link>{" "}
+              to ask questions to seller
+            </h1>
+          </div>
         )}
 
         <div>

@@ -15,6 +15,9 @@ const FlashSale = () => {
       .then((data) => {
         // console.log(data);
         setProducts(data.slice(0, 4));
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
       });
   }, []);
   // console.log(products);

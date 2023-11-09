@@ -6,7 +6,6 @@ import {
   FaEdit,
   FaEllipsisV,
   FaQuestionCircle,
-  FaReply,
   FaTrash,
 } from "react-icons/fa";
 import { AuthContext } from "../../Contexts/AuthProvider/AuthProvider";
@@ -255,7 +254,7 @@ const QnA = ({ singleProduct }) => {
       <div>
         <div
           for="qna"
-          className="block my-2 pl-2 bg-gray-50 p-2 w-full text-lg text-gray-700 font-medium dark:text-white"
+          className="block my-4 pl-2 bg-gray-50 p-2 w-full text-lg text-gray-700 font-medium dark:text-white"
         >
           Questions About This Product
         </div>

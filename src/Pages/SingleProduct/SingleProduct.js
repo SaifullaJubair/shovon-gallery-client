@@ -15,6 +15,7 @@ import RightSideContactForm from "./RightSideContactForm";
 import ProductSpecification from "./ProductSpecification";
 import ProductHighlightSection from "./ProductHighlightSection";
 import SubmitReview from "./SubmitReview";
+import ShowReview from "./ShowReview";
 
 const SingleProduct = () => {
   const [singleProduct, setSingleProduct] = useState({});
@@ -116,7 +117,10 @@ const SingleProduct = () => {
           <ProductSpecification singleProduct={singleProduct} />
           {/* Product Review  */}
           <div>
-            <SubmitReview singleProduct={singleProduct}></SubmitReview>
+            <h1 className="bg-gray-50 p-2 my-4 lg:text-lg md:text-lg text-md font-semibold text-gray-700">
+              Ratings & Reviews of {product_heading}
+            </h1>
+            <ShowReview singleProduct={singleProduct}></ShowReview>
           </div>
           {/* QnS  */}
           <div>

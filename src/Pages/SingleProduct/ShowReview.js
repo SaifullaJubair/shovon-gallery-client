@@ -8,6 +8,7 @@ import SubmitReview from "./SubmitReview";
 import { BsStarFill } from "react-icons/bs";
 import { Button, Dropdown, Modal } from "flowbite-react";
 import { Link } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 
 const ShowReview = ({ singleProduct }) => {
   const [refetch, setRefetch] = useState(false);
@@ -300,7 +301,7 @@ const ShowReview = ({ singleProduct }) => {
   }
   return (
     <div className="">
-      <AverageReview></AverageReview>
+      <AverageReview reviews={reviews}></AverageReview>
 
       <div>
         <hr />
@@ -553,6 +554,18 @@ const ShowReview = ({ singleProduct }) => {
             </h1>
           </div>
         )}
+      </div>
+      <div className="pagination mt-6">
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="<"
+          renderOnZeroPageCount={null}
+          containerClassName="pagination-menu"
+        />
       </div>
     </div>
   );

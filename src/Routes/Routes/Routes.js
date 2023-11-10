@@ -21,6 +21,7 @@ import Categories from "../../Pages/DashBoard/Categories/Categories";
 import AddBannerImg from "../../Pages/DashBoard/AddBannerImg/AddBannerImg";
 import AddFixedImg from "../../Pages/DashBoard/AddFixedImg/AddFixedImg";
 import MyQnA from "../../Pages/DashBoard/MyQnA/MyQnA";
+import MyReviewDashboard from "../../Pages/DashBoard/MyReviewDashboard/MyReviewDashboard";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main/Main");
@@ -117,6 +118,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/QnA",
         element: <MyQnA></MyQnA>,
+      },
+      {
+        path: "/dashboard/my-review",
+        element: <MyReviewDashboard></MyReviewDashboard>,
       },
 
       // Admin Route

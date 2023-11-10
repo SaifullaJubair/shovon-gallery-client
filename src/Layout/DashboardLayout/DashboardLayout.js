@@ -12,7 +12,7 @@ import { BiCommentDetail, BiGroup } from "react-icons/bi";
 import { BsGraphUp, BsNewspaper } from "react-icons/bs";
 import { RiEditBoxLine } from "react-icons/ri";
 import { CgAddR } from "react-icons/cg";
-import { FaHeart, FaLaptopHouse, FaHouseDamage } from "react-icons/fa";
+import { FaHeart, FaLaptopHouse, FaHouseDamage, FaStar } from "react-icons/fa";
 import { HiOutlineMenu } from "react-icons/hi";
 import { MdOutlineAccountCircle } from "react-icons/md";
 
@@ -183,53 +183,6 @@ const DashboardLayout = () => {
                         </span>
                       </NavLink>
                     </li>
-
-                    {/* <li>
-                  <BiCommentDetail className="inline-block ml-4 mr-6 h-7"></BiCommentDetail>
-                  <NavLink to={`/dashboard/allfeedback`}>
-                    <span className={hide ? "hidden" : "inline"}>
-                      All Feedback
-                    </span>
-                  </NavLink>
-                </li> */}
-                    {/* 
-                   
-                    <li className="dark:bg-gray-800 dark:text-gray-50">
-                      <CgAddR className="inline-block ml-4 mr-6 h-7 text-white"></CgAddR>
-                      <NavLink to={`/dashboard/addproperty`}>
-                        <span className={hide ? "hidden" : "inline"}>
-                          {" "}
-                          Add Property
-                        </span>
-                      </NavLink>
-                    </li> */}
-
-                    {/* 
-                  <li>
-                    <BiCommentDetail className="inline-block ml-4 mr-6 h-7"></BiCommentDetail>
-                    <NavLink to={`/dashboard/mycomments`}>
-                      <span className={hide ? "hidden" : "inline"}>
-                        My Comments
-                      </span>
-                    </NavLink>
-                  </li>
-
-                  <li>
-                    <BiCommentDetail className="inline-block ml-4 mr-6 h-7"></BiCommentDetail>
-                    <NavLink to={`/dashboard/allcomments`}>
-                      <span className={hide ? "hidden" : "inline"}>
-                        All Comments
-                      </span>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <RiEditBoxLine className="inline-block ml-4 mr-6 h-7"></RiEditBoxLine>
-                    <NavLink to={`/dashboard/allblogs`}>
-                      <span className={hide ? "hidden" : "inline"}>
-                        All Blogs
-                      </span>
-                    </NavLink>
-                  </li> */}
                   </>
                 )}
 
@@ -249,9 +202,11 @@ const DashboardLayout = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <RiEditBoxLine className="inline-block ml-4 mr-6 h-7"></RiEditBoxLine>
-                  <NavLink to={`/dashboard/myblog`}>
-                    <span className={hide ? "hidden" : "inline"}>My Blog</span>
+                  <FaStar className="inline-block ml-4 mr-6 h-7 text-yellow-300"></FaStar>
+                  <NavLink to={`/dashboard/my-review`}>
+                    <span className={hide ? "hidden" : "inline"}>
+                      My Review
+                    </span>
                   </NavLink>
                 </li>
 

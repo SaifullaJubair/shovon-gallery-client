@@ -13,7 +13,7 @@ const AverageReview = ({ reviews }) => {
     return averageRating;
   };
 
-  const averageRating = calculateAverageRating(reviews);
+  // const averageRating = calculateAverageRating(reviews);
 
   const renderStars = (averageRating) => {
     const starArray = []; //This line initializes an empty array called starArray where we will store the JSX elements representing the stars.
@@ -57,6 +57,54 @@ const AverageReview = ({ reviews }) => {
     return starArray;
   };
 
+  const calculatePercentage = (total, count) => {
+    return count > 0 ? ((count / total) * 100).toFixed(0) + "%" : "0%";
+  };
+
+  const renderRatingBars = (totalReviews, reviewsCount) => {
+    return (
+      <div className="flex flex-col mt-4">
+        {[5, 4, 3, 2, 1].map((star) => {
+          const count = reviewsCount[star] || 0;
+          const filledStars = Array.from({ length: star }, (_, index) => (
+            <FaStar key={`filled-${index}`} className="text-yellow-300" />
+          ));
+          const emptyStars = Array.from({ length: 5 - star }, (_, index) => (
+            <FaRegStar key={`empty-${index}`} className="text-yellow-300" />
+          ));
+          return (
+            <div key={star} className="flex items-center space-x-1">
+              <span className="flex items-center mx-1 text-sm">
+                {" "}
+                {filledStars}
+                {emptyStars}
+              </span>
+              <div className="flex-1 h-4 overflow-hidden rounded-sm bg-gray-200">
+                <div
+                  className="bg-yellow-300 h-4"
+                  style={{ width: calculatePercentage(totalReviews, count) }}
+                ></div>
+              </div>
+              <span className=" text-gray-600 w-16 text-sm text-right">
+                <span className="flex items-center ms-1">
+                  {count}, {calculatePercentage(totalReviews, count)}
+                </span>
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const totalReviews = reviews.length;
+  const reviewsCount = reviews.reduce((count, review) => {
+    const rating = review.rating;
+    count[rating] = (count[rating] || 0) + 1;
+    return count;
+  }, {});
+
+  const averageRating = calculateAverageRating(reviews);
   return (
     <div>
       <div className="my-6">
@@ -74,7 +122,7 @@ const AverageReview = ({ reviews }) => {
               </span>
             </div>
             <p className="text-sm text-gray-600">{reviews.length} Ratings</p>
-            <div className="flex flex-col mt-4">
+            {/* <div className="flex flex-col mt-4">
               <div className="flex items-center space-x-1">
                 <span className="flex-shrink-0 w-12 text-sm">5 star</span>
                 <div className="flex-1 h-4 overflow-hidden rounded-sm bg-gray-300">
@@ -120,7 +168,8 @@ const AverageReview = ({ reviews }) => {
                   17
                 </span>
               </div>
-            </div>
+            </div> */}
+            {renderRatingBars(totalReviews, reviewsCount)}
           </div>
         </div>
       </div>

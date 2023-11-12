@@ -22,6 +22,7 @@ import AddBannerImg from "../../Pages/DashBoard/AddBannerImg/AddBannerImg";
 import AddFixedImg from "../../Pages/DashBoard/AddFixedImg/AddFixedImg";
 import MyQnA from "../../Pages/DashBoard/MyQnA/MyQnA";
 import MyReviewDashboard from "../../Pages/DashBoard/MyReviewDashboard/MyReviewDashboard";
+import Checkout from "../../Pages/Checkout/Checkout";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main/Main");
@@ -50,6 +51,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AddToCart></AddToCart>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/checkout",
+        element: (
+          <PrivateRoute>
+            <Checkout />
           </PrivateRoute>
         ),
       },

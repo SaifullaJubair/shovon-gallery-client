@@ -341,7 +341,17 @@ const QnA = ({ singleProduct }) => {
                             className="flex items-center my-2 px-2 cursor-pointer hover:text-secondary hover:underline"
                             onClick={() => showReplyModal(item)}
                           >
-                            <FaComment className="mr-1.5" /> Reply
+                            {item?.reply ? (
+                              <>
+                                <FaComment className="mr-1.5" />
+                                Edit Reply
+                              </>
+                            ) : (
+                              <>
+                                <FaComment className="mr-1.5" />
+                                Reply
+                              </>
+                            )}
                           </li>
                         )}
                       </ul>

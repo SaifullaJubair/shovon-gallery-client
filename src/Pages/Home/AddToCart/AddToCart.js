@@ -21,6 +21,7 @@ const AddToCart = () => {
   const [singleUser, setSingleUser] = useState({});
   const [divisions, setDivisions] = useState([]);
   const [districts, setDistricts] = useState([]);
+  const [selectedDivision, setSelectedDivision] = useState(null);
 
   const {
     register,
@@ -130,12 +131,13 @@ const AddToCart = () => {
         // Assuming the division data is stored in the 'divisions' property
 
         setDivisions(
-          data.find((item) => item.name === "divisions")?.divisions || []
+          data.find((item) => item.name === "divisions")?.data || []
         );
-
+        console.log(divisions);
         setDistricts(
-          data.find((item) => item.name === "districts")?.districts || []
+          data.find((item) => item.name === "districts")?.data || []
         );
+        console.log(districts);
       })
       .catch((error) => {
         console.error(error);
@@ -143,47 +145,84 @@ const AddToCart = () => {
       });
   }, []);
 
-  const handleCheckout = (data) => {
-    const {
-      userName,
-      userEmail,
-      division,
-      district,
-      address,
+  const handleCheckout = async (data) => {
+    const checkoutData = {
+      userName: data.userName,
+      userEmail: user.email,
+      division: data.division,
+      district: data.district,
+      address: data.address,
+      number: data.number,
+      cartProducts: cartPosts
+        ?.filter((item) => item.product)
+        .map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          selectedColor: item.selectedColor,
+          primary_color: item?.product?.primary_color,
+          category: item.product.category,
+          price: item.product.price,
+          img: item.product.primary_img,
+          heading: item.product.product_heading,
+          subtotal: item.product.price * item.quantity,
+        })),
       totalAmount,
-      number,
-    } = data;
-    console.log(data);
+    };
+    // console.log(checkoutData);
+    try {
+      const response = await fetch("http://localhost:5000/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(checkoutData),
+      });
 
-    // e.preventDefault();
-    // const form = e.target;
-    // const question = form.editQuestion.value;
-    // const data = {
-    //   _id: checkoutData?._id,
-    //   question,
-    //   // postDate: formattedDate,
-    // };
-    // fetch("http://localhost:5000/edit-question", {
-    //   method: "PUT",
-    //   headers: {
-    //     "content-type": "application/json",
-    //   },
-    //   body: JSON.stringify(data),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     form.reset("");
-    //     toast("Edit successful", {
-    //       position: toast.POSITION.TOP_CENTER,
-    //     });
-    //     setCheckoutData(null);
-    //     setRefetch(!refetch);
-    //   })
-    // .catch((error) => {
-    //   console.error("Error edit review:", error);
-    //   // Show an error toast notification if the submission fails
-    //   // setLoading(false);
-    // });
+      const result = await response.json();
+      if (result.success) {
+        // Additional API call to delete cart items after successful checkout
+        const deleteCartResponse = await fetch(
+          `http://localhost:5000/cart/${user?.email}`,
+          {
+            method: "DELETE",
+            headers: {
+              "content-type": "application/json",
+            },
+          }
+        );
+
+        const deleteCartData = await deleteCartResponse.json();
+        console.log("deleted Cart data", deleteCartData);
+        if (deleteCartData.acknowledged === true) {
+          // Cart items successfully deleted
+          toast.success("Checkout successful", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+
+          // Optionally, you can also reset the cart locally in your state
+          setCartPosts([]);
+          setTotalAmount(0);
+          setCheckoutData(null);
+        } else {
+          toast.error("Failed to delete cart items", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+      } else {
+        // Handle checkout failure
+        toast.error("Checkout Unsuccessful", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
+    } catch (error) {
+      console.error("Error during checkout:", error);
+      // Handle error if necessary
+
+      // Show error toast
+      toast.error("Checkout Unsuccessful", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   };
   const showCheckoutModal = (item) => {
     setCheckoutData(item);
@@ -378,7 +417,7 @@ const AddToCart = () => {
                     <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                       Checkout
                     </h3>
-
+                    {/* User name */}
                     <div className="relative w-full mb-6 group">
                       <input
                         type="text"
@@ -405,7 +444,8 @@ const AddToCart = () => {
                         </span>
                       )}
                     </div>
-                    <div className="relative w-full mb-6 group">
+                    {/* User email */}
+                    {/* <div className="relative w-full mb-6 group">
                       <input
                         type="email"
                         name="floating_email"
@@ -430,7 +470,8 @@ const AddToCart = () => {
                           This field is required
                         </span>
                       )}
-                    </div>
+                    </div> */}
+                    {/*division */}
                     <div className="relative w-full mb-6 group">
                       <label
                         for="division"
@@ -439,23 +480,13 @@ const AddToCart = () => {
                         Division
                       </label>
 
-                      {/* <Select
-                        id="division"
-                        // className="block py-2.5 px-3 w-full "
-                        className="basic-single"
-                        classNamePrefix="select"
-                        options={divisions.map((division) => ({
-                          value: division.name,
-                          label: division.name,
-                        }))}
-                        placeholder="Select Division"
-                        {...register("division", { required: true })}
-                      /> */}
-
                       <select
                         id="division"
-                        className="block py-3 shadow-md pl-2 shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300  dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
+                        className="block py-3 shadow-md pl-2 shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
                         {...register("division", { required: true })}
+                        onChange={(e) => {
+                          setSelectedDivision(e.target.value);
+                        }}
                       >
                         <option disabled selected>
                           Select Division
@@ -467,6 +498,7 @@ const AddToCart = () => {
                         ))}
                       </select>
                     </div>
+                    {/* districts */}
                     <div className="relative w-full mb-6 group">
                       <label
                         for="district"
@@ -476,19 +508,25 @@ const AddToCart = () => {
                       </label>
                       <select
                         id="district"
-                        className="block py-2.5 shadow-md pl-2 shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300  dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
+                        className="block py-2.5 shadow-md pl-2 shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
                         {...register("district", { required: true })}
                       >
                         <option disabled selected>
                           Select District
                         </option>
-                        {districts.map((district) => (
-                          <option key={district._id} value={district.name}>
-                            {district.name}
-                          </option>
-                        ))}
+                        {districts
+                          .filter(
+                            (district) =>
+                              district.division_name === selectedDivision
+                          )
+                          .map((district) => (
+                            <option key={district._id} value={district.name}>
+                              {district.name}
+                            </option>
+                          ))}
                       </select>
                     </div>
+                    {/* Your Address */}
                     <div className="relative w-full mb-6 group">
                       <input
                         type="text"
@@ -514,6 +552,7 @@ const AddToCart = () => {
                         </span>
                       )}
                     </div>
+                    {/* Mobile Number */}
                     <div className="relative w-full mb-6 group">
                       <input
                         type="number"

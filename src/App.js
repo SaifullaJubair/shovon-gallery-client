@@ -18,7 +18,7 @@ function App() {
       <RouterProvider router={router}></RouterProvider>
       <ToastContainer />
       <ScrollToTop showUnder={160}>
-        <span className="text-4xl text-blue-600 hover:text-sky-600">
+        <span className="text-4xl text-blue-600  print:hidden hover:text-sky-600">
           <BsArrowUpCircleFill className="animate-bounce"></BsArrowUpCircleFill>
         </span>
       </ScrollToTop>

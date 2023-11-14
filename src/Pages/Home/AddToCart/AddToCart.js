@@ -145,6 +145,20 @@ const AddToCart = () => {
       });
   }, []);
 
+  const currentDate = new Date();
+  const options = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZoneName: "short",
+    timeZone: "Asia/Dhaka", // Set the time zone to Bangladesh
+  };
+
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+    currentDate
+  );
   const handleCheckout = async (data) => {
     const checkoutData = {
       userName: data.userName,
@@ -153,6 +167,7 @@ const AddToCart = () => {
       district: data.district,
       address: data.address,
       number: data.number,
+      postDate: formattedDate,
       cartProducts: cartPosts
         ?.filter((item) => item.product)
         .map((item) => ({
@@ -179,41 +194,42 @@ const AddToCart = () => {
       });
 
       const result = await response.json();
-      if (result.success) {
-        // Additional API call to delete cart items after successful checkout
-        const deleteCartResponse = await fetch(
-          `http://localhost:5000/cart/${user?.email}`,
-          {
-            method: "DELETE",
-            headers: {
-              "content-type": "application/json",
-            },
-          }
-        );
+      window.location.replace(result.url);
+      // if (result.success) {
+      //   // Additional API call to delete cart items after successful checkout
+      //   const deleteCartResponse = await fetch(
+      //     `http://localhost:5000/cart/${user?.email}`,
+      //     {
+      //       method: "DELETE",
+      //       headers: {
+      //         "content-type": "application/json",
+      //       },
+      //     }
+      //   );
 
-        const deleteCartData = await deleteCartResponse.json();
-        console.log("deleted Cart data", deleteCartData);
-        if (deleteCartData.acknowledged === true) {
-          // Cart items successfully deleted
-          toast.success("Checkout successful", {
-            position: toast.POSITION.TOP_CENTER,
-          });
+      //   const deleteCartData = await deleteCartResponse.json();
+      //   console.log("deleted Cart data", deleteCartData);
+      //   if (deleteCartData.acknowledged === true) {
+      //     // Cart items successfully deleted
+      //     toast.success("Checkout successful", {
+      //       position: toast.POSITION.TOP_CENTER,
+      //     });
 
-          // Optionally, you can also reset the cart locally in your state
-          setCartPosts([]);
-          setTotalAmount(0);
-          setCheckoutData(null);
-        } else {
-          toast.error("Failed to delete cart items", {
-            position: toast.POSITION.TOP_CENTER,
-          });
-        }
-      } else {
-        // Handle checkout failure
-        toast.error("Checkout Unsuccessful", {
-          position: toast.POSITION.TOP_CENTER,
-        });
-      }
+      //     // Optionally, you can also reset the cart locally in your state
+      //     setCartPosts([]);
+      //     setTotalAmount(0);
+      //     setCheckoutData(null);
+      //   } else {
+      //     toast.error("Failed to delete cart items", {
+      //       position: toast.POSITION.TOP_CENTER,
+      //     });
+      //   }
+      // } else {
+      //   // Handle checkout failure
+      //   toast.error("Checkout Unsuccessful", {
+      //     position: toast.POSITION.TOP_CENTER,
+      //   });
+      // }
     } catch (error) {
       console.error("Error during checkout:", error);
       // Handle error if necessary

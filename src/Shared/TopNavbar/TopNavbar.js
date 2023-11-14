@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 const TopNavbar = () => {
   // const {user} = useContext(AuthContext);
   return (
-    <div className="bg-orange-500 w-full h-12 hidden md:inline-block">
+    <div className="bg-orange-500 w-full h-12 hidden md:inline-block print:hidden">
       <div className="max-w-[1440px] w-[95%] mx-auto flex justify-between">
         {/* Contact section */}
         <div className="flex space-x-5 py-4">

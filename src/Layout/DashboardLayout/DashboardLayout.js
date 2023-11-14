@@ -7,14 +7,25 @@ import useBuyer from "../../hooks/useBuyer";
 import TopNavbar from "../../Shared/TopNavbar/TopNavbar";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import SecondNavbar from "../../Shared/SecondNavbar/SecondNavbar";
-import { AiOutlineLogout } from "react-icons/ai";
-import { BiCommentDetail, BiGroup } from "react-icons/bi";
-import { BsGraphUp, BsNewspaper } from "react-icons/bs";
-import { RiEditBoxLine } from "react-icons/ri";
+import { AiOutlineLogout, AiOutlinePicture } from "react-icons/ai";
+import { BiCategory, BiCommentDetail, BiGroup } from "react-icons/bi";
+import { BsGraphUp, BsNewspaper, BsQuestionOctagon } from "react-icons/bs";
+import { RiEditBoxLine, RiProductHuntLine } from "react-icons/ri";
 import { CgAddR } from "react-icons/cg";
-import { FaHeart, FaLaptopHouse, FaHouseDamage, FaStar } from "react-icons/fa";
+import {
+  FaHeart,
+  FaLaptopHouse,
+  FaHouseDamage,
+  FaStar,
+  FaOpencart,
+  FaImages,
+} from "react-icons/fa";
 import { HiOutlineMenu } from "react-icons/hi";
-import { MdOutlineAccountCircle } from "react-icons/md";
+import {
+  MdOutlineAccountCircle,
+  MdOutlineLogout,
+  MdProductionQuantityLimits,
+} from "react-icons/md";
 
 const DashboardLayout = () => {
   const { user, logout } = useContext(AuthContext);
@@ -53,7 +64,7 @@ const DashboardLayout = () => {
 
       <div className="mx-auto flex gap-2">
         <aside
-          className="bg-primary  inset-y-0 left-0  min-h-screen text-white  w-fit "
+          className="bg-white shadow-xl  inset-y-0 left-0  min-h-screen text-black  w-fit "
           onMouseEnter={() => setHide(false)}
         >
           <div
@@ -98,44 +109,36 @@ const DashboardLayout = () => {
                   <>
                     <li>
                       <FaHeart className="inline-block ml-4 mr-6 h-7" />
-                      <NavLink to={`/dashboard/myorders`}>
+                      <NavLink to={`/dashboard/mywishlist`}>
+                        <span className={hide ? "hidden" : "inline"}>
+                          My Wishlist
+                        </span>
+                      </NavLink>
+                    </li>
+
+                    <li>
+                      <FaOpencart className="inline-block ml-4 mr-6 h-7" />
+                      <NavLink to={`/dashboard/my-orders`}>
                         <span className={hide ? "hidden" : "inline"}>
                           My Orders
                         </span>
                       </NavLink>
                     </li>
-
-                    {/* <li>
-                    <FaHeart className="inline-block ml-4 mr-6 h-7" />
-                    <NavLink to={`/dashboard/mywishlist`}>
-                      <span className={hide ? "hidden" : "inline"}>
-                        My Wishlist
-                      </span>
-                    </NavLink>
-                  </li> */}
-                    {/* <li>
-                  <BiDislike className="inline-block ml-4 mr-6 h-7"></BiDislike>
-                  <NavLink to={`/dashboard/myfeedback`}>
-                    <span className={hide ? "hidden" : "inline"}>
-                      My Feedback
-                    </span>
-                  </NavLink>
-                </li> */}
-                    {/* <li>
-                    <BiCommentDetail className="inline-block ml-4 mr-6 h-7"></BiCommentDetail>
-                    <NavLink to={`/dashboard/mycomments`}>
-                      <span className={hide ? "hidden" : "inline"}>
-                        My Comments
-                      </span>
-                    </NavLink>
-                  </li> */}
+                    <li>
+                      <FaStar className="inline-block ml-4 mr-6 h-7 text-gray-100"></FaStar>
+                      <NavLink to={`/dashboard/my-review`}>
+                        <span className={hide ? "hidden" : "inline"}>
+                          My Review
+                        </span>
+                      </NavLink>
+                    </li>
                   </>
                 )}
 
                 {isAdmin && (
                   <>
                     <li>
-                      <FaLaptopHouse className="inline-block ml-4 mr-6 h-7"></FaLaptopHouse>
+                      <MdProductionQuantityLimits className="inline-block ml-4 mr-6 h-7"></MdProductionQuantityLimits>
                       <NavLink to={`/dashboard/add-product`}>
                         <span className={hide ? "hidden" : "inline"}>
                           Add Products
@@ -143,7 +146,7 @@ const DashboardLayout = () => {
                       </NavLink>
                     </li>
                     <li>
-                      <FaLaptopHouse className="inline-block ml-4 mr-6 h-7"></FaLaptopHouse>
+                      <RiProductHuntLine className="inline-block ml-4 mr-6 h-7"></RiProductHuntLine>
                       <NavLink to={`/dashboard/all-product`}>
                         <span className={hide ? "hidden" : "inline"}>
                           All Products
@@ -151,7 +154,7 @@ const DashboardLayout = () => {
                       </NavLink>
                     </li>
                     <li>
-                      <FaHeart className="inline-block ml-4 mr-6 h-7" />
+                      <BiCategory className="inline-block ml-4 mr-6 h-7" />
                       <NavLink to={`/dashboard/add-categories`}>
                         <span className={hide ? "hidden" : "inline"}>
                           Categories
@@ -159,7 +162,15 @@ const DashboardLayout = () => {
                       </NavLink>
                     </li>
                     <li>
-                      <FaHeart className="inline-block ml-4 mr-6 h-7" />
+                      <FaOpencart className="inline-block ml-4 mr-6 h-7" />
+                      <NavLink to={`/dashboard/orders`}>
+                        <span className={hide ? "hidden" : "inline"}>
+                          Orders
+                        </span>
+                      </NavLink>
+                    </li>
+                    <li>
+                      <FaImages className="inline-block ml-4 mr-6 h-7" />
                       <NavLink to={`/dashboard/add-banner-img`}>
                         <span className={hide ? "hidden" : "inline"}>
                           Banner Image
@@ -167,7 +178,7 @@ const DashboardLayout = () => {
                       </NavLink>
                     </li>
                     <li>
-                      <FaHeart className="inline-block ml-4 mr-6 h-7" />
+                      <AiOutlinePicture className="inline-block ml-4 mr-6 h-7" />
                       <NavLink to={`/dashboard/add-fixed-img`}>
                         <span className={hide ? "hidden" : "inline"}>
                           Fixed Image
@@ -183,39 +194,23 @@ const DashboardLayout = () => {
                         </span>
                       </NavLink>
                     </li>
+                    <li>
+                      <BsGraphUp className="inline-block ml-4 mr-6 h-7"></BsGraphUp>
+                      <NavLink to={`/dashboard/statistics`}>
+                        <span className={hide ? "hidden" : "inline"}>
+                          Statistics
+                        </span>
+                      </NavLink>
+                    </li>
                   </>
                 )}
 
                 {/*  Admin end here */}
-                <li>
-                  <FaHeart className="inline-block ml-4 mr-6 h-7" />
-                  <NavLink to={`/dashboard/mywishlist`}>
-                    <span className={hide ? "hidden" : "inline"}>
-                      My Wishlist
-                    </span>
-                  </NavLink>
-                </li>
-                <li>
-                  <FaHeart className="inline-block ml-4 mr-6 h-7" />
-                  <NavLink to={`/dashboard/QnA`}>
-                    <span className={hide ? "hidden" : "inline"}>My QnA</span>
-                  </NavLink>
-                </li>
-                <li>
-                  <FaStar className="inline-block ml-4 mr-6 h-7 text-yellow-300"></FaStar>
-                  <NavLink to={`/dashboard/my-review`}>
-                    <span className={hide ? "hidden" : "inline"}>
-                      My Review
-                    </span>
-                  </NavLink>
-                </li>
 
                 <li>
-                  <BsGraphUp className="inline-block ml-4 mr-6 h-7"></BsGraphUp>
-                  <NavLink to={`/dashboard/statistics`}>
-                    <span className={hide ? "hidden" : "inline"}>
-                      Statistics
-                    </span>
+                  <BsQuestionOctagon className="inline-block ml-4 mr-6 h-7" />
+                  <NavLink to={`/dashboard/QnA`}>
+                    <span className={hide ? "hidden" : "inline"}>My QnA</span>
                   </NavLink>
                 </li>
               </ul>
@@ -229,7 +224,7 @@ const DashboardLayout = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <AiOutlineLogout className="inline ml-4 mr-6 h-7"></AiOutlineLogout>
+                  <MdOutlineLogout className="inline ml-4 mr-6 h-7"></MdOutlineLogout>
                   <span
                     className={hide ? "hidden" : "inline"}
                     onClick={handleLogOut}

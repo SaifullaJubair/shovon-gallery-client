@@ -23,6 +23,8 @@ import AddFixedImg from "../../Pages/DashBoard/AddFixedImg/AddFixedImg";
 import MyQnA from "../../Pages/DashBoard/MyQnA/MyQnA";
 import MyReviewDashboard from "../../Pages/DashBoard/MyReviewDashboard/MyReviewDashboard";
 import Checkout from "../../Pages/Checkout/Checkout";
+import Statistics from "../../Pages/DashBoard/Statistics/Statistics";
+import PaymentSuccess from "../../Pages/Payment/PaymentSuccess";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main/Main");
@@ -99,6 +101,14 @@ const router = createBrowserRouter([
         path: "/register",
         element: <Register></Register>,
       },
+      {
+        path: "/payment/success",
+        element: (
+          <PrivateRoute>
+            <PaymentSuccess />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 
@@ -132,6 +142,10 @@ const router = createBrowserRouter([
         path: "/dashboard/my-review",
         element: <MyReviewDashboard></MyReviewDashboard>,
       },
+      {
+        path: "/dashboard/my-orders",
+        element: <MyOrders />,
+      },
 
       // Admin Route
       {
@@ -139,6 +153,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <AddProducts></AddProducts>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/statistics",
+        element: (
+          <AdminRoute>
+            <Statistics />
           </AdminRoute>
         ),
       },
@@ -186,6 +208,14 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/all-buyers",
+        element: (
+          <AdminRoute>
+            <AllBuyers></AllBuyers>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/orders",
         element: (
           <AdminRoute>
             <AllBuyers></AllBuyers>

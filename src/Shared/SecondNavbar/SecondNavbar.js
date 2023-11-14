@@ -49,7 +49,7 @@ const SecondNavbar = () => {
   };
 
   return (
-    <div className="sticky top-0 z-40">
+    <div className="sticky top-0 z-40 print:hidden">
       <div className=" max-w-[1440px]  mx-auto  shadow-xl">
         <div className="md:flex items-center justify-between bg-white py-2 md:px-10 px-4">
           <Link to="/">

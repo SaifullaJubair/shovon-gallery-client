@@ -1,4 +1,4 @@
-import { Dropdown, Table } from "flowbite-react";
+import { Button, Dropdown, Table } from "flowbite-react";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -7,11 +7,13 @@ import { useContext } from "react";
 import Loader from "../../../Shared/Loader/Loader";
 import { Link } from "react-router-dom";
 import { FaEllipsisV, FaLink, FaTrash } from "react-icons/fa";
+import ReactPaginate from "react-paginate";
 
 const MyOrders = () => {
   const [isLoading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
   const { user, loading } = useContext(AuthContext);
+  const [itemOffset, setItemOffset] = useState(0);
 
   useEffect(() => {
     // Fetch division data from the backend when the component mounts
@@ -20,7 +22,7 @@ const MyOrders = () => {
       .then((data) => {
         setLoading(false);
         setOrders(data);
-        console.log(data);
+        // console.log(data);
       })
       .catch((error) => {
         setLoading(false);
@@ -28,7 +30,21 @@ const MyOrders = () => {
         // Handle fetch error if necessary
       });
   }, []);
-  console.log(orders);
+
+  const itemsPerPage = 6;
+
+  const endOffset = itemOffset + itemsPerPage;
+
+  const currentItems = orders.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(orders.length / itemsPerPage);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % orders.length;
+    // console.log(
+    //     `User requested page number ${event.selected}, which is offset ${newOffset}`
+    // );
+    setItemOffset(newOffset);
+  };
 
   if (isLoading || loading) {
     return <Loader />;
@@ -47,10 +63,10 @@ const MyOrders = () => {
             <Table.HeadCell>Order Date</Table.HeadCell>
             <Table.HeadCell>Delivered </Table.HeadCell>
             <Table.HeadCell>TransactionID</Table.HeadCell>
-            <Table.HeadCell>Operations</Table.HeadCell>
+            <Table.HeadCell>View Payment</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {orders?.map((order, index) => (
+            {currentItems?.map((order, index) => (
               <Table.Row
                 key={index}
                 className="bg-white dark:border-gray-800 dark:bg-gray-800"
@@ -102,27 +118,30 @@ const MyOrders = () => {
                   {order.transactionId}
                 </Table.Cell>
                 <Table.Cell>
-                  <Dropdown
-                    arrowIcon={false}
-                    inline
-                    label={<FaEllipsisV className="cursor-pointer mr-1" />}
+                  <Link
+                    to={`/payment/success?transactionId=${order.transactionId}`}
                   >
-                    <ul className="px-2 text-gray-500">
-                      <>
-                        <li className="flex items-center my-2 px-2 cursor-pointer  hover:text-secondary hover:underline">
-                          <FaLink className=" mr-1.5" /> Edit
-                        </li>
-                        <li className="flex items-center mb-2 hover:text-red-500 hover:underline px-2 cursor-pointer">
-                          <FaTrash className=" mr-1.5" /> Delete
-                        </li>
-                      </>
-                    </ul>
-                  </Dropdown>
+                    <Button size="xs" color="success">
+                      <FaLink className="mr-1"></FaLink>Visit
+                    </Button>
+                  </Link>
                 </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
         </Table>
+        <div className="pagination my-6">
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel=">"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={5}
+            pageCount={pageCount}
+            previousLabel="<"
+            renderOnZeroPageCount={null}
+            containerClassName="pagination-menu"
+          />
+        </div>
       </div>
     </div>
   );

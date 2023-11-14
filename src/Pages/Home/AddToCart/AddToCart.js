@@ -167,16 +167,17 @@ const AddToCart = () => {
       district: data.district,
       address: data.address,
       number: data.number,
-      postDate: formattedDate,
+      checkoutDate: formattedDate,
       cartProducts: cartPosts
         ?.filter((item) => item.product)
         .map((item) => ({
           productId: item.productId,
           quantity: item.quantity,
-          selectedColor: item.selectedColor,
+          selectedColor: item?.selectedColor,
           primary_color: item?.product?.primary_color,
           category: item.product.category,
           price: item.product.price,
+          product_name: item.product.product_name,
           img: item.product.primary_img,
           heading: item.product.product_heading,
           subtotal: item.product.price * item.quantity,
@@ -195,41 +196,6 @@ const AddToCart = () => {
 
       const result = await response.json();
       window.location.replace(result.url);
-      // if (result.success) {
-      //   // Additional API call to delete cart items after successful checkout
-      //   const deleteCartResponse = await fetch(
-      //     `http://localhost:5000/cart/${user?.email}`,
-      //     {
-      //       method: "DELETE",
-      //       headers: {
-      //         "content-type": "application/json",
-      //       },
-      //     }
-      //   );
-
-      //   const deleteCartData = await deleteCartResponse.json();
-      //   console.log("deleted Cart data", deleteCartData);
-      //   if (deleteCartData.acknowledged === true) {
-      //     // Cart items successfully deleted
-      //     toast.success("Checkout successful", {
-      //       position: toast.POSITION.TOP_CENTER,
-      //     });
-
-      //     // Optionally, you can also reset the cart locally in your state
-      //     setCartPosts([]);
-      //     setTotalAmount(0);
-      //     setCheckoutData(null);
-      //   } else {
-      //     toast.error("Failed to delete cart items", {
-      //       position: toast.POSITION.TOP_CENTER,
-      //     });
-      //   }
-      // } else {
-      //   // Handle checkout failure
-      //   toast.error("Checkout Unsuccessful", {
-      //     position: toast.POSITION.TOP_CENTER,
-      //   });
-      // }
     } catch (error) {
       console.error("Error during checkout:", error);
       // Handle error if necessary

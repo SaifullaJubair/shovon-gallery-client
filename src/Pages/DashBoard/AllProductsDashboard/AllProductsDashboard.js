@@ -13,7 +13,7 @@ import Loader from "../../../Shared/Loader/Loader";
 import { Link } from "react-router-dom";
 
 const AllProductsDashboard = () => {
-  const [products, setProducts] = useState(null);
+  const [products, setProducts] = useState([]);
   const [refetch, setRefetch] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [editData, setEditData] = useState(null);
@@ -98,9 +98,17 @@ const AllProductsDashboard = () => {
     }
   };
 
-  // if (loading || !user) {
-  //   return <Loader />;
-  // }
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (products.length === 0) {
+    return (
+      <div className="min-h-screen flex mx-auto items-center text-gray-700 font-semibold text-2xl justify-center">
+        <p>You have no products.</p>
+      </div>
+    ); // Message when there are no wishlist items
+  }
 
   return (
     <div className="mx-auto w-full overflow-x-auto">

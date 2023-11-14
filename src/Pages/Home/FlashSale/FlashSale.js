@@ -22,7 +22,7 @@ const FlashSale = () => {
   }, []);
   // console.log(products);
   return (
-    <div className=" mx-auto">
+    <div className=" mx-auto my-16">
       <div className="flex md:flex-col lg:flex-col xl:flex-col 2xl-flex-row flex-col lg:mx-[60px] md:mx-7 mx-6">
         <div>
           {/* flash sate title  */}

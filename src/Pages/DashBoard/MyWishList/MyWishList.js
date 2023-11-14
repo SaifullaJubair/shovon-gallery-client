@@ -56,15 +56,15 @@ const MyWishlist = () => {
     setDeleteData(null);
   };
 
-  if (wishlistPosts === null) {
-    return (
-      <div>
-        <Loader></Loader>
-      </div>
-    ); // You can show a loading indicator
-  }
+  // if (wishlistPosts === null) {
+  //   return (
+  //     <div>
+  //       <Loader></Loader>
+  //     </div>
+  //   ); // You can show a loading indicator
+  // }
 
-  if (wishlistPosts.length === 0) {
+  if (wishlistPosts.filter((item) => item.product).length === 0) {
     return (
       <div className="min-h-screen flex mx-auto items-center text-gray-700 font-semibold text-2xl justify-center">
         <p>You have no wishlist products.</p>

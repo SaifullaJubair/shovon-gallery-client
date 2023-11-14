@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/Logo & Cover Photo/Logo & Cover Photo/Shovon Gallery/Logo_Shovon Gallery_01.png";
 import Loader from "../../Shared/Loader/Loader";
 const PaymentSuccess = () => {
@@ -12,8 +12,6 @@ const PaymentSuccess = () => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const transactionId = query.get("transactionId");
-  const userEmail = query.get("userEmail");
-  console.log(transactionId, userEmail);
 
   useEffect(() => {
     // Fetch division data from the backend when the component mounts
@@ -61,7 +59,7 @@ const PaymentSuccess = () => {
             Payment Date:{" "}
             <span className="font-semibold">
               {" "}
-              {order.postDate.slice(0, 23)}
+              {order.paymentDate.slice(0, 23)}
             </span>{" "}
           </p>
         </div>
@@ -100,7 +98,7 @@ const PaymentSuccess = () => {
             <path d="M485.887,263.261,248,25.373A31.791,31.791,0,0,0,225.373,16H64A48.055,48.055,0,0,0,16,64V225.078A32.115,32.115,0,0,0,26.091,248.4L279.152,486.125a23.815,23.815,0,0,0,16.41,6.51q.447,0,.9-.017a23.828,23.828,0,0,0,16.79-7.734L486.581,296.479A23.941,23.941,0,0,0,485.887,263.261ZM295.171,457.269,48,225.078V64A16.019,16.019,0,0,1,64,48H225.373L457.834,280.462Z"></path>
             <path d="M148,96a52,52,0,1,0,52,52A52.059,52.059,0,0,0,148,96Zm0,72a20,20,0,1,1,20-20A20.023,20.023,0,0,1,148,168Z"></path>
           </svg>
-          <span className="text-gray-600">Spend $20.00, get 20% off</span>
+          <span className="text-gray-600">Spend 5,000৳, get 20% off</span>
         </div>
         <div className="space-y-6 ">
           <div className="flex justify-between mt-6 mb-2">
@@ -111,13 +109,23 @@ const PaymentSuccess = () => {
             </span>
           </div>
 
-          <button
-            type="button"
-            className="w-full  py-2 font-semibold border rounded bg-orange-600 text-gray-50 border-orange-600  print:hidden"
-            onClick={() => window.print()}
-          >
-            Print Payment Info
-          </button>
+          <div className="flex items-center justify-center gap-4">
+            <button
+              type="button"
+              className=" px-3 py-2 font-semibold border rounded bg-orange-600 text-gray-50 border-orange-600  print:hidden"
+              onClick={() => window.print()}
+            >
+              Print Payment Info
+            </button>
+            <Link to="/dashboard/my-orders">
+              <button
+                type="button"
+                className="px-3  py-2 font-semibold border rounded bg-secondary text-gray-50 print:hidden"
+              >
+                Visit Order
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

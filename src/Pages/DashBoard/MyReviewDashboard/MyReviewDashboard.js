@@ -212,14 +212,14 @@ const MyReviewDashboard = () => {
   return (
     <div className="flex w-full">
       <div className="mx-auto flex-grow overflow-x-auto">
-        {reviews ? (
+        {reviews?.filter((item) => item.product) ? (
           <h2 className="title uppercase p-10 text-center mb-10 bg-secondary text-white text-2xl font-semibold">
             My Reviews{" "}
           </h2>
         ) : (
           <Loader></Loader>
         )}
-        {reviews?.length ? (
+        {reviews?.filter((item) => item.product).length ? (
           <p></p>
         ) : (
           <p className="text-2xl mt-16 text-center text-orange-500 ">

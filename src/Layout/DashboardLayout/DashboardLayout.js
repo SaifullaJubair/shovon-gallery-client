@@ -108,22 +108,13 @@ const DashboardLayout = () => {
                 {isBuyer && (
                   <>
                     <li>
-                      <FaHeart className="inline-block ml-4 mr-6 h-7" />
-                      <NavLink to={`/dashboard/mywishlist`}>
-                        <span className={hide ? "hidden" : "inline"}>
-                          My Wishlist
-                        </span>
-                      </NavLink>
-                    </li>
-
-                    {/* <li>
                       <FaOpencart className="inline-block ml-4 mr-6 h-7" />
                       <NavLink to={`/dashboard/my-orders`}>
                         <span className={hide ? "hidden" : "inline"}>
                           My Orders
                         </span>
                       </NavLink>
-                    </li> */}
+                    </li>
                     <li>
                       <FaStar className="inline-block ml-4 mr-6 h-7 text-gray-100"></FaStar>
                       <NavLink to={`/dashboard/my-review`}>
@@ -206,18 +197,21 @@ const DashboardLayout = () => {
                 )}
 
                 {/*  Admin end here */}
-                <li>
-                  <FaOpencart className="inline-block ml-4 mr-6 h-7" />
-                  <NavLink to={`/dashboard/my-orders`}>
-                    <span className={hide ? "hidden" : "inline"}>
-                      My Orders
-                    </span>
-                  </NavLink>
-                </li>
+
+                {/* For Everyone */}
                 <li>
                   <BsQuestionOctagon className="inline-block ml-4 mr-6 h-7" />
                   <NavLink to={`/dashboard/QnA`}>
                     <span className={hide ? "hidden" : "inline"}>My QnA</span>
+                  </NavLink>
+                </li>
+
+                <li>
+                  <FaHeart className="inline-block ml-4 mr-6 h-7" />
+                  <NavLink to={`/dashboard/mywishlist`}>
+                    <span className={hide ? "hidden" : "inline"}>
+                      My Wishlist
+                    </span>
                   </NavLink>
                 </li>
               </ul>

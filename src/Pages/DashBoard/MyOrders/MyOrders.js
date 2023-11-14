@@ -49,11 +49,18 @@ const MyOrders = () => {
   if (isLoading || loading) {
     return <Loader />;
   }
+  if (orders.length === 0) {
+    return (
+      <div className="min-h-screen flex mx-auto items-center text-gray-700 font-semibold text-2xl justify-center">
+        <p className="mt-[-100px]">You have no Order😊</p>
+      </div>
+    ); // Message when there are no wishlist items
+  }
   return (
     <div className="mx-auto w-full overflow-x-auto">
       <div className=" ">
-        <h2 className="title uppercase p-10 text-center mb-10 bg-secondary text-white text-2xl font-semibold">
-          All Users{" "}
+        <h2 className="title uppercase p-10 text-center mb-8  text-gray-800 text-2xl font-semibold">
+          MY Orders{" "}
         </h2>
         <Table striped={true}>
           <Table.Head>
@@ -77,29 +84,33 @@ const MyOrders = () => {
                 <Table.Cell>
                   {/* Product details */}
                   {order.cartProducts.map((product, productIndex) => (
-                    <div key={productIndex} className="flex items-center gap-3">
+                    <div
+                      key={productIndex}
+                      className="lg:flex-row md:flex-col flex-col flex-wrap flex lg:items-center gap-3"
+                    >
                       <img
                         src={product.img}
-                        className="w-16 h-16 ring-2 ring-secondary/40"
+                        className="w-16 h-16  ring-2 ring-secondary/40"
                         alt=""
                       />
-                      <div className="my-4 text-xs">
-                        <Link to={`/singleProduct/${product.productId}`}>
+                      <div className="text-xs">
+                        <Link
+                          className="hover:text-red-500 duration-100"
+                          to={`/singleProduct/${product.productId}`}
+                        >
                           {" "}
-                          <p className="py-1 hover:text-red-500 duration-100">
-                            {product.heading}
-                          </p>
+                          <p className="py-1 ">{product.product_name}</p>
+                          {product?.selectedColor ? (
+                            <p>Color: {product.selectedColor}</p>
+                          ) : (
+                            <p>Color: {product.primary_color}</p>
+                          )}
+                          <div className="flex items-center gap-1.5 flex-wrap pt-1">
+                            <p>Qty: {product.quantity}</p>
+                            <p>Price: {product.price}৳</p>
+                            <p>Subtotal: {product.subtotal}৳</p>
+                          </div>
                         </Link>
-                        {product?.selectedColor ? (
-                          <p>{product.selectedColor}</p>
-                        ) : (
-                          <p>{product.primary_color}</p>
-                        )}
-                        <div className="flex items-center gap-3 flex-grow pt-1">
-                          <p>Qty: {product.quantity}</p>
-                          <p>Price: {product.price}</p>
-                          <p>Subtotal: {product.subtotal}</p>
-                        </div>
                         <p className="text-xs pt-1.5">
                           OrderID:{" "}
                           <span className="font-semibold">{order._id}</span>
@@ -108,12 +119,22 @@ const MyOrders = () => {
                     </div>
                   ))}
                 </Table.Cell>
-                <Table.Cell>{order.totalAmount}</Table.Cell>
+                <Table.Cell>{order.totalAmount}৳</Table.Cell>
                 <Table.Cell>
                   {" "}
-                  <p className="text-xs">{order.postDate.slice(0, 23)}</p>{" "}
+                  <p className="text-xs">
+                    {order.paymentDate.slice(0, 23)}
+                  </p>{" "}
                 </Table.Cell>
-                <Table.Cell>{order.delivered ? "Yes" : "No"}</Table.Cell>
+                <Table.Cell>
+                  <span className="bg-gray-200 px-1.5 text-xs  py-1  rounded-xl">
+                    {order.delivered}
+                  </span>
+                  <p className="text-xs pt-1">
+                    {order?.deliveredDate?.slice(0, 12)}
+                  </p>
+                  <p></p>
+                </Table.Cell>
                 <Table.Cell className="text-xs font-semibold">
                   {order.transactionId}
                 </Table.Cell>

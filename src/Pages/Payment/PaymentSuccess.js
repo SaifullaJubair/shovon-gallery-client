@@ -32,6 +32,15 @@ const PaymentSuccess = () => {
   if (isLoading) {
     return <Loader />;
   }
+
+  if (!order?._id) {
+    return (
+      <div className="flex mx-auto mt-72  text-gray-700 font-semibold text-2xl justify-center">
+        <p>You have no Order.</p>
+      </div>
+    ); // Message when there are no wishlist items
+  }
+
   return (
     <div className="flex flex-col max-w-xl p-6 space-y-4  sm:p-10 divide-gray-300 bg-gray-50 text-gray-800 mx-auto my-16">
       <div className="font-bold  mb-4 cursor-pointer flex items-center font-[Poppins] text-gray-900">

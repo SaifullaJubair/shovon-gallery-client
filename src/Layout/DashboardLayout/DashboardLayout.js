@@ -116,14 +116,14 @@ const DashboardLayout = () => {
                       </NavLink>
                     </li>
 
-                    <li>
+                    {/* <li>
                       <FaOpencart className="inline-block ml-4 mr-6 h-7" />
                       <NavLink to={`/dashboard/my-orders`}>
                         <span className={hide ? "hidden" : "inline"}>
                           My Orders
                         </span>
                       </NavLink>
-                    </li>
+                    </li> */}
                     <li>
                       <FaStar className="inline-block ml-4 mr-6 h-7 text-gray-100"></FaStar>
                       <NavLink to={`/dashboard/my-review`}>
@@ -206,7 +206,14 @@ const DashboardLayout = () => {
                 )}
 
                 {/*  Admin end here */}
-
+                <li>
+                  <FaOpencart className="inline-block ml-4 mr-6 h-7" />
+                  <NavLink to={`/dashboard/my-orders`}>
+                    <span className={hide ? "hidden" : "inline"}>
+                      My Orders
+                    </span>
+                  </NavLink>
+                </li>
                 <li>
                   <BsQuestionOctagon className="inline-block ml-4 mr-6 h-7" />
                   <NavLink to={`/dashboard/QnA`}>

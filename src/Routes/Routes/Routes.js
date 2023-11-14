@@ -25,6 +25,7 @@ import MyReviewDashboard from "../../Pages/DashBoard/MyReviewDashboard/MyReviewD
 import Checkout from "../../Pages/Checkout/Checkout";
 import Statistics from "../../Pages/DashBoard/Statistics/Statistics";
 import PaymentSuccess from "../../Pages/Payment/PaymentSuccess";
+import Orders from "../../Pages/DashBoard/Orders/Orders";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main/Main");
@@ -126,10 +127,7 @@ const router = createBrowserRouter([
       //   path: "/dashboard",
       //   element: <DashBoard></DashBoard>,
       // },
-      {
-        path: "/dashboard/myorders",
-        element: <MyOrders></MyOrders>,
-      },
+
       {
         path: "/dashboard/mywishlist",
         element: <MyWishList></MyWishList>,
@@ -218,7 +216,7 @@ const router = createBrowserRouter([
         path: "/dashboard/orders",
         element: (
           <AdminRoute>
-            <AllBuyers></AllBuyers>
+            <Orders />
           </AdminRoute>
         ),
       },

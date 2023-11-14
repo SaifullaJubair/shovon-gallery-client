@@ -22,7 +22,7 @@ const AddToCart = () => {
   const [divisions, setDivisions] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [selectedDivision, setSelectedDivision] = useState(null);
-
+  const [deliveryType, setDeliveryType] = useState("home");
   const {
     register,
     handleSubmit,
@@ -133,11 +133,11 @@ const AddToCart = () => {
         setDivisions(
           data.find((item) => item.name === "divisions")?.data || []
         );
-        console.log(divisions);
+        // console.log(divisions);
         setDistricts(
           data.find((item) => item.name === "districts")?.data || []
         );
-        console.log(districts);
+        // console.log(districts);
       })
       .catch((error) => {
         console.error(error);
@@ -167,6 +167,7 @@ const AddToCart = () => {
       district: data.district,
       address: data.address,
       number: data.number,
+      deliveryType: deliveryType,
       checkoutDate: formattedDate,
       cartProducts: cartPosts
         ?.filter((item) => item.product)
@@ -184,7 +185,6 @@ const AddToCart = () => {
         })),
       totalAmount,
     };
-    // console.log(checkoutData);
     try {
       const response = await fetch("http://localhost:5000/checkout", {
         method: "POST",
@@ -206,11 +206,19 @@ const AddToCart = () => {
       });
     }
   };
+
+  const validateBangladeshiMobileNumber = (value) => {
+    // Regular expression for Bangladeshi mobile numbers
+    const mobileNumberRegex = /^(?:\+88|88)?(01[3-9]\d{8})$/;
+
+    return mobileNumberRegex.test(value);
+  };
+
   const showCheckoutModal = (item) => {
     setCheckoutData(item);
-    console.log(item);
+    // console.log(item);
   };
-  console.log(checkoutData);
+  // console.log(checkoutData);
   const onClose = () => {
     setCheckoutData(null);
   };
@@ -220,8 +228,8 @@ const AddToCart = () => {
   }
   if (cartPosts.length === 0) {
     return (
-      <div className="min-h-screen flex mx-auto items-center text-gray-700 font-semibold text-2xl justify-center">
-        <p>You have no Cart products.</p>
+      <div className=" flex mx-auto my-72 text-gray-700 font-semibold text-2xl justify-center">
+        <p>You have no products in your Cart .</p>
       </div>
     ); // Message when there are no wishlist items
   }
@@ -405,6 +413,7 @@ const AddToCart = () => {
                         type="text"
                         name="floating_name"
                         id="floating_name"
+                        defaultValue={singleUser?.name}
                         className={`block shadow-md shadow-primary/10 py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
                           errors.userName
                             ? "focus:border-red-500 border-red-500"
@@ -508,12 +517,47 @@ const AddToCart = () => {
                           ))}
                       </select>
                     </div>
+                    {/* Radio button group for DeliveryType */}
+                    <p className="text-gray-600 my-2 ">Chose Delivery type</p>
+                    <div className="flex items-center mb-6">
+                      <input
+                        type="radio"
+                        id="homeDelivery"
+                        name="deliveryType"
+                        value="home"
+                        checked={deliveryType === "home"}
+                        onChange={() => setDeliveryType("home")}
+                        className="mr-2"
+                      />
+                      <label
+                        htmlFor="homeDelivery"
+                        className="mr-4 cursor-pointer"
+                      >
+                        Home Delivery
+                      </label>
+
+                      <input
+                        type="radio"
+                        id="courier"
+                        name="deliveryType"
+                        value="courier"
+                        checked={deliveryType === "courier"}
+                        onChange={() => setDeliveryType("courier")}
+                        className="mr-2"
+                      />
+                      <label htmlFor="courier" className="cursor-pointer">
+                        Courier
+                      </label>
+                    </div>
                     {/* Your Address */}
                     <div className="relative w-full mb-6 group">
                       <input
                         type="text"
                         name="floating_address"
                         id="floating_address"
+                        defaultValue={
+                          deliveryType === "home" ? singleUser?.address : ""
+                        }
                         className={`block shadow-md shadow-primary/10 py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
                           errors.address
                             ? "focus:border-red-500 border-red-500"
@@ -522,41 +566,56 @@ const AddToCart = () => {
                         placeholder=" "
                         {...register("address", { required: true })}
                       />
+
+                      {/* Conditional label based on deliveryType */}
                       <label
-                        for="floating_address"
+                        htmlFor="floating_address"
                         className="peer-focus:font-medium absolute pl-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                       >
-                        Address
+                        {deliveryType === "home"
+                          ? "Your Home Address"
+                          : "Provide courier name & address"}
                       </label>
+
                       {errors.address && (
                         <span className="text-xs text-red-500">
                           This field is required
                         </span>
                       )}
                     </div>
+
                     {/* Mobile Number */}
                     <div className="relative w-full mb-6 group">
                       <input
-                        type="number"
+                        type="text"
                         name="floating_number"
                         id="floating_number"
+                        defaultValue={singleUser?.mobileNumber}
                         className={`block shadow-md shadow-primary/10 py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
                           errors.number
                             ? "focus:border-red-500 border-red-500"
                             : "focus:border-secondary"
                         }`}
                         placeholder=" "
-                        {...register("number", { required: true })}
+                        {...register("number", {
+                          required: "This field is required",
+                          validate: {
+                            isBangladeshiMobileNumber: (value) =>
+                              validateBangladeshiMobileNumber(value) ||
+                              "Invalid Bangladeshi mobile number",
+                          },
+                        })}
                       />
+
                       <label
-                        for="floating_number"
+                        htmlFor="floating_number"
                         className="peer-focus:font-medium absolute pl-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                       >
                         Number
                       </label>
                       {errors.number && (
                         <span className="text-xs text-red-500">
-                          This field is required
+                          {errors.number.message}
                         </span>
                       )}
                     </div>

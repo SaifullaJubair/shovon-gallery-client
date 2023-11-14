@@ -86,18 +86,25 @@ const Orders = () => {
   if (isLoading || loading) {
     return <Loader />;
   }
+  if (orders.length === 0) {
+    return (
+      <div className="flex mx-auto mt-72  text-gray-700 font-semibold text-2xl justify-center">
+        <p>You have no Orders.</p>
+      </div>
+    ); // Message when there are no wishlist items
+  }
   return (
     <div className="mx-auto w-full overflow-x-auto">
       <div className=" ">
         <h2 className="title uppercase p-10 text-center mb-10  text-gray-800 text-2xl font-semibold">
-          All Users{" "}
+          All Orders{" "}
         </h2>
         <Table striped={true}>
           <Table.Head>
             <Table.HeadCell>#</Table.HeadCell>
             <Table.HeadCell>Product Details</Table.HeadCell>
             <Table.HeadCell>User info</Table.HeadCell>
-            <Table.HeadCell>Delivery Status </Table.HeadCell>
+            <Table.HeadCell>Delivery Type & Status </Table.HeadCell>
             <Table.HeadCell>TransactionID</Table.HeadCell>
             <Table.HeadCell>View Payment</Table.HeadCell>
           </Table.Head>
@@ -115,14 +122,16 @@ const Orders = () => {
                   {order.cartProducts.map((product, productIndex) => (
                     <div
                       key={productIndex}
-                      className="lg:flex-row md:flex-col flex-col  flex lg:items-center gap-3"
+                      className=" flex items-center gap-4"
                     >
-                      <img
-                        src={product.img}
-                        className="w-16 h-16 ring-2 ring-secondary/40"
-                        alt=""
-                      />
-                      <div className="mb-4 text-xs">
+                      <div className="w-16 h-16">
+                        <img
+                          src={product.img}
+                          className="w-16 h-16  ring-2 ring-secondary/40"
+                          alt=""
+                        />
+                      </div>
+                      <div className="mb-4 w-56 text-xs">
                         <Link
                           className="hover:text-red-500 duration-100"
                           to={`/singleProduct/${product.productId}`}
@@ -137,7 +146,7 @@ const Orders = () => {
                           <div className="flex items-center gap-1.5 flex-wrap pt-1">
                             <p>Qty: {product.quantity}</p>
                             <p>Price: {product.price}৳</p>
-                            <p>Subtotal: {product.subtotal}৳</p>
+                            <p>Subt: {product.subtotal}৳</p>
                           </div>
                           <p className="py-1">Total: {order.totalAmount}৳</p>
                         </Link>
@@ -161,9 +170,10 @@ const Orders = () => {
                   </div>
                 </Table.Cell>
                 <Table.Cell>
+                  <p className="uppercase mx-2">{order?.deliveryType}</p>
                   <select
                     id="orderStatus"
-                    className=" block py-3 pl-2 shadow-primary/10 px-0  text-xs text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer  "
+                    className=" block pl-2 py-3  shadow-primary/10 px-0  text-xs text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer  "
                     onChange={(e) => handleDeliveryStatusChange(e, order)}
                   >
                     <option disabled selected defaultValue={order.delivered}>

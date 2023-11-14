@@ -69,13 +69,15 @@ const PaymentSuccess = () => {
       {order.cartProducts.map((item) => (
         <ul className="flex flex-col pt-4 space-y-2">
           <li className="flex items-start justify-between">
-            <h3 className="text-sm max-w-sm mr-4">
-              {item.heading}
-              <span className=" text-orange-600">
-                {" "}
-                <x3>{item.quantity}</x3>(qty)
-              </span>
-            </h3>
+            <Link to={`/singleProduct/${item.productId}`}>
+              <h3 className="text-sm max-w-sm mr-4 hover:text-orange-500">
+                {item.heading}
+                <span className=" text-orange-600">
+                  {" "}
+                  <x3>{item.quantity}</x3>(qty)
+                </span>
+              </h3>
+            </Link>
             <div className="text-right mb-1">
               <span className="block">{item.subtotal}৳</span>
             </div>
@@ -100,12 +102,21 @@ const PaymentSuccess = () => {
           </svg>
           <span className="text-gray-600">Spend 5,000৳, get 20% off</span>
         </div>
+        <div>
+          <p className="my-4">
+            Delivery type:{" "}
+            <span className="uppercase font-medium">
+              {" "}
+              {order?.deliveryType}
+            </span>
+          </p>
+        </div>
         <div className="space-y-6 ">
-          <div className="flex justify-between mt-6 mb-2">
-            <span className="font-semibold text-lg">Total Amount</span>
-            <span className="font-semibold">
+          <div className="flex justify-between mt-6 mb-8">
+            <span className="font-semibold  text-xl">Total Amount</span>
+            <span className="font-semibold  text-xl">
               {order.totalAmount}
-              <span className="font-bold text-xl">৳</span>
+              <span className="font-bold text-2xl">৳</span>
             </span>
           </div>
 

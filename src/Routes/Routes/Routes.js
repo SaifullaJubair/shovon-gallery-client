@@ -26,6 +26,7 @@ import Checkout from "../../Pages/Checkout/Checkout";
 import Statistics from "../../Pages/DashBoard/Statistics/Statistics";
 import PaymentSuccess from "../../Pages/Payment/PaymentSuccess";
 import Orders from "../../Pages/DashBoard/Orders/Orders";
+import PaymentError from "../../Pages/Payment/PaymentError";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Layout/Main/Main");
@@ -107,6 +108,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <PaymentSuccess />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/payment/fail",
+        element: (
+          <PrivateRoute>
+            <PaymentError />
           </PrivateRoute>
         ),
       },

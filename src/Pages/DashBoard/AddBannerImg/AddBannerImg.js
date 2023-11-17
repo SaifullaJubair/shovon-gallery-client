@@ -1,6 +1,7 @@
 import { Button, Modal, Table, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 
 const AddBannerImg = () => {
@@ -8,6 +9,7 @@ const AddBannerImg = () => {
   const [refetch, setRefetch] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [editData, setEditData] = useState(null);
+  const [itemOffset, setItemOffset] = useState(0);
 
   const currentDate = new Date();
   const options = {
@@ -128,6 +130,21 @@ const AddBannerImg = () => {
         setRefetch(!refetch);
       });
   };
+
+  const itemsPerPage = 10;
+
+  const endOffset = itemOffset + itemsPerPage;
+
+  const currentItems = bannerImg?.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(bannerImg?.length / itemsPerPage);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % bannerImg?.length;
+    // console.log(
+    //     `User requested page number ${event.selected}, which is offset ${newOffset}`
+    // );
+    setItemOffset(newOffset);
+  };
   return (
     <div className="flex-1 overflow-x-hidden overflow-y-auto max-w-[1440px]">
       {/* <DashboardSideBar></DashboardSideBar> */}
@@ -188,12 +205,14 @@ const AddBannerImg = () => {
           </button>
         </form>
 
-        <h2 className="title uppercase p-4 text-center mt-24 mb-10 bg-orange-500 text-white text-2xl font-semibold">
+        <h2 className="title uppercase p-4 text-center mt-10 mb-10 bg-orange-500 text-white text-2xl font-semibold">
           All Banner Images
         </h2>
 
         <small className="text-gray-700 font-medium ">
-          #Note: Minimum upload or active 2 banner images to show in home page.
+          #Note: Minimum upload or active 2 banner images to show in home page.{" "}
+          <br />
+          #Note: Upload high regulation banner img.
         </small>
 
         <Table striped={true}>
@@ -207,7 +226,7 @@ const AddBannerImg = () => {
             <Table.HeadCell>Operations</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {bannerImg?.map((banner, index) => (
+            {currentItems?.map((banner, index) => (
               <Table.Row
                 className="bg-white dark:border-gray-700 dark:bg-gray-800"
                 key={banner?._id}
@@ -351,6 +370,19 @@ const AddBannerImg = () => {
             </div>
           </div>
         )}
+      </div>
+
+      <div className="pagination my-10">
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="<"
+          renderOnZeroPageCount={null}
+          containerClassName="pagination-menu"
+        />
       </div>
     </div>
   );

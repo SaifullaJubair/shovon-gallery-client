@@ -144,9 +144,17 @@ const QnA = ({ singleProduct }) => {
       });
   };
   const handleReply = (e) => {
+    if (!user) {
+      toast.error("Please Login or Register before submitting your question.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
     e.preventDefault();
     const form = e.target;
     const reply = form.replyQuestion.value;
+    // Validate the review, rating, and title (if required)
+
     const data = {
       _id: replyData?._id,
       reply,

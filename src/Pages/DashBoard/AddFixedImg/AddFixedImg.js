@@ -1,13 +1,19 @@
 import { Button, Modal, Table, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
+import { useContext } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../../Contexts/AuthProvider/AuthProvider";
+import Loader from "../../../Shared/Loader/Loader";
+import ReactPaginate from "react-paginate";
 
 const AddFixedImg = () => {
   const [fixedImg, setFixedImg] = useState(null);
   const [refetch, setRefetch] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [editData, setEditData] = useState(null);
+  const [itemOffset, setItemOffset] = useState(0);
+  const { loading } = useContext(AuthContext);
 
   const currentDate = new Date();
   const options = {
@@ -128,6 +134,25 @@ const AddFixedImg = () => {
         setRefetch(!refetch);
       });
   };
+
+  const itemsPerPage = 10;
+
+  const endOffset = itemOffset + itemsPerPage;
+
+  const currentItems = fixedImg?.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(fixedImg?.length / itemsPerPage);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % fixedImg?.length;
+    // console.log(
+    //     `User requested page number ${event.selected}, which is offset ${newOffset}`
+    // );
+    setItemOffset(newOffset);
+  };
+
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <div className="flex-1 overflow-x-hidden overflow-y-auto max-w-[1440px]">
       <div className="flex-grow">
@@ -183,7 +208,7 @@ const AddFixedImg = () => {
           </button>
         </form>
 
-        <h2 className="title uppercase p-4 text-center mt-24 mb-10 bg-orange-500 text-white text-2xl font-semibold">
+        <h2 className="title uppercase p-4 text-center mt-10 mb-10 bg-orange-500 text-white text-2xl font-semibold">
           All Fixed Images
         </h2>
 
@@ -202,7 +227,7 @@ const AddFixedImg = () => {
             <Table.HeadCell>Operations</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {fixedImg?.map((item, index) => (
+            {currentItems?.map((item, index) => (
               <Table.Row
                 className="bg-white dark:border-gray-700 dark:bg-gray-800"
                 key={item?._id}
@@ -343,6 +368,18 @@ const AddFixedImg = () => {
             </div>
           </div>
         )}
+      </div>
+      <div className="pagination my-12">
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="<"
+          renderOnZeroPageCount={null}
+          containerClassName="pagination-menu"
+        />
       </div>
     </div>
   );

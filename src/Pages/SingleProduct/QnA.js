@@ -105,9 +105,22 @@ const QnA = ({ singleProduct }) => {
   };
 
   const handleEdit = (e) => {
+    if (!user) {
+      toast.error("Please Login or Register before submitting your question.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+    // Validate the review, rating, and title (if required)
     e.preventDefault();
     const form = e.target;
     const question = form.editQuestion.value;
+    if (!question) {
+      toast.error("Please provide a question before submitting.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
     const data = {
       _id: editData?._id,
       question,

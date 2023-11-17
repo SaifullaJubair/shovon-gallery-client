@@ -1,8 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Label, Modal, Select, Table, TextInput } from "flowbite-react";
+import {
+  Button,
+  Dropdown,
+  Label,
+  Modal,
+  Select,
+  Table,
+  TextInput,
+} from "flowbite-react";
 import {
   FaEdit,
+  FaEllipsisV,
   FaExternalLinkAlt,
+  FaLink,
   FaMailBulk,
   FaTrash,
   FaUser,
@@ -204,26 +214,34 @@ const AllProductsDashboard = () => {
                   </label>
                 </Table.Cell>
 
-                <Table.Cell className="flex justify-center items-center gap-2">
-                  <Link to={`/singleproduct/${product._id}`}>
-                    <Button size="xs" color="purple">
-                      <FaExternalLinkAlt className="mr-1"></FaExternalLinkAlt>{" "}
-                      Visit
-                    </Button>
-                  </Link>
-                  <Link to={`/dashboard/updateproduct/${product._id}`}>
-                    <Button size="xs" color="success">
-                      <FaEdit className="mr-1"></FaEdit> Edit
-                    </Button>
-                  </Link>
-
-                  <Button
-                    size="xs"
-                    color="failure"
-                    onClick={() => setDeleteData(product)}
+                <Table.Cell className="ml-4" title="action">
+                  <Dropdown
+                    arrowIcon={false}
+                    inline
+                    label={<FaEllipsisV className="cursor-pointer mr-1" />}
                   >
-                    <FaTrash className="mr-1"></FaTrash> Delete
-                  </Button>
+                    <ul className="px-2 text-gray-600 font-semibold">
+                      <>
+                        <Link to={`/singleproduct/${product._id}`}>
+                          <li className="flex items-center my-2 px-2 cursor-pointer  hover:text-blue-500 hover:underline">
+                            <FaLink className="mr-2" />
+                            Visit
+                          </li>
+                        </Link>
+                        <Link to={`/dashboard/updateproduct/${product._id}`}>
+                          <li className="flex items-center my-2 px-2 cursor-pointer  hover:text-secondary hover:underline">
+                            <FaEdit className=" mr-2" /> Edit
+                          </li>
+                        </Link>
+                        <li
+                          className="flex items-center mb-2 hover:text-red-500 hover:underline px-2 cursor-pointer"
+                          onClick={() => setDeleteData(product)}
+                        >
+                          <FaTrash className=" mr-2" /> Delete
+                        </li>
+                      </>
+                    </ul>
+                  </Dropdown>
 
                   {deleteData !== null && (
                     <div

@@ -108,7 +108,7 @@ const MyWishlist = () => {
             <Table.HeadCell>Actions</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {wishlistPosts
+            {currentItems
               .filter((item) => item.product) // Filter out items without product data
               .map((item, index) => (
                 <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">

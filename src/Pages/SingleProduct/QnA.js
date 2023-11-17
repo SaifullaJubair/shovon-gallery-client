@@ -168,10 +168,18 @@ const QnA = ({ singleProduct }) => {
   const handleAskQuestion = () => {
     // Check if user is logged in
     if (!user) {
-      // Handle case when user is not logged in (e.g., show a login modal)
+      toast.error("Please Login or Register before submitting your question.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
       return;
     }
-
+    // Validate the review, rating, and title (if required)
+    if (!question) {
+      toast.error("Please provide a question before submitting.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
     // Prepare question data
     const questionData = {
       email: singleUser.email,

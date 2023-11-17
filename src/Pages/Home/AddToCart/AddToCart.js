@@ -228,9 +228,30 @@ const AddToCart = () => {
   }
   if (cartPosts.length === 0) {
     return (
-      <div className=" flex mx-auto my-72 text-gray-700 font-semibold text-2xl justify-center">
-        <p>You have no products in your Cart .</p>
-      </div>
+      <section className="flex items-center h-full sm:p-16 bg-gray-50 text-gray-800">
+        <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8 space-y-8 text-center sm:max-w-md">
+          <svg
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            height="1em"
+            width="1em"
+            className="w-40 h-40 text-gray-400"
+          >
+            <path d="M14.1 8.5L12 6.4 9.9 8.5 8.5 7.1 10.6 5 8.5 2.9l1.4-1.4L12 3.6l2.1-2.1 1.4 1.4L13.4 5l2.1 2.1-1.4 1.4M7 18c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m10 0c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m-9.8-3.2c0 .1.1.2.2.2H19v2H7c-1.1 0-2-.9-2-2 0-.4.1-.7.2-1l1.3-2.4L3 4H1V2h3.3l4.3 9h7l3.9-7 1.7 1-3.9 7c-.3.6-1 1-1.7 1H8.1l-.9 1.6v.2z" />
+          </svg>
+          <p className="text-3xl">
+            Looks like you have no products in your cart!
+          </p>
+          <Link
+            to="/category/all"
+            rel="noopener noreferrer"
+            href="#"
+            className="px-8 py-3 font-semibold rounded bg-orange-600 text-gray-50 hover:scale-105 duration-100"
+          >
+            Back to shopping
+          </Link>
+        </div>
+      </section>
     ); // Message when there are no wishlist items
   }
   // console.log(cartPost);

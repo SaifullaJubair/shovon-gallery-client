@@ -14,7 +14,10 @@ const FlashSale = () => {
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
-        setProducts(data.slice(0, 4));
+        const availableProducts = data?.filter(
+          (product) => product?.product_status === "Available"
+        );
+        setProducts(availableProducts?.slice(0, 4));
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -26,12 +29,12 @@ const FlashSale = () => {
       <div className="flex md:flex-col lg:flex-col xl:flex-col 2xl-flex-row flex-col lg:mx-[60px] md:mx-7 mx-6">
         <div>
           {/* flash sate title  */}
-          <div className="flex items-center justify-between">
+          <div className="">
             <FlashSaleTitleSection></FlashSaleTitleSection>
-            <div className="flex items-center justify-center ">
+            {/* <div className="flex items-center justify-center ">
               <BsArrowLeftShort className="mr-2 text-2xl"></BsArrowLeftShort>
               <BsArrowRightCircleFill className="mr-4 text-xl"></BsArrowRightCircleFill>
-            </div>
+            </div> */}
           </div>
           {/* flash sale card section  */}
           <div className="grid grid-cols-1 sm:grid-cols-2 justify-items-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  mt-6 gap-4 ">

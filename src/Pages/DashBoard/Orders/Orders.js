@@ -170,7 +170,10 @@ const Orders = () => {
                   </div>
                 </Table.Cell>
                 <Table.Cell>
-                  <p className="uppercase mx-2">{order?.deliveryType}</p>
+                  <p className="uppercase mx-2 text-xs flex items-center font-semibold">
+                    <FaShippingFast className="mr-1" /> {order?.deliveryType}{" "}
+                    <span className="lowercase ml-[3px]"> DELIVERY</span>
+                  </p>
                   <select
                     id="orderStatus"
                     className=" block pl-2 py-3  shadow-primary/10 px-0  text-xs text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer  "

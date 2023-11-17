@@ -7,12 +7,14 @@ import { AuthContext } from "../../../Contexts/AuthProvider/AuthProvider";
 import ConfirmationModal from "../../../components/ConfirmationModal/ConfirmationModal";
 import { Link } from "react-router-dom";
 import Loader from "../../../Shared/Loader/Loader";
+import ReactPaginate from "react-paginate";
 
 const MyWishlist = () => {
   const [refetch, setRefetch] = useState(false);
   const [wishlistPosts, setWishlistPosts] = useState([]);
   const { user } = useContext(AuthContext);
   const [deleteData, setDeleteData] = useState(null);
+  const [itemOffset, setItemOffset] = useState(0);
 
   useEffect(() => {
     if (user?.email) {
@@ -54,6 +56,20 @@ const MyWishlist = () => {
   };
   const onClose = () => {
     setDeleteData(null);
+  };
+  const itemsPerPage = 8;
+
+  const endOffset = itemOffset + itemsPerPage;
+
+  const currentItems = wishlistPosts.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(wishlistPosts.length / itemsPerPage);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % wishlistPosts.length;
+    // console.log(
+    //     `User requested page number ${event.selected}, which is offset ${newOffset}`
+    // );
+    setItemOffset(newOffset);
   };
 
   // if (wishlistPosts === null) {
@@ -158,6 +174,18 @@ const MyWishlist = () => {
               ))}
           </Table.Body>
         </Table>
+      </div>
+      <div className="pagination my-6">
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="<"
+          renderOnZeroPageCount={null}
+          containerClassName="pagination-menu"
+        />
       </div>
     </div>
   );

@@ -22,11 +22,14 @@ const AddToCart = () => {
   const [divisions, setDivisions] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [selectedDivision, setSelectedDivision] = useState(null);
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+
   const [deliveryType, setDeliveryType] = useState("home");
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
   useEffect(() => {
@@ -145,6 +148,39 @@ const AddToCart = () => {
       });
   }, []);
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/bangladesh"); // Replace 'your_api_endpoint' with the actual API endpoint
+      const data = await response.json();
+
+      // Extract data for each category
+      const divisions = data.find((entry) => entry.name === "divisions").data;
+      const districts = data.find((entry) => entry.name === "districts").data;
+      const upazilas = data.find((entry) => entry.name === "upazilas").data;
+
+      // Add district_name to upazilas
+      upazilas.forEach((upazila) => {
+        const matchingDistrict = districts.find(
+          (district) => district.id === upazila.district_id
+        );
+        if (matchingDistrict) {
+          upazila.district_name = matchingDistrict.name;
+        }
+      });
+
+      // Use the data as needed
+      console.log("Divisions:", divisions);
+      console.log("Districts:", districts);
+      console.log("Upazilas:", upazilas);
+
+      // Now you can use the divisions, districts, and upazilas data in your application
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // Call the fetchData function
+  fetchData();
   const currentDate = new Date();
   const options = {
     year: "numeric",
@@ -160,6 +196,13 @@ const AddToCart = () => {
     currentDate
   );
   const handleCheckout = async (data) => {
+    if (!selectedDivision || !selectedDistrict) {
+      toast.error("Please select both division and district.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+
     const checkoutData = {
       userName: data.userName,
       userEmail: user.email,
@@ -185,6 +228,7 @@ const AddToCart = () => {
         })),
       totalAmount,
     };
+
     try {
       const response = await fetch("http://localhost:5000/checkout", {
         method: "POST",
@@ -456,33 +500,7 @@ const AddToCart = () => {
                         </span>
                       )}
                     </div>
-                    {/* User email */}
-                    {/* <div className="relative w-full mb-6 group">
-                      <input
-                        type="email"
-                        name="floating_email"
-                        id="floating_email"
-                        className={`block shadow-md shadow-primary/10 py-2.5 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0  peer ${
-                          errors.userName
-                            ? "focus:border-red-500 border-red-500"
-                            : "focus:border-secondary"
-                        }`}
-                        placeholder=" "
-                        {...register("userEmail", { required: true })}
-                      />
 
-                      <label
-                        for="floating_email"
-                        className="peer-focus:font-medium absolute pl-2 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-focus:left-0 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                      >
-                        Your email
-                      </label>
-                      {errors.userEmail && (
-                        <span className="text-xs text-red-500">
-                          This field is required
-                        </span>
-                      )}
-                    </div> */}
                     {/*division */}
                     <div className="relative w-full mb-6 group">
                       <label
@@ -520,8 +538,16 @@ const AddToCart = () => {
                       </label>
                       <select
                         id="district"
-                        className="block py-2.5 shadow-md pl-2 shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
+                        className={`block py-2.5 shadow-md pl-2 shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer ${
+                          errors.district
+                            ? "focus:border-red-500 border-red-500"
+                            : "focus:border-secondary"
+                        }`}
                         {...register("district", { required: true })}
+                        onChange={(e) => {
+                          setValue("district", e.target.value);
+                          setSelectedDistrict(e.target.value);
+                        }}
                       >
                         <option disabled selected>
                           Select District

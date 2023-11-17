@@ -8,6 +8,7 @@ import { AuthContext } from "../../Contexts/AuthProvider/AuthProvider";
 import { FaHeart, FaRegHeart, FaRegStar, FaStar } from "react-icons/fa";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const ProductHighlightSection = ({ singleProduct }) => {
   const [wishList, setWishList] = useState(false);
@@ -348,7 +349,15 @@ const ProductHighlightSection = ({ singleProduct }) => {
 
       <div className="flex my-6">
         <span className="mr-2">
-          <Button gradientMonochrome="success">Buy</Button>
+          <Link to="/cart">
+            {" "}
+            <Button
+              gradientMonochrome="success"
+              onClick={() => handleAddToCart(singleProduct)}
+            >
+              Checkout
+            </Button>
+          </Link>
         </span>
         <Button
           gradientDuoTone="purpleToPink"

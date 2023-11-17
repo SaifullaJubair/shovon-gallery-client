@@ -214,6 +214,8 @@ const AddFixedImg = () => {
 
         <small className="text-gray-700 font-medium ">
           #Note: Only one active fixed image will show in home page.
+          <br />
+          #Note: Upload high regulation img.
         </small>
 
         <Table striped={true}>

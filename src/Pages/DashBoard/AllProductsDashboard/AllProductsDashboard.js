@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../../../Contexts/AuthProvider/AuthProvider";
 import Loader from "../../../Shared/Loader/Loader";
 import { Link } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 
 const AllProductsDashboard = () => {
   const [products, setProducts] = useState([]);
@@ -19,6 +20,7 @@ const AllProductsDashboard = () => {
   const [editData, setEditData] = useState(null);
   const [toggleStates, setToggleStates] = useState({});
   const { user, loading } = useContext(AuthContext);
+  const [itemOffset, setItemOffset] = useState(0);
 
   useEffect(() => {
     fetch("http://localhost:5000/products")
@@ -98,6 +100,21 @@ const AllProductsDashboard = () => {
     }
   };
 
+  const itemsPerPage = 8;
+
+  const endOffset = itemOffset + itemsPerPage;
+
+  const currentItems = products.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(products.length / itemsPerPage);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % products.length;
+    // console.log(
+    //     `User requested page number ${event.selected}, which is offset ${newOffset}`
+    // );
+    setItemOffset(newOffset);
+  };
+
   if (loading) {
     return <Loader />;
   }
@@ -129,7 +146,7 @@ const AllProductsDashboard = () => {
             <Table.HeadCell>Action</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {products?.map((product, index) => (
+            {currentItems?.map((product, index) => (
               <Table.Row
                 key={index}
                 className="bg-white dark:border-gray-700 dark:bg-gray-800"
@@ -283,6 +300,18 @@ const AllProductsDashboard = () => {
             ))}
           </Table.Body>
         </Table>
+      </div>
+      <div className="pagination my-6">
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel=">"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="<"
+          renderOnZeroPageCount={null}
+          containerClassName="pagination-menu"
+        />
       </div>
     </div>
   );

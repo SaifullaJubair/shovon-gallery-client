@@ -106,7 +106,7 @@ const AllUsers = () => {
                 <Table.Cell>{user.name}</Table.Cell>
                 <Table.Cell>{user.email}</Table.Cell>
                 <Table.Cell>{user.role}</Table.Cell>
-                <Table.Cell>{user.createdAt.slice(0, 10)}</Table.Cell>
+                <Table.Cell>{user.createdAt.slice(0, 12)}</Table.Cell>
                 <Table.Cell className="flex gap-3">
                   <Button
                     size="xs"
@@ -208,7 +208,7 @@ const AllUsers = () => {
                                   defaultValue={editData?.role}
                                 >
                                   <option value="admin">Admin</option>
-                                  <option value="user">Buyer</option>
+                                  <option value="user">User</option>
                                 </Select>
                               </div>
                               {/* <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" /> */}

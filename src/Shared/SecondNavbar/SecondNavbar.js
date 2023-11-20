@@ -28,7 +28,7 @@ const SecondNavbar = () => {
   useEffect(() => {
     if (user && user.email) {
       // Fetch user data only if user is available and has an email
-      fetch(`http://localhost:5000/singleuser/${user.email}`)
+      fetch(`http://localhost:5000/singleuser/${user?.email}`)
         .then((res) => res.json())
         .then((data) => {
           setSingleUser(data);

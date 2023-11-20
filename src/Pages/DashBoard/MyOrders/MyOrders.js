@@ -35,8 +35,8 @@ const MyOrders = () => {
 
   const endOffset = itemOffset + itemsPerPage;
 
-  const currentItems = orders.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(orders.length / itemsPerPage);
+  const currentItems = orders?.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(orders?.length / itemsPerPage);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % orders.length;
@@ -128,7 +128,7 @@ const MyOrders = () => {
                 <Table.Cell>
                   {" "}
                   <p className="text-xs w-20">
-                    {order.paymentDate.slice(0, 23)}
+                    {order?.paymentDate?.slice(0, 23)}
                   </p>{" "}
                 </Table.Cell>
                 <Table.Cell className="uppercase text-xs">

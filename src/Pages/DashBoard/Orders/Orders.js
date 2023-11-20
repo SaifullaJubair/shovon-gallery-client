@@ -190,7 +190,7 @@ const Orders = () => {
                 <Table.Cell className="text-xs font-semibold">
                   <p>TransID: {order.transactionId}</p>
                   <p className="text-xs mt-1">
-                    {order.paymentDate.slice(0, 23)}
+                    {order.paymentDate?.slice(0, 23)}
                   </p>
                 </Table.Cell>
                 <Table.Cell>

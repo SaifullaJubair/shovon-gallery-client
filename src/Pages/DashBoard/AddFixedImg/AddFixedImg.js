@@ -29,7 +29,7 @@ const AddFixedImg = () => {
     currentDate
   );
   useEffect(() => {
-    fetch("http://localhost:5000/allFixedImg")
+    fetch("https://shovon-gallery-server.vercel.app/allFixedImg")
       .then((res) => res.json())
       .then((data) => {
         setFixedImg(data);
@@ -64,7 +64,7 @@ const AddFixedImg = () => {
       post_date: formattedDate,
     };
     // console.log(data);
-    fetch("http://localhost:5000/update/fixedImg", {
+    fetch("https://shovon-gallery-server.vercel.app/update/fixedImg", {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -100,7 +100,7 @@ const AddFixedImg = () => {
       status,
       post_date: formattedDate,
     };
-    fetch("http://localhost:5000/addFixedImg", {
+    fetch("https://shovon-gallery-server.vercel.app/addFixedImg", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -118,7 +118,7 @@ const AddFixedImg = () => {
   };
 
   const handleDelete = (data) => {
-    fetch("http://localhost:5000/deleteFixedImg", {
+    fetch("https://shovon-gallery-server.vercel.app/deleteFixedImg", {
       method: "DELETE",
       headers: {
         "content-type": "application/json",

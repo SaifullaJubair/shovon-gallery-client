@@ -18,7 +18,9 @@ const MyWishlist = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:5000/mywishlist/${user?.email}`)
+      fetch(
+        `https://shovon-gallery-server.vercel.app/mywishlist/${user?.email}`
+      )
         .then((res) => res.json())
         .then((data) => {
           setWishlistPosts(data);
@@ -29,7 +31,7 @@ const MyWishlist = () => {
   const handleDeletePost = (item) => {
     // console.log(post);
     fetch(
-      `http://localhost:5000/wishlist/${item?.productId}?email=${user?.email}`,
+      `https://shovon-gallery-server.vercel.app/wishlist/${item?.productId}?email=${user?.email}`,
       {
         method: "DELETE",
         headers: {

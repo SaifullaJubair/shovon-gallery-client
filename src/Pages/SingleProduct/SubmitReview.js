@@ -88,7 +88,7 @@ const SubmitReview = ({ singleProduct, refetch }) => {
       postDate: formattedDate,
     };
     fetch(
-      `http://localhost:5000/review/${singleProduct?._id}?email=${user?.email}`
+      `https://shovon-gallery-server.vercel.app/review/${singleProduct?._id}?email=${user?.email}`
     )
       .then((res) => {
         if (!res.ok) {
@@ -108,7 +108,7 @@ const SubmitReview = ({ singleProduct, refetch }) => {
           });
         } else {
           // Perform the API call to submit the review
-          fetch("http://localhost:5000/submit-review", {
+          fetch("https://shovon-gallery-server.vercel.app/submit-review", {
             method: "POST",
             headers: {
               "content-type": "application/json",

@@ -7,7 +7,9 @@ const LatestProducts = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/latest-products-by-category")
+    fetch(
+      "https://shovon-gallery-server.vercel.app/latest-products-by-category"
+    )
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);

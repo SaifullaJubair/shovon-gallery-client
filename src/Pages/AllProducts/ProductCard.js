@@ -15,7 +15,7 @@ const ProductCard = ({ product }) => {
 
   // const [singleProduct, setSingleProduct] = useState({});
   useEffect(() => {
-    fetch(`http://localhost:5000/all-review/${product?._id}`)
+    fetch(`https://shovon-gallery-server.vercel.app/all-review/${product?._id}`)
       .then((res) => res.json())
       .then((data) => {
         setReviews(data);
@@ -117,7 +117,7 @@ const ProductCard = ({ product }) => {
 
     if (wishList) {
       return fetch(
-        `http://localhost:5000/wishlist/${product?._id}?email=${user?.email}`,
+        `https://shovon-gallery-server.vercel.app/wishlist/${product?._id}?email=${user?.email}`,
         {
           method: "DELETE",
           headers: {
@@ -131,7 +131,7 @@ const ProductCard = ({ product }) => {
         })
         .catch((err) => console.log(err));
     } else {
-      return fetch("http://localhost:5000/add-wishlist", {
+      return fetch("https://shovon-gallery-server.vercel.app/add-wishlist", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -147,7 +147,9 @@ const ProductCard = ({ product }) => {
   // checking if the wishlist exist or not
   useEffect(() => {
     if (!user?.email) return;
-    fetch(`http://localhost:5000/wishlist/${product?._id}?email=${user?.email}`)
+    fetch(
+      `https://shovon-gallery-server.vercel.app/wishlist/${product?._id}?email=${user?.email}`
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.userEmail === user.email) {

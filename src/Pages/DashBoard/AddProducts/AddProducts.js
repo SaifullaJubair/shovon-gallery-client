@@ -27,7 +27,7 @@ function AddProducts() {
   const [categories, setCategories] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/allcategories")
+    fetch("https://shovon-gallery-server.vercel.app/allcategories")
       .then((res) => res.json())
       .then((data) => setCategories(data));
   }, []);
@@ -207,7 +207,10 @@ function AddProducts() {
         body: JSON.stringify(product),
       };
 
-      const res = await fetch("http://localhost:5000/products", config);
+      const res = await fetch(
+        "https://shovon-gallery-server.vercel.app/products",
+        config
+      );
       const data = await res.json();
 
       if (data.acknowledged) {

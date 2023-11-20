@@ -27,7 +27,7 @@ const Orders = () => {
 
   useEffect(() => {
     // Fetch division data from the backend when the component mounts
-    fetch("http://localhost:5000/all-orders")
+    fetch("https://shovon-gallery-server.vercel.app/all-orders")
       .then((res) => res.json())
       .then((data) => {
         setLoading(false);
@@ -61,7 +61,7 @@ const Orders = () => {
     const newStatus = e.target.value;
 
     fetch(
-      `http://localhost:5000/update-delivery-status/${order.transactionId}`,
+      `https://shovon-gallery-server.vercel.app/update-delivery-status/${order.transactionId}`,
       {
         method: "PUT",
         headers: {

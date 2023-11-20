@@ -31,7 +31,7 @@ const FlashCard = ({ product }) => {
   } = product;
 
   useEffect(() => {
-    fetch(`http://localhost:5000/all-review/${product?._id}`)
+    fetch(`https://shovon-gallery-server.vercel.app/all-review/${product?._id}`)
       .then((res) => res.json())
       .then((data) => {
         setReviews(data);

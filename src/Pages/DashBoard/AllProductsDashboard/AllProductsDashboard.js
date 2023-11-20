@@ -33,7 +33,7 @@ const AllProductsDashboard = () => {
   const [itemOffset, setItemOffset] = useState(0);
 
   useEffect(() => {
-    fetch("http://localhost:5000/products")
+    fetch("https://shovon-gallery-server.vercel.app/products")
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
@@ -47,9 +47,12 @@ const AllProductsDashboard = () => {
   }, [refetch]);
 
   const handleDeleteProduct = (product) => {
-    fetch(`http://localhost:5000/singleproduct/${product?._id}`, {
-      method: "DELETE",
-    })
+    fetch(
+      `https://shovon-gallery-server.vercel.app/singleproduct/${product?._id}`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
@@ -81,7 +84,7 @@ const AllProductsDashboard = () => {
       };
 
       const response = await fetch(
-        `http://localhost:5000/update/product/${product._id}`,
+        `https://shovon-gallery-server.vercel.app/update/product/${product._id}`,
         {
           method: "PATCH",
           headers: {

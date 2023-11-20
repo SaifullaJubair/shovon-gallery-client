@@ -56,7 +56,7 @@ function UpdateProduct() {
   );
 
   useEffect(() => {
-    fetch("http://localhost:5000/allcategories")
+    fetch("https://shovon-gallery-server.vercel.app/allcategories")
       .then((res) => res.json())
       .then((data) => setCategories(data));
   }, []);
@@ -140,7 +140,7 @@ function UpdateProduct() {
       };
 
       const res = await fetch(
-        `http://localhost:5000/update/product/${singleProduct?._id}`,
+        `https://shovon-gallery-server.vercel.app/update/product/${singleProduct?._id}`,
         config
       );
       const data = await res.json();

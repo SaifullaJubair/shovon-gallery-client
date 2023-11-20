@@ -34,7 +34,7 @@ const AddToCart = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:5000/mycart/${user?.email}`)
+      fetch(`https://shovon-gallery-server.vercel.app/mycart/${user?.email}`)
         .then((res) => res.json())
         .then((data) => {
           setCartPosts(data);
@@ -48,7 +48,7 @@ const AddToCart = () => {
   const handleDeletePost = (item) => {
     // console.log(post);
     fetch(
-      `http://localhost:5000/cart/${item?.productId}?email=${user?.email}`,
+      `https://shovon-gallery-server.vercel.app/cart/${item?.productId}?email=${user?.email}`,
       {
         method: "DELETE",
         headers: {
@@ -89,7 +89,7 @@ const AddToCart = () => {
 
     // Make a PUT/PATCH request to update the quantity in the cartCollection
     fetch(
-      `http://localhost:5000/cart/${item?.productId}?email=${user?.email}`,
+      `https://shovon-gallery-server.vercel.app/cart/${item?.productId}?email=${user?.email}`,
       {
         method: "PUT", // Use PUT or PATCH based on your API endpoint configuration
         headers: {
@@ -111,7 +111,7 @@ const AddToCart = () => {
   useEffect(() => {
     if (user && user.email) {
       // Fetch user data only if user is available and has an email
-      fetch(`http://localhost:5000/singleuser/${user.email}`)
+      fetch(`https://shovon-gallery-server.vercel.app/singleuser/${user.email}`)
         .then((res) => res.json())
         .then((data) => {
           setSingleUser(data);
@@ -128,7 +128,7 @@ const AddToCart = () => {
 
   useEffect(() => {
     // Fetch division data from the backend when the component mounts
-    fetch("http://localhost:5000/bangladesh")
+    fetch("https://shovon-gallery-server.vercel.app/bangladesh")
       .then((res) => res.json())
       .then((data) => {
         // Assuming the division data is stored in the 'divisions' property
@@ -197,13 +197,16 @@ const AddToCart = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(checkoutData),
-      });
+      const response = await fetch(
+        "https://shovon-gallery-server.vercel.app/checkout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(checkoutData),
+        }
+      );
 
       const result = await response.json();
       window.location.replace(result.url);

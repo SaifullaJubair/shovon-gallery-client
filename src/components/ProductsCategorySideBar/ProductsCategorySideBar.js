@@ -15,7 +15,7 @@ const ProductsCategorySideBar = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/allcategories")
+    fetch("https://shovon-gallery-server.vercel.app/allcategories")
       .then((res) => res.json())
       .then((data) => {
         setCategories(data);

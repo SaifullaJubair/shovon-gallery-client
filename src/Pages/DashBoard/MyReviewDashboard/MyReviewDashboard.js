@@ -43,7 +43,7 @@ const MyReviewDashboard = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:5000/myreview/${user?.email}`)
+      fetch(`https://shovon-gallery-server.vercel.app/myreview/${user?.email}`)
         .then((res) => res.json())
         .then((data) => {
           setReviews(data);
@@ -94,7 +94,7 @@ const MyReviewDashboard = () => {
       postDate: formattedDate,
     };
     // console.log("editReviewData", editReviewData);
-    fetch("http://localhost:5000/edit-review", {
+    fetch("https://shovon-gallery-server.vercel.app/edit-review", {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -128,7 +128,7 @@ const MyReviewDashboard = () => {
   };
 
   const handleDelete = (data) => {
-    fetch(`http://localhost:5000/delete-review`, {
+    fetch(`https://shovon-gallery-server.vercel.app/delete-review`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",

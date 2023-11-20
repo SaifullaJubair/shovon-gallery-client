@@ -37,7 +37,7 @@ const ProductHighlightSection = ({ singleProduct }) => {
 
     if (wishList) {
       return fetch(
-        `http://localhost:5000/wishlist/${singleProduct?._id}?email=${user?.email}`,
+        `https://shovon-gallery-server.vercel.app/wishlist/${singleProduct?._id}?email=${user?.email}`,
         {
           method: "DELETE",
           headers: {
@@ -51,7 +51,7 @@ const ProductHighlightSection = ({ singleProduct }) => {
         })
         .catch((err) => console.log(err));
     } else {
-      return fetch("http://localhost:5000/add-wishlist", {
+      return fetch("https://shovon-gallery-server.vercel.app/add-wishlist", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -68,7 +68,7 @@ const ProductHighlightSection = ({ singleProduct }) => {
   useEffect(() => {
     if (!user?.email) return;
     fetch(
-      `http://localhost:5000/wishlist/${singleProduct?._id}?email=${user?.email}`
+      `https://shovon-gallery-server.vercel.app/wishlist/${singleProduct?._id}?email=${user?.email}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -101,7 +101,7 @@ const ProductHighlightSection = ({ singleProduct }) => {
     };
     // console.log("cartData:", cartData);
     fetch(
-      `http://localhost:5000/cart/${singleProduct?._id}?email=${user?.email}`
+      `https://shovon-gallery-server.vercel.app/cart/${singleProduct?._id}?email=${user?.email}`
     )
       .then((res) => {
         if (!res.ok) {
@@ -121,7 +121,7 @@ const ProductHighlightSection = ({ singleProduct }) => {
           });
         } else {
           // Product is not in the cart, add it to the cart collection
-          fetch("http://localhost:5000/add-cart", {
+          fetch("https://shovon-gallery-server.vercel.app/add-cart", {
             method: "POST",
             headers: {
               "content-type": "application/json",
@@ -166,7 +166,9 @@ const ProductHighlightSection = ({ singleProduct }) => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:5000/all-qna/${singleProduct._id}`)
+    fetch(
+      `https://shovon-gallery-server.vercel.app/all-qna/${singleProduct._id}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setQnA(data);
@@ -178,7 +180,9 @@ const ProductHighlightSection = ({ singleProduct }) => {
   }, [singleProduct]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/all-review/${singleProduct?._id}`)
+    fetch(
+      `https://shovon-gallery-server.vercel.app/all-review/${singleProduct?._id}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setReviews(data);

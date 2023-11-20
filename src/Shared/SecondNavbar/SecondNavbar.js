@@ -15,7 +15,7 @@ const SecondNavbar = () => {
   const [singleUser, setSingleUser] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/allcategories")
+    fetch("https://shovon-gallery-server.vercel.app/allcategories")
       .then((res) => res.json())
       .then((data) => {
         setCategories(data);
@@ -29,7 +29,7 @@ const SecondNavbar = () => {
     try {
       if (user?.email) {
         const response = await fetch(
-          `http://localhost:5000/singleuser/${user?.email}`
+          `https://shovon-gallery-server.vercel.app/singleuser/${user?.email}`
         );
         const data = await response.json();
         setSingleUser(data);

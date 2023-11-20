@@ -15,7 +15,9 @@ const PaymentSuccess = () => {
 
   useEffect(() => {
     // Fetch division data from the backend when the component mounts
-    fetch(`http://localhost:5000/orders/by-transaction-id/${transactionId}`)
+    fetch(
+      `https://shovon-gallery-server.vercel.app/orders/by-transaction-id/${transactionId}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setLoading(false);

@@ -24,7 +24,7 @@ const Banner = () => {
   const [bannerImg, setBannerImg] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    fetch("http://localhost:5000/allBannerImg")
+    fetch("https://shovon-gallery-server.vercel.app/allBannerImg")
       .then((res) => res.json())
       .then((data) => {
         const activeBannerImg = data.filter((item) => item.status === "Active");

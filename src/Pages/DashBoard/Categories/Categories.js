@@ -10,7 +10,7 @@ const Categories = () => {
   const [editData, setEditData] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/allcategories")
+    fetch("https://shovon-gallery-server.vercel.app/allcategories")
       .then((res) => res.json())
       .then((data) => {
         setCategories(data);
@@ -39,7 +39,7 @@ const Categories = () => {
       _id: editData?._id,
       name: name,
     };
-    fetch("http://localhost:5000/editcategory", {
+    fetch("https://shovon-gallery-server.vercel.app/editcategory", {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -63,7 +63,7 @@ const Categories = () => {
     const data = {
       name,
     };
-    fetch("http://localhost:5000/addcategory", {
+    fetch("https://shovon-gallery-server.vercel.app/addcategory", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -81,7 +81,7 @@ const Categories = () => {
   };
 
   const handleDelete = (data) => {
-    fetch("http://localhost:5000/deletecategory", {
+    fetch("https://shovon-gallery-server.vercel.app/deletecategory", {
       method: "DELETE",
       headers: {
         "content-type": "application/json",

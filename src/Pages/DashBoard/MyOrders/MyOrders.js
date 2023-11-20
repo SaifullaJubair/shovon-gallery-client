@@ -17,7 +17,7 @@ const MyOrders = () => {
 
   useEffect(() => {
     // Fetch division data from the backend when the component mounts
-    fetch(`http://localhost:5000/orders/${user.email}`)
+    fetch(`https://shovon-gallery-server.vercel.app/orders/${user.email}`)
       .then((res) => res.json())
       .then((data) => {
         setLoading(false);

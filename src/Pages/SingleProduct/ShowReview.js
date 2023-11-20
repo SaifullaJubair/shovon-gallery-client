@@ -25,7 +25,9 @@ const ShowReview = ({ singleProduct }) => {
   const [rating, setRating] = useState(0);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/all-review/${singleProduct?._id}`)
+    fetch(
+      `https://shovon-gallery-server.vercel.app/all-review/${singleProduct?._id}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setReviews(data);
@@ -95,7 +97,7 @@ const ShowReview = ({ singleProduct }) => {
       postDate: formattedDate,
     };
     fetch(
-      `http://localhost:5000/review/${singleProduct?._id}?email=${user?.email}`
+      `https://shovon-gallery-server.vercel.app/review/${singleProduct?._id}?email=${user?.email}`
     )
       .then((res) => {
         if (!res.ok) {
@@ -118,7 +120,7 @@ const ShowReview = ({ singleProduct }) => {
           setRating(0);
         } else {
           // Perform the API call to submit the review
-          fetch("http://localhost:5000/submit-review", {
+          fetch("https://shovon-gallery-server.vercel.app/submit-review", {
             method: "POST",
             headers: {
               "content-type": "application/json",
@@ -184,7 +186,7 @@ const ShowReview = ({ singleProduct }) => {
       postDate: formattedDate,
     };
     // console.log(editReviewData);
-    fetch("http://localhost:5000/edit-review", {
+    fetch("https://shovon-gallery-server.vercel.app/edit-review", {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -218,7 +220,7 @@ const ShowReview = ({ singleProduct }) => {
   };
 
   const handleDelete = (data) => {
-    fetch(`http://localhost:5000/delete-review`, {
+    fetch(`https://shovon-gallery-server.vercel.app/delete-review`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",

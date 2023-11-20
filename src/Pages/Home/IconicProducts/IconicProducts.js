@@ -8,7 +8,7 @@ const IconicProducts = () => {
   const [singleProduct, setSingleProduct] = useState([]);
   const [nextTwoProducts, setNextTwoProducts] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/products")
+    fetch("https://shovon-gallery-server.vercel.app/products")
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);

@@ -43,7 +43,7 @@ const DashboardLayout = () => {
     try {
       if (user.email) {
         const response = await fetch(
-          `http://localhost:5000/singleuser/${user?.email}`
+          `https://shovon-gallery-server.vercel.app/singleuser/${user?.email}`
         );
         const data = await response.json();
         setUserData(data);

@@ -9,7 +9,7 @@ const FixedImg = () => {
   const [fixedImage, setFixedImg] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    fetch("http://localhost:5000/allFixedImg")
+    fetch("https://shovon-gallery-server.vercel.app/allFixedImg")
       .then((res) => res.json())
       .then((data) => {
         // Find the latest active fixed image

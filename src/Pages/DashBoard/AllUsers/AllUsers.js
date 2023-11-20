@@ -11,7 +11,7 @@ const AllUsers = () => {
   const [editData, setEditData] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/users")
+    fetch("https://shovon-gallery-server.vercel.app/users")
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
@@ -22,13 +22,16 @@ const AllUsers = () => {
   const handleMakeAdmin = (e) => {
     e.preventDefault();
     const role = e.target.role.value;
-    fetch(`http://localhost:5000/users/update/${editData._id}`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        role,
-      },
-    })
+    fetch(
+      `https://shovon-gallery-server.vercel.app/users/update/${editData._id}`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          role,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.modifiedCount > 0) {
@@ -42,7 +45,7 @@ const AllUsers = () => {
   };
 
   const handleDeleteUser = (user) => {
-    fetch(`http://localhost:5000/users/${user?._id}`, {
+    fetch(`https://shovon-gallery-server.vercel.app/users/${user?._id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

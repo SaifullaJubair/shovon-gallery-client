@@ -25,7 +25,7 @@ const AddBannerImg = () => {
     currentDate
   );
   useEffect(() => {
-    fetch("http://localhost:5000/allBannerImg")
+    fetch("https://shovon-gallery-server.vercel.app/allBannerImg")
       .then((res) => res.json())
       .then((data) => {
         setBannerImg(data);
@@ -60,7 +60,7 @@ const AddBannerImg = () => {
       post_date: formattedDate,
     };
     console.log(data);
-    fetch("http://localhost:5000/update/banner", {
+    fetch("https://shovon-gallery-server.vercel.app/update/banner", {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -96,7 +96,7 @@ const AddBannerImg = () => {
       status,
       post_date: formattedDate,
     };
-    fetch("http://localhost:5000/addBannerImg", {
+    fetch("https://shovon-gallery-server.vercel.app/addBannerImg", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -114,7 +114,7 @@ const AddBannerImg = () => {
   };
 
   const handleDelete = (data) => {
-    fetch("http://localhost:5000/deleteBannerImg", {
+    fetch("https://shovon-gallery-server.vercel.app/deleteBannerImg", {
       method: "DELETE",
       headers: {
         "content-type": "application/json",

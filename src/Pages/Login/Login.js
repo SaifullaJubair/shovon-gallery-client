@@ -81,7 +81,7 @@ const Login = () => {
       role: "user",
       createdAt: formattedDate,
     };
-    fetch("http://localhost:5000/adduser", {
+    fetch("https://shovon-gallery-server.vercel.app/adduser", {
       method: "POST",
       headers: {
         "content-type": "application/json",

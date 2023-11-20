@@ -42,7 +42,9 @@ const QnA = ({ singleProduct }) => {
     currentDate
   );
   useEffect(() => {
-    fetch(`http://localhost:5000/all-qna/${singleProduct._id}`)
+    fetch(
+      `https://shovon-gallery-server.vercel.app/all-qna/${singleProduct._id}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setQnA(data);
@@ -57,7 +59,7 @@ const QnA = ({ singleProduct }) => {
   useEffect(() => {
     if (user && user.email) {
       // Fetch user data only if user is available and has an email
-      fetch(`http://localhost:5000/singleuser/${user.email}`)
+      fetch(`https://shovon-gallery-server.vercel.app/singleuser/${user.email}`)
         .then((res) => res.json())
         .then((data) => {
           setSingleUser(data);
@@ -73,7 +75,7 @@ const QnA = ({ singleProduct }) => {
   }, [user]);
 
   const handleDelete = (data) => {
-    fetch(`http://localhost:5000/delete-qna`, {
+    fetch(`https://shovon-gallery-server.vercel.app/delete-qna`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
@@ -126,7 +128,7 @@ const QnA = ({ singleProduct }) => {
       question,
       postDate: formattedDate,
     };
-    fetch("http://localhost:5000/edit-question", {
+    fetch("https://shovon-gallery-server.vercel.app/edit-question", {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -160,7 +162,7 @@ const QnA = ({ singleProduct }) => {
       reply,
       replyDate: formattedDate,
     };
-    fetch("http://localhost:5000/reply-question", {
+    fetch("https://shovon-gallery-server.vercel.app/reply-question", {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -211,7 +213,7 @@ const QnA = ({ singleProduct }) => {
     };
 
     // Send the question to the backend API endpoint
-    fetch("http://localhost:5000/ask-question", {
+    fetch("https://shovon-gallery-server.vercel.app/ask-question", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

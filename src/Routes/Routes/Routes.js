@@ -70,13 +70,15 @@ const router = createBrowserRouter([
         path: "/singleproduct/:id",
         element: <SingleProduct></SingleProduct>,
         // loader: ({ params }) =>
-        //   fetch(`http://localhost:5000/singleproduct/${params.id}`),
+        //   fetch(`https://shovon-gallery-server.vercel.app/singleproduct/${params.id}`),
       },
       {
         path: "/category/:name",
         element: <ProductByCategory></ProductByCategory>,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/category/${params.name}`),
+          fetch(
+            `https://shovon-gallery-server.vercel.app/category/${params.name}`
+          ),
       },
       {
         path: "/about",
@@ -187,7 +189,9 @@ const router = createBrowserRouter([
           </AdminRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/singleproduct/${params.id}`),
+          fetch(
+            `https://shovon-gallery-server.vercel.app/singleproduct/${params.id}`
+          ),
       },
       {
         path: "/dashboard/add-categories",

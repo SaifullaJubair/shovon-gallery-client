@@ -12,7 +12,7 @@ const AllProducts = () => {
   // const { loading } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetch("http://localhost:5000/products")
+    fetch("https://shovon-gallery-server.vercel.app/products")
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);

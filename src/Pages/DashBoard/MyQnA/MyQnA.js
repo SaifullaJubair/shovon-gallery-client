@@ -36,7 +36,9 @@ const MyQnA = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:5000/dashboard/all-qna/${user?.email}`)
+      fetch(
+        `https://shovon-gallery-server.vercel.app/dashboard/all-qna/${user?.email}`
+      )
         .then((res) => res.json())
         .then((data) => {
           setQnA(data);

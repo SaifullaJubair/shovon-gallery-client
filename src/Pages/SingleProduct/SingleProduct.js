@@ -44,7 +44,7 @@ const SingleProduct = () => {
   // const priceWithCommas = numberWithCommas(price);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/singleproduct/${id}`)
+    fetch(`https://shovon-gallery-server.vercel.app/singleproduct/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
@@ -61,7 +61,9 @@ const SingleProduct = () => {
   }, [id]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/category/${singleProduct.category}`)
+    fetch(
+      `https://shovon-gallery-server.vercel.app/category/${singleProduct.category}`
+    )
       .then((res) => res.json())
       .then((data) => {
         const availableProducts = data?.filter(

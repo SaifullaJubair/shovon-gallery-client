@@ -19,6 +19,7 @@ import {
   FaStar,
   FaOpencart,
   FaImages,
+  FaRegStar,
 } from "react-icons/fa";
 import { HiOutlineMenu } from "react-icons/hi";
 import {
@@ -38,15 +39,22 @@ const DashboardLayout = () => {
   };
 
   const [userData, setUserData] = useState(null);
-  useEffect(() => {
-    if (user?.email) {
-      fetch(`http://localhost:5000/singleuser/${user?.email}`)
-        .then((res) => res.json())
-        .then((data) => {
-          // console.log(data);
-          setUserData(data);
-        });
+  const fetchUserData = async () => {
+    try {
+      if (user.email) {
+        const response = await fetch(
+          `http://localhost:5000/singleuser/${user?.email}`
+        );
+        const data = await response.json();
+        setUserData(data);
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
     }
+  };
+
+  useEffect(() => {
+    fetchUserData();
   }, [user]);
   const handleLogOut = () => {
     logout()
@@ -116,7 +124,7 @@ const DashboardLayout = () => {
                       </NavLink>
                     </li>
                     <li>
-                      <FaStar className="inline-block ml-4 mr-6 h-7 text-gray-100"></FaStar>
+                      <FaRegStar className="inline-block ml-4 mr-6 h-7 text-gray-100"></FaRegStar>
                       <NavLink to={`/dashboard/my-review`}>
                         <span className={hide ? "hidden" : "inline"}>
                           My Review

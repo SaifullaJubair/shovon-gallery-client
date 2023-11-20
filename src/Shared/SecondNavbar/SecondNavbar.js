@@ -25,21 +25,22 @@ const SecondNavbar = () => {
       });
   }, []);
 
-  useEffect(() => {
-    if (user && user.email) {
-      // Fetch user data only if user is available and has an email
-      fetch(`http://localhost:5000/singleuser/${user?.email}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setSingleUser(data);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-    } else {
-      // Handle case when user is not authenticated
-      setSingleUser(null); // Set singleUser to null or an empty object
+  const fetchUserData = async () => {
+    try {
+      if (user?.email) {
+        const response = await fetch(
+          `http://localhost:5000/singleuser/${user?.email}`
+        );
+        const data = await response.json();
+        setSingleUser(data);
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
     }
+  };
+
+  useEffect(() => {
+    fetchUserData();
   }, [user]);
 
   const handleLogout = () => {

@@ -21,29 +21,25 @@ const Footer = () => {
   }, []);
   return (
     <div className=" print:hidden">
-      <footer className="py-6 bg-gray-50 text-gray-900">
+      <footer className="py-10 bg-gray-50 text-gray-900">
         <div className="container px-6 mx-auto space-y-6 divide-y divide-gray-400 md:space-y-12 divide-opacity-50">
           <div className="grid grid-cols-12">
             <div className="pb-6 col-span-full md:pb-0 md:col-span-6">
-              <Link
-                rel="noopener noreferrer"
-                to="/"
-                className="flex justify-center space-x-3 md:justify-start"
-              >
+              <Link to="/" className="flex pace-x-3 md:justify-start">
                 <div className="flex items-center justify-center w-12 h-12 rounded-full bg-orange-600">
                   <img src={logo} alt="" />
                 </div>
-                <span className="self-center text-2xl font-semibold">
+                <span className="self-center ms-1 text-2xl font-semibold">
                   <span className="text-red-500 font-bold">S</span>hovon{" "}
                   <span className="text-red-500 font-bold">G</span>allery
                 </span>
               </Link>
-              <p className="my-2 mx-2 font-semibold text-sm text-gray-500">
+              <p className="my-3 mx-2 max-w-sm font-semibold text-sm text-gray-500">
                 Discover Unique Jewelry and Customized Sets, Crafted with
                 Precision and Passion.
               </p>
             </div>
-            <div className="col-span-6 text-center md:text-left md:col-span-3">
+            <div className="col-span-12  md:text-left md:col-span-3">
               <p className="pb-1 text-lg font-medium">Category</p>
               <ul>
                 {categories.map((category) => (
@@ -59,7 +55,7 @@ const Footer = () => {
                 ))}
               </ul>
             </div>
-            <div className="col-span-6 text-center md:text-left md:col-span-3">
+            <div className="col-span-12  md:text-left md:col-span-3">
               <p className="pb-1 text-lg font-medium">Contact Us</p>
               <ul className="dark:text-gray-400">
                 <li>
@@ -84,7 +80,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="grid justify-center pt-6 lg:justify-between">
-            <div className="flex flex-col self-center text-sm text-center md:block lg:col-start-1 md:space-x-6">
+            <div className="flex flex-col  text-sm md:block lg:col-start-1 md:space-x-6">
               <span>©2023 All rights reserved</span>
               <a rel="noopener noreferrer" href="#">
                 <span>Privacy policy</span>

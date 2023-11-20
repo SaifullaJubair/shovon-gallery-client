@@ -29,7 +29,7 @@ const LatestProducts = () => {
       {products.length !== 0 && (
         <div className="my-12 w-full ">
           <div>
-            <h1 className="text-2xl mt-16 mb-6 text-gray-700 font-semibold">
+            <h1 className="text-2xl mx-3 mt-16 mb-6 text-gray-700 font-semibold">
               Trending Product
             </h1>
           </div>

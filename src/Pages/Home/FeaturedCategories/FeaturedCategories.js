@@ -16,7 +16,7 @@ const FeaturedCategories = () => {
   }, []);
   return (
     <div className="my-10">
-      <h2 className="text-2xl text-gray-700 font-semibold my-8">
+      <h2 className="text-2xl mx-3 text-gray-700 font-semibold my-8">
         Featured Categories
       </h2>
       <div className="bg-gray-100">

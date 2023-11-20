@@ -46,7 +46,7 @@ const FixedImg = () => {
   };
   console.log(fixedImage.length);
   return (
-    <div>
+    <div className="hidden md:block lg:block">
       {fixedImage?.length > 0 ? (
         <div className="my-16 " style={backgroundImageStyle}></div>
       ) : (

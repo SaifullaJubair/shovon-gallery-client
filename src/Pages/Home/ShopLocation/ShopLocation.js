@@ -3,7 +3,7 @@ import React from "react";
 const ShopLocation = () => {
   return (
     <div className="my-16">
-      <h2 className="text-2xl font-bold mb-4">Our Shop Location</h2>
+      <h2 className="mx-3 text-2xl font-bold mb-4">Our Shop Location</h2>
       <div>
         <iframe
           className="w-full h-[500px]"

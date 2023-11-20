@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Discount = () => {
   return (
@@ -6,7 +7,7 @@ const Discount = () => {
       <section className="overflow-hidden rounded-lg shadow-2xl md:grid md:grid-cols-3">
         <img
           alt="Trainer"
-          src="https://images.unsplash.com/photo-1611510338559-2f463335092c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80"
+          src="https://i.ibb.co/Yytmp5c/Artificial-Flower-Tikli-7.png"
           className="h-32 w-full object-cover md:h-full"
         />
 
@@ -25,12 +26,12 @@ const Discount = () => {
             </span>
           </h2>
 
-          <a
+          <Link
+            to="/category/all"
             className="mt-8 inline-block w-full bg-black py-4 text-sm font-bold uppercase tracking-widest text-white"
-            href="# "
           >
             Get Discount
-          </a>
+          </Link>
 
           <p className="mt-8 text-xs font-medium uppercase text-gray-400">
             Offer valid until 24th March, 2021 *

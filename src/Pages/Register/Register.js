@@ -15,6 +15,12 @@ const Register = () => {
     useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [loginUserEmail, setLoginUserEmail] = useState("");
+  const googleProvider = new GoogleAuthProvider();
+  const [createUserEmail, setCreateUserEmail] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const from = location.state?.from?.pathname || "/";
   // console.log(user)
   const imageHostKey = process.env.REACT_APP_imgbb_key;
@@ -24,13 +30,20 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [loginUserEmail, setLoginUserEmail] = useState("");
-  const googleProvider = new GoogleAuthProvider();
-  const [createUserEmail, setCreateUserEmail] = useState("");
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  const currentDate = new Date();
+  const options = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZoneName: "short",
+    timeZone: "Asia/Dhaka", // Set the time zone to Bangladesh
+  };
 
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+    currentDate
+  );
   const termsAndCondition = (event) => {
     setTermsAccepted(event.target.checked);
   };
@@ -61,14 +74,14 @@ const Register = () => {
   const saveUser = (displayName, email, photoURL) => {
     let myuuid = uuidv4();
     // console.log(myuuid);
-    const createdAt = new Date().toISOString();
+
     const user = {
       name: displayName,
       email,
       uid: myuuid,
       img: photoURL,
       role: "user",
-      createdAt: new Date().toISOString(),
+      createdAt: formattedDate,
     };
     console.log(user);
     fetch("http://localhost:5000/adduser", {
@@ -193,7 +206,8 @@ const Register = () => {
               email: email,
               uid: myuuid,
               img: imgData.data.url,
-              createdAt: new Date().toISOString(),
+              role: "user",
+              createdAt: formattedDate,
             };
           })
           .catch((e) => {

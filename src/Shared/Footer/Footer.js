@@ -53,6 +53,14 @@ const Footer = () => {
                     </Link>
                   </li>
                 ))}
+                <li className="my-1.5">
+                  <Link
+                    className="p-2 m-2 text-gray-600 font-semibold border-b-2 border-transparent hover:border-red-700 hover:text-red-700 duration-500"
+                    to="/category/all"
+                  >
+                    All ...
+                  </Link>
+                </li>
               </ul>
             </div>
             <div className="col-span-12  md:text-left md:col-span-3">

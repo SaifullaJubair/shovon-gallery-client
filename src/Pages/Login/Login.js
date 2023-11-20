@@ -59,14 +59,27 @@ const Login = () => {
 
   const saveUser = (displayName, email, photoURL) => {
     let myuuid = uuidv4();
-    const createdAt = new Date().toISOString();
+    const currentDate = new Date();
+    const options = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZoneName: "short",
+      timeZone: "Asia/Dhaka", // Set the time zone to Bangladesh
+    };
+
+    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+      currentDate
+    );
     const user = {
       name: displayName,
       email,
       uid: myuuid,
       img: photoURL,
       role: "user",
-      createdAt: new Date().toISOString(),
+      createdAt: formattedDate,
     };
     fetch("http://localhost:5000/adduser", {
       method: "POST",

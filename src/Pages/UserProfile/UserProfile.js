@@ -13,11 +13,12 @@ const UserProfile = () => {
   const [divisions, setDivisions] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [selectedDivision, setSelectedDivision] = useState(null);
-
+  const [selectedDistrict, setSelectedDistrict] = useState("");
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
   const handleLogout = () => {
@@ -69,6 +70,13 @@ const UserProfile = () => {
   };
 
   const handleEdit = (data) => {
+    if (!selectedDivision || !selectedDistrict) {
+      toast.error("Please select both division and district.", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+
     const updateUserData = {
       name: data.name,
       email: user.email,
@@ -282,9 +290,9 @@ const UserProfile = () => {
                       >
                         Your Name
                       </label>
-                      {errors.userName && (
+                      {errors.name && (
                         <span className="text-xs text-red-500">
-                          This field is required
+                          User name is required
                         </span>
                       )}
                     </div>
@@ -326,8 +334,16 @@ const UserProfile = () => {
                       </label>
                       <select
                         id="district"
-                        className="block py-2.5 shadow-md pl-2 shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer"
+                        className={`block py-2.5 shadow-md pl-2 shadow-primary/10 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 dark:text-white dark:border-gray-600 dark:focus:border-secondary focus:outline-none focus:ring-0 focus:border-secondary peer ${
+                          errors.district
+                            ? "focus:border-red-500 border-red-500"
+                            : "focus:border-secondary"
+                        }`}
                         {...register("district", { required: true })}
+                        onChange={(e) => {
+                          setValue("district", e.target.value);
+                          setSelectedDistrict(e.target.value);
+                        }}
                       >
                         <option disabled selected>
                           Select District
@@ -371,7 +387,7 @@ const UserProfile = () => {
 
                       {errors.address && (
                         <span className="text-xs text-red-500">
-                          This field is required
+                          Address is required
                         </span>
                       )}
                     </div>
@@ -390,7 +406,7 @@ const UserProfile = () => {
                         }`}
                         placeholder=" "
                         {...register("number", {
-                          required: "This field is required",
+                          required: "Mobile number required",
                           validate: {
                             isBangladeshiMobileNumber: (value) =>
                               validateBangladeshiMobileNumber(value) ||

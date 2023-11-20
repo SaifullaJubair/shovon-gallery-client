@@ -148,39 +148,6 @@ const AddToCart = () => {
       });
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/bangladesh"); // Replace 'your_api_endpoint' with the actual API endpoint
-      const data = await response.json();
-
-      // Extract data for each category
-      const divisions = data.find((entry) => entry.name === "divisions").data;
-      const districts = data.find((entry) => entry.name === "districts").data;
-      const upazilas = data.find((entry) => entry.name === "upazilas").data;
-
-      // Add district_name to upazilas
-      upazilas.forEach((upazila) => {
-        const matchingDistrict = districts.find(
-          (district) => district.id === upazila.district_id
-        );
-        if (matchingDistrict) {
-          upazila.district_name = matchingDistrict.name;
-        }
-      });
-
-      // Use the data as needed
-      console.log("Divisions:", divisions);
-      console.log("Districts:", districts);
-      console.log("Upazilas:", upazilas);
-
-      // Now you can use the divisions, districts, and upazilas data in your application
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  // Call the fetchData function
-  fetchData();
   const currentDate = new Date();
   const options = {
     year: "numeric",

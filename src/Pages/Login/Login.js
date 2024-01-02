@@ -236,23 +236,15 @@ const Login = () => {
               <Loader />
             ) : (
               <Button
-                className=" lg:mx-auto w-full bg-secondary hover:bg-orange-400"
+                className=" lg:mx-auto w-full bg-secondary hover:bg-orange-500"
                 type="submit"
               >
                 Login
               </Button>
             )}
           </form>
-          <p className="my-4">
-            Forgot Password?
-            <button
-              onClick={handleForgotPassword}
-              className=" underline text-blue-600 ml-1"
-            >
-              reset here.
-            </button>
-          </p>
-          <p>
+
+          <p className="mt-6">
             Don't have an account?{" "}
             <Link className="text-blue-500 underline" to="/register">
               Register
@@ -261,7 +253,6 @@ const Login = () => {
           <div className="flex justify-between  py-8">
             <div className="flex w-full">
               <div className="flex flex-col w-full border-opacity-50">
-                <div className=""></div>
                 <div className="divider text-xl font-bold text-black">
                   Or continue with
                 </div>

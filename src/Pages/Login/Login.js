@@ -232,23 +232,16 @@ const Login = () => {
             {/* Error show  */}
             <p className="text-red-500">{error}</p>
 
-            {/* {loading ? (
-           <p>Loading...</p>
-          ) : (
-            <Button className="lg:w-1/2 lg:mx-auto text-center " type="submit">
-              Log in
-            </Button>
-          )} */}
-            {/* {loading ? (
+            {loading ? (
               <Loader />
             ) : (
               <Button
-                className=" lg:mx-auto w-full bg-secondary hover:bg-primary"
+                className=" lg:mx-auto w-full bg-secondary hover:bg-orange-400"
                 type="submit"
               >
                 Login
               </Button>
-            )} */}
+            )}
           </form>
           <p className="my-4">
             Forgot Password?

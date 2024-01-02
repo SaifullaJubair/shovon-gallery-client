@@ -277,16 +277,6 @@ const Login = () => {
                         Google
                       </span>
                     </Button>
-                    <Button
-                      outline={true}
-                      className="text-3xl w-full bg-primary"
-                      // onClick={handleFacebookLogin}
-                    >
-                      <span className="flex items-center justify-center font-bold hover:text-white focus:text-white w-full">
-                        <CiFacebook className="mr-2 text-xl font-bold" />
-                        Facebook
-                      </span>
-                    </Button>
                   </div>
                 </div>
               </div>
